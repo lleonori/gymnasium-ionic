@@ -1,0 +1,7 @@
+{
+  "name": "gymnasium-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
