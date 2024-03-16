@@ -10,10 +10,9 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+import { calendar, home, informationCircle, pencil, pencilSharp } from 'ionicons/icons';
+import Tab2 from './pages/Booking';
+import Tab3 from './pages/ManageBooking';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -33,6 +32,10 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import Home from './pages/Home';
+import Booking from './pages/Booking';
+import ManageBooking from './pages/ManageBooking';
+import Info from './pages/Info';
 
 setupIonicReact();
 
@@ -41,31 +44,38 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
+          <Route exact path="/home">
+            <Home />
           </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
+          <Route exact path="/booking">
+            <Booking />
           </Route>
-          <Route path="/tab3">
-            <Tab3 />
+          <Route path="/manage-booking">
+            <ManageBooking />
+          </Route>
+          <Route path="/Info">
+            <Info />
           </Route>
           <Route exact path="/">
-            <Redirect to="/tab1" />
+            <Redirect to="/home" />
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon aria-hidden="true" icon={triangle} />
-            <IonLabel>Tab 1</IonLabel>
+          <IonTabButton tab="home" href="/home">
+            <IonIcon aria-hidden="true" icon={home} />
+            <IonLabel>Home</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon aria-hidden="true" icon={ellipse} />
-            <IonLabel>Tab 2</IonLabel>
+          <IonTabButton tab="booking" href="/booking">
+            <IonIcon aria-hidden="true" icon={calendar} />
+            <IonLabel>Prenotati</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon aria-hidden="true" icon={square} />
-            <IonLabel>Tab 3</IonLabel>
+          <IonTabButton tab="manage-booking" href="/manage-booking">
+            <IonIcon aria-hidden="true" icon={pencilSharp} />
+            <IonLabel>Gestisci</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="info" href="/info">
+            <IonIcon aria-hidden="true" icon={informationCircle} />
+            <IonLabel>Info</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
