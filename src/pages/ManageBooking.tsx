@@ -1,6 +1,6 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
 import './ManageBooking.css';
+import ManageBookingContainer from '../components/ManageBookingContainer';
 
 const ManageBooking: React.FC = () => {
   return (
@@ -16,7 +16,7 @@ const ManageBooking: React.FC = () => {
             <IonTitle size="large">Gestisci</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Gestisci" />
+        <ManageBookingContainer name="Gestisci" />
       </IonContent>
     </IonPage>
   );

@@ -10,9 +10,7 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { calendar, home, informationCircle, pencil, pencilSharp } from 'ionicons/icons';
-import Tab2 from './pages/Booking';
-import Tab3 from './pages/ManageBooking';
+import { calendar, home, informationCircle, pencilSharp } from 'ionicons/icons';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -53,9 +51,9 @@ const App: React.FC = () => (
           <Route path="/manage-booking">
             <ManageBooking />
           </Route>
-          <Route path="/Info">
+          {/* <Route path="/Info">
             <Info />
-          </Route>
+          </Route> */}
           <Route exact path="/">
             <Redirect to="/home" />
           </Route>
@@ -69,10 +67,10 @@ const App: React.FC = () => (
             <IonIcon aria-hidden="true" icon={calendar} />
             <IonLabel>Prenotati</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="manage-booking" href="/manage-booking">
+          {/* <IonTabButton tab="manage-booking" href="/manage-booking">
             <IonIcon aria-hidden="true" icon={pencilSharp} />
             <IonLabel>Gestisci</IonLabel>
-          </IonTabButton>
+          </IonTabButton> */}
           <IonTabButton tab="info" href="/info">
             <IonIcon aria-hidden="true" icon={informationCircle} />
             <IonLabel>Info</IonLabel>
