@@ -1,6 +1,20 @@
-import { IonActionSheet, IonButton, IonCol, IonDatetime, IonGrid, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonRow, IonText } from '@ionic/react';
-import './BookingContainer.css';
-import { useState } from 'react';
+import {
+  IonActionSheet,
+  IonButton,
+  IonCol,
+  IonDatetime,
+  IonGrid,
+  IonItem,
+  IonItemOption,
+  IonItemOptions,
+  IonItemSliding,
+  IonLabel,
+  IonList,
+  IonRow,
+  IonText,
+} from "@ionic/react";
+import "./BookingContainer.css";
+import { useState } from "react";
 
 interface ContainerProps {
   name: string;
@@ -10,22 +24,23 @@ const BookingContainer: React.FC<ContainerProps> = ({ name }) => {
   const [minDate, setMinDate] = useState(getTodayISOString());
   const [maxDate, setMaxDate] = useState(getTomorrowISOString());
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   function getTodayISOString() {
     const today = new Date();
     today.setUTCHours(0, 0, 0, 0); // Set to the beginning of the day in UTC
-    return today.toISOString().split('T')[0]; // Use only the date part
+    return today.toISOString().split("T")[0]; // Use only the date part
   }
 
   function getTomorrowISOString() {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     tomorrow.setUTCHours(0, 0, 0, 0); // Set to the beginning of the day in UTC
-    return tomorrow.toISOString().split('T')[0]; // Use only the date part
+    return tomorrow.toISOString().split("T")[0]; // Use only the date part
   }
 
   function formatDate(dateTimeString: string) {
-    const [date, time] = dateTimeString.split('T');
+    const [date, time] = dateTimeString.split("T");
     const formattedDate = date;
     const formattedTime = time.substring(0, 5); // Extracting hours and minutes
     return `${formattedDate} ${formattedTime}`;
@@ -33,6 +48,36 @@ const BookingContainer: React.FC<ContainerProps> = ({ name }) => {
 
   const handleDateChange = (event: CustomEvent) => {
     setSelectedDate(formatDate(event.detail.value));
+  };
+
+  const handleConfirm = async () => {
+    try {
+      const response = await fetch("YOUR_API_ENDPOINT", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Include any other headers if needed
+        },
+        body: JSON.stringify({
+          // Include any data you need to send with the request
+        }),
+      });
+
+      if (!response.ok) {
+        setIsOpen(false);
+        setSelectedDate(null);
+        throw new Error("Network response was not ok");
+      }
+
+      const responseData = await response.json();
+      setIsOpen(false);
+      setSelectedDate(null);
+      // Handle the response
+      console.log("Response:", responseData);
+    } catch (error) {
+      // Handle errors
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -48,7 +93,7 @@ const BookingContainer: React.FC<ContainerProps> = ({ name }) => {
               minuteValues="0"
               hourValues="9,11,13,15,17,19,21"
               hourCycle="h24"
-              size='cover'
+              size="cover"
               onIonChange={handleDateChange}
             >
               {/* <span slot="title">Seleziona una data</span> */}
@@ -57,7 +102,14 @@ const BookingContainer: React.FC<ContainerProps> = ({ name }) => {
           </IonCol>
         </IonRow>
         <IonRow class="ion-justify-content-end">
-          <IonButton id="open-action-sheet" color="primary" disabled={selectedDate ? false : true}> Prenotati</IonButton>
+          <IonButton
+            id="open-action-sheet"
+            color="primary"
+            disabled={selectedDate ? false : true}
+          >
+            {" "}
+            Prenotati
+          </IonButton>
         </IonRow>
         <IonRow>
           <IonCol class="ion-margin-top">
@@ -94,25 +146,21 @@ const BookingContainer: React.FC<ContainerProps> = ({ name }) => {
             </IonList>
           </IonCol>
         </IonRow>
-      </IonGrid >
+      </IonGrid>
       <IonActionSheet
         trigger="open-action-sheet"
-        header='Azioni'
+        isOpen={isOpen}
+        header="Azioni"
         buttons={[
           {
-            text: 'Conferma',
-            data: {
-              action: 'share',
-            },
+            text: "Conferma",
+            handler: handleConfirm,
           },
           {
-            text: 'Annulla',
-            role: 'cancel',
-            data: {
-              action: 'cancel',
-            },
+            text: "Annulla",
           },
         ]}
+        onDidDismiss={() => setIsOpen(false)}
       ></IonActionSheet>
     </>
   );

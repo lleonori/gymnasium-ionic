@@ -48,12 +48,9 @@ const App: React.FC = () => (
           <Route exact path="/booking">
             <Booking />
           </Route>
-          <Route path="/manage-booking">
-            <ManageBooking />
-          </Route>
-          {/* <Route path="/Info">
+          <Route path="/Info">
             <Info />
-          </Route> */}
+          </Route>
           <Route exact path="/">
             <Redirect to="/home" />
           </Route>
@@ -67,10 +64,6 @@ const App: React.FC = () => (
             <IonIcon aria-hidden="true" icon={calendar} />
             <IonLabel>Prenotati</IonLabel>
           </IonTabButton>
-          {/* <IonTabButton tab="manage-booking" href="/manage-booking">
-            <IonIcon aria-hidden="true" icon={pencilSharp} />
-            <IonLabel>Gestisci</IonLabel>
-          </IonTabButton> */}
           <IonTabButton tab="info" href="/info">
             <IonIcon aria-hidden="true" icon={informationCircle} />
             <IonLabel>Info</IonLabel>
