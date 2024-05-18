@@ -1,23 +1,28 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Booking.css';
-import BookingContainer from '../components/BookingContainer';
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
+import ExploreContainer from "../components/ExploreContainer";
+import "./Booking.css";
 
 const Booking: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Prenotati</IonTitle>
+          <IonTitle>Booking</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Prenotati</IonTitle>
+            <IonTitle size="large">Booking</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <BookingContainer name="Prenotati" />
+        <ExploreContainer name="Booking" />
       </IonContent>
     </IonPage>
   );

@@ -5,7 +5,8 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import ExploreContainer from "../components/ExploreContainer";
+
+import LoginButton from "../components/LoginButton";
 import "./Home.css";
 
 const Home: React.FC = () => {
@@ -13,16 +14,16 @@ const Home: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Home</IonTitle>
+          <IonTitle>Gymnasium</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Home</IonTitle>
+            <IonTitle size="large">Gymnasium</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Home" />
+        <LoginButton />
       </IonContent>
     </IonPage>
   );
