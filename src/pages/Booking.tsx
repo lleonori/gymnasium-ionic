@@ -13,16 +13,16 @@ const Booking: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Booking</IonTitle>
+          <IonTitle>Prenotati</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Booking</IonTitle>
+            <IonTitle size="large">Prenotati</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Booking" />
+        <ExploreContainer name="Prenotati" />
       </IonContent>
     </IonPage>
   );
