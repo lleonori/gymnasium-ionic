@@ -1,0 +1,50 @@
+ion-button {
+  --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.25);
+}
+
+/* Base styles for ion-img */
+ion-img.responsive-img {
+  width: 100%;
+  height: auto;
+}
+
+/* Extra Small Devices (Portrait Phones) */
+@media (max-width: 575.98px) {
+  ion-img.responsive-img {
+    width: 100%; /* 100% width for extra small devices */
+  }
+}
+
+/* Small Devices (Landscape Phones) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  ion-img.responsive-img {
+    width: 80%; /* Adjust width for small devices */
+  }
+}
+
+/* Medium Devices (Tablets) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  ion-img.responsive-img {
+    width: 75%; /* Adjust width for medium devices */
+  }
+}
+
+/* Large Devices (Desktops) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  ion-img.responsive-img {
+    width: 50%; /* Adjust width for large devices */
+  }
+}
+
+/* Extra Large Devices (Large Desktops) */
+@media (min-width: 1200px) {
+  ion-img.responsive-img {
+    width: 25%; /* Adjust width for extra large devices */
+  }
+}
+
+/* ion-content {
+  --background: url("/assets/blob-scene-haikei.svg") no-repeat center center
+    fixed;
+  --background-size: cover;
+} */

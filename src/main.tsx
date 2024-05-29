@@ -14,7 +14,7 @@ root.render(
       authorizationParams={{
         redirect_uri: callbackUri,
       }}
-      useRefreshTokens={true}
+      useRefreshTokens={false}
       useRefreshTokensFallback={false}
     >
       <App />

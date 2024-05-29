@@ -19,21 +19,44 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
+import { useAuth0 } from "@auth0/auth0-react";
+import { App as CapApp } from "@capacitor/app";
+import { Browser } from "@capacitor/browser";
+import { useEffect } from "react";
 import AppTabs from "./pages/AppTabs";
 import Login from "./pages/Login";
 import "./theme/variables.css";
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/" component={Login} />
-        <Route path="/tab" component={AppTabs} />
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  // Get the callback handler from the Auth0 React hook
+  const { handleRedirectCallback } = useAuth0();
+
+  useEffect(() => {
+    // Handle the 'appUrlOpen' event and call `handleRedirectCallback`
+    CapApp.addListener("appUrlOpen", async ({ url }) => {
+      if (
+        url.includes("state") &&
+        (url.includes("code") || url.includes("error"))
+      ) {
+        await handleRedirectCallback(url);
+      }
+      // No-op on Android
+      await Browser.close();
+    });
+  }, [handleRedirectCallback]);
+
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Route exact path="/" component={Login} />
+          <Route path="/tab" component={AppTabs} />
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;
