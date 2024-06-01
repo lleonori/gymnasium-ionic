@@ -3,9 +3,13 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import { domain, callbackUri, clientId } from "./auth.config";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
+
+const queryClient = new QueryClient();
+
 root.render(
   <React.StrictMode>
     <Auth0Provider
@@ -17,7 +21,9 @@ root.render(
       useRefreshTokens={false}
       useRefreshTokensFallback={false}
     >
-      <App />
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
     </Auth0Provider>
   </React.StrictMode>
 );

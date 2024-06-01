@@ -1,34 +1,87 @@
+import {
+  IonAvatar,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonChip,
+  IonContent,
+  IonIcon,
+  IonLabel,
+} from "@ionic/react";
+import { useQuery } from "@tanstack/react-query";
+import { barbell } from "ionicons/icons";
+import { fetchCoachs } from "../api/coachApi";
+import { ICoach } from "../models/coach/coachModel";
+import "./HomeContainer.css";
 
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonImg } from '@ionic/react';
-import './ExploreContainer.css';
+const HomeContainer: React.FC = () => {
+  const { data: coachs, isLoading } = useQuery({
+    queryFn: () => fetchCoachs(),
+    queryKey: ["coachs"],
+  });
 
-interface ContainerProps {
-  name: string;
-}
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
 
-const HomeContainer: React.FC<ContainerProps> = ({ name }) => {
+  // const { user, isLoading } = useAuth0();
+
+  // if (isLoading) {
+  //   return <div>Loading ...</div>;
+  // }
+
+  // if (!user) return null;
+
   return (
     <>
-      <IonImg
-        src="/assets/Gymnasium_completo.svg"
-        alt="logo"
-      ></IonImg>
-      <IonCard>
-        <IonCardHeader>
-          <IonCardTitle>Benvenuto</IonCardTitle>
-          <IonCardSubtitle color="warning">Lorenzo Leonori</IonCardSubtitle>
-        </IonCardHeader>
+      <IonContent className="ion-padding">
+        {/* Presentational Card */}
+        <IonCard>
+          <IonCardHeader>
+            <IonCardTitle>
+              Benvenuto <br />
+              {/* {user.name} */}
+            </IonCardTitle>
+            <IonCardSubtitle>
+              <IonIcon aria-hidden="true" icon={barbell} />
+            </IonCardSubtitle>
+          </IonCardHeader>
+          <IonCardContent>
+            Tramite questa app puoi prenotare il tuo turno in palestra. <br />
+            <br />
+            "I am. I can. I will. I do."
+          </IonCardContent>
+        </IonCard>
 
-        <IonCardContent>Tramite questa app potrai prenotare la tua lezione.</IonCardContent>
-      </IonCard>
-      <IonCard>
-        <IonCardHeader>
-          <IonCardTitle>Regole di prenotazione</IonCardTitle>
-          <IonCardSubtitle color="warning">Lorenzo Leonori</IonCardSubtitle>
-        </IonCardHeader>
-
-        <IonCardContent>E' possibile prenotare nella giornata odierna o di domani nelle fasce orarie disponibili.</IonCardContent>
-      </IonCard>
+        {/* Coach Card */}
+        {coachs?.data.map((coach: ICoach) => (
+          <IonCard key={coach.id}>
+            <IonCardHeader>
+              <IonCardTitle>
+                Coach <br />
+                {coach.name} {coach.surname}
+              </IonCardTitle>
+              <IonCardSubtitle>
+                <IonAvatar>
+                  <img
+                    alt="Silhouette of a person's head"
+                    src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                  />
+                </IonAvatar>
+              </IonCardSubtitle>
+            </IonCardHeader>
+            <IonCardContent>
+              {coach?.notes.split(",").map((note: string, index: number) => (
+                <IonChip key={index}>
+                  <IonLabel>{note}</IonLabel>
+                </IonChip>
+              ))}
+            </IonCardContent>
+          </IonCard>
+        ))}
+      </IonContent>
     </>
   );
 };

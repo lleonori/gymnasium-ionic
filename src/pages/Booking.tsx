@@ -5,7 +5,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import ExploreContainer from "../components/ExploreContainer";
+import BookingContainer from "../components/BookingContainer";
 import "./Booking.css";
 
 const Booking: React.FC = () => {
@@ -22,7 +22,7 @@ const Booking: React.FC = () => {
             <IonTitle size="large">Prenotati</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Prenotati" />
+        <BookingContainer name="Prenotati" />
       </IonContent>
     </IonPage>
   );
