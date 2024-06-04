@@ -12,7 +12,7 @@ const queryClient = new QueryClient();
 
 root.render(
   <React.StrictMode>
-    <Auth0Provider
+    {/* <Auth0Provider
       domain={domain}
       clientId={clientId}
       authorizationParams={{
@@ -20,10 +20,10 @@ root.render(
       }}
       useRefreshTokens={false}
       useRefreshTokensFallback={false}
-    >
-      <QueryClientProvider client={queryClient}>
-        <App />
-      </QueryClientProvider>
-    </Auth0Provider>
+    > */}
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+    {/* </Auth0Provider> */}
   </React.StrictMode>
 );

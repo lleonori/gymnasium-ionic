@@ -12,9 +12,9 @@ import {
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
 import { barbell } from "ionicons/icons";
-import { fetchCoachs } from "../api/coachApi";
 import { ICoach } from "../models/coach/coachModel";
 import "./HomeContainer.css";
+import { fetchCoachs } from "../api/coach/coachApi";
 
 const HomeContainer: React.FC = () => {
   const { data: coachs, isLoading } = useQuery({
@@ -36,52 +36,49 @@ const HomeContainer: React.FC = () => {
 
   return (
     <>
-      <IonContent className="ion-padding">
-        {/* Presentational Card */}
-        <IonCard>
+      <IonCard>
+        <IonCardHeader>
+          <IonCardTitle>
+            Benvenuto <br />
+            {/* {user.name} */}
+          </IonCardTitle>
+          <IonCardSubtitle>
+            <IonIcon aria-hidden="true" icon={barbell} />
+          </IonCardSubtitle>
+        </IonCardHeader>
+        <IonCardContent>
+          Tramite questa app puoi prenotare il tuo turno in palestra. <br />
+          <br />
+          "I am. I can. I will. I do."
+        </IonCardContent>
+      </IonCard>
+
+      {/* Coach Card */}
+      {coachs?.data.map((coach: ICoach) => (
+        <IonCard key={coach.id}>
           <IonCardHeader>
             <IonCardTitle>
-              Benvenuto <br />
-              {/* {user.name} */}
+              Coach <br />
+              {coach.name} {coach.surname}
             </IonCardTitle>
             <IonCardSubtitle>
-              <IonIcon aria-hidden="true" icon={barbell} />
+              <IonAvatar>
+                <img
+                  alt="Silhouette of a person's head"
+                  src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                />
+              </IonAvatar>
             </IonCardSubtitle>
           </IonCardHeader>
           <IonCardContent>
-            Tramite questa app puoi prenotare il tuo turno in palestra. <br />
-            <br />
-            "I am. I can. I will. I do."
+            {coach?.notes.split(",").map((note: string, index: number) => (
+              <IonChip key={index}>
+                <IonLabel>{note}</IonLabel>
+              </IonChip>
+            ))}
           </IonCardContent>
         </IonCard>
-
-        {/* Coach Card */}
-        {coachs?.data.map((coach: ICoach) => (
-          <IonCard key={coach.id}>
-            <IonCardHeader>
-              <IonCardTitle>
-                Coach <br />
-                {coach.name} {coach.surname}
-              </IonCardTitle>
-              <IonCardSubtitle>
-                <IonAvatar>
-                  <img
-                    alt="Silhouette of a person's head"
-                    src="https://ionicframework.com/docs/img/demos/avatar.svg"
-                  />
-                </IonAvatar>
-              </IonCardSubtitle>
-            </IonCardHeader>
-            <IonCardContent>
-              {coach?.notes.split(",").map((note: string, index: number) => (
-                <IonChip key={index}>
-                  <IonLabel>{note}</IonLabel>
-                </IonChip>
-              ))}
-            </IonCardContent>
-          </IonCard>
-        ))}
-      </IonContent>
+      ))}
     </>
   );
 };

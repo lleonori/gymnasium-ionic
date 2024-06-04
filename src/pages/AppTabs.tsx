@@ -11,29 +11,32 @@ import { Redirect, Route } from "react-router";
 import "./AppTabs.css";
 import Booking from "./Booking";
 import Home from "./Home";
+import { IonReactRouter } from "@ionic/react-router";
 
 const AppTabs: React.FC = () => {
   return (
-    <IonTabs>
-      <IonRouterOutlet>
-        <Route path="/tab/home" component={Home} />
-        <Route path="/tab/booking" component={Booking} />
-        <Route exact path="/tab">
-          <Redirect to="/tab/home" />
-        </Route>
-      </IonRouterOutlet>
+    <IonReactRouter>
+      <IonTabs>
+        <IonRouterOutlet>
+          <Route path="/tab/home" component={Home} />
+          <Route path="/tab/booking" component={Booking} />
+          <Route exact path="/tab">
+            <Redirect to="/tab/home" />
+          </Route>
+        </IonRouterOutlet>
 
-      <IonTabBar slot="bottom">
-        <IonTabButton tab="home" href="/tab/home">
-          <IonIcon aria-hidden="true" icon={home} />
-          <IonLabel>home</IonLabel>
-        </IonTabButton>
-        <IonTabButton tab="booking" href="/tab/booking">
-          <IonIcon aria-hidden="true" icon={calendar} />
-          <IonLabel>Prenotati</IonLabel>
-        </IonTabButton>
-      </IonTabBar>
-    </IonTabs>
+        <IonTabBar slot="bottom">
+          <IonTabButton tab="home" href="/tab/home">
+            <IonIcon aria-hidden="true" icon={home} />
+            <IonLabel>home</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="booking" href="/tab/booking">
+            <IonIcon aria-hidden="true" icon={calendar} />
+            <IonLabel>Prenotati</IonLabel>
+          </IonTabButton>
+        </IonTabBar>
+      </IonTabs>
+    </IonReactRouter>
   );
 };
 

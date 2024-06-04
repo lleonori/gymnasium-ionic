@@ -22,7 +22,7 @@ const Booking: React.FC = () => {
             <IonTitle size="large">Prenotati</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <BookingContainer name="Prenotati" />
+        <BookingContainer />
       </IonContent>
     </IonPage>
   );
