@@ -1,6 +1,8 @@
-export interface IBooking {
+export type TBooking = {
   id: number;
-  name: string;
-  surname: string;
-  booking_at: string;
-}
+  mail: string;
+  day: string;
+  hour: string;
+};
+
+export type TCreateBooking = Omit<TBooking, "id">;

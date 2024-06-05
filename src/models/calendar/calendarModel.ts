@@ -1,4 +1,4 @@
-export interface ICalendar {
+export type TCalendar = {
   today: string;
   tomorrow: string;
-}
+};

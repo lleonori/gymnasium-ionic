@@ -6,41 +6,33 @@ import {
   IonCardSubtitle,
   IonCardTitle,
   IonChip,
-  IonContent,
   IonIcon,
   IonLabel,
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
 import { barbell } from "ionicons/icons";
-import { ICoach } from "../models/coach/coachModel";
 import "./HomeContainer.css";
-import { fetchCoachs } from "../api/coach/coachApi";
+import Spinner from "./Spinner";
+import { getCoachs } from "../api/coach/coachApi";
+import { TCoach } from "../models/coach/coachModel";
 
 const HomeContainer: React.FC = () => {
-  const { data: coachs, isLoading } = useQuery({
-    queryFn: () => fetchCoachs(),
+  const { data: coachs, isLoading: isCoachsLoading } = useQuery({
+    queryFn: () => getCoachs(),
     queryKey: ["coachs"],
   });
 
-  if (isLoading) {
-    return <div>Loading ...</div>;
+  if (isCoachsLoading) {
+    return <Spinner />;
   }
-
-  // const { user, isLoading } = useAuth0();
-
-  // if (isLoading) {
-  //   return <div>Loading ...</div>;
-  // }
-
-  // if (!user) return null;
 
   return (
     <>
+      {/* Presentational Card */}
       <IonCard>
         <IonCardHeader>
           <IonCardTitle>
             Benvenuto <br />
-            {/* {user.name} */}
           </IonCardTitle>
           <IonCardSubtitle>
             <IonIcon aria-hidden="true" icon={barbell} />
@@ -54,7 +46,7 @@ const HomeContainer: React.FC = () => {
       </IonCard>
 
       {/* Coach Card */}
-      {coachs?.data.map((coach: ICoach) => (
+      {coachs?.data.map((coach: TCoach) => (
         <IonCard key={coach.id}>
           <IonCardHeader>
             <IonCardTitle>
