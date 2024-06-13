@@ -18,3 +18,16 @@ export const saveBooking = async (
   const data = await response.json();
   return data as TResponse<TBooking>;
 };
+
+export const deleteBooking = async (
+  currentBookingId: number
+): Promise<TResponse<TBooking>> => {
+  const response = await fetch(
+    "http://127.0.0.1:3000/api/v1/booking/" + currentBookingId,
+    {
+      method: "delete",
+    }
+  );
+  const data = await response.json();
+  return data as TResponse<TBooking>;
+};

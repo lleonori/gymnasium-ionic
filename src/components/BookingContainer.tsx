@@ -1,4 +1,5 @@
 import {
+  IonActionSheet,
   IonButton,
   IonCard,
   IonCardContent,
@@ -24,8 +25,13 @@ import { TBooking, TCreateBooking } from "../models/booking/bookingModel";
 import "./BookingContainer.css";
 import Spinner from "./Spinner";
 import { getCalendar } from "../api/calendar/calendarApi";
-import { getBookings, saveBooking } from "../api/booking/bookingApi";
+import {
+  deleteBooking,
+  getBookings,
+  saveBooking,
+} from "../api/booking/bookingApi";
 import { TTimetable } from "../models/timetable/timetableModel";
+import { useState } from "react";
 
 const BookingContainer: React.FC = () => {
   const queryClient = useQueryClient();
@@ -58,6 +64,32 @@ const BookingContainer: React.FC = () => {
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
     },
   });
+
+  const { mutate: deleteBookingMutate } = useMutation({
+    mutationFn: () => deleteBooking(currentBookingId!),
+    onSuccess: () => {
+      setIsOpen(false);
+      setCurrentBookingId(null);
+      // Invalidate and refetch bookings
+      queryClient.invalidateQueries({ queryKey: ["bookings"] });
+    },
+    onError: () => {
+      setIsOpen(false);
+      setCurrentBookingId(null);
+    },
+  });
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentBookingId, setCurrentBookingId] = useState<number | null>(null);
+
+  const handleOpenActionSheet = (bookingId: number) => {
+    setCurrentBookingId(bookingId);
+    setIsOpen(true);
+  };
+
+  const handleDeleteActionSheet = () => {
+    deleteBookingMutate();
+  };
 
   if (isCalendarLoading && isBookingsLoading && isTimetablesLoading) {
     return <Spinner />;
@@ -138,32 +170,64 @@ const BookingContainer: React.FC = () => {
       </IonCard>
 
       {/* Your Booking Card */}
-      <IonCard>
-        <IonCardHeader>
-          <IonCardTitle>Le tue prenotazioni</IonCardTitle>
-        </IonCardHeader>
-        <IonCardContent>
-          <IonList>
-            {bookings?.data.map((booking: TBooking) => (
-              <IonItemSliding key={booking.id}>
-                <IonItem>
-                  <IonLabel>
-                    <IonText>{booking?.mail}</IonText>
-                    <IonText>
-                      <p>
-                        {booking?.day} {booking?.hour}
-                      </p>
-                    </IonText>
-                  </IonLabel>
-                </IonItem>
-                <IonItemOptions>
-                  <IonItemOption color="danger">Elimina</IonItemOption>
-                </IonItemOptions>
-              </IonItemSliding>
-            ))}
-          </IonList>
-        </IonCardContent>
-      </IonCard>
+      {bookings && bookings.data.length > 0 && (
+        <IonCard>
+          <IonCardHeader>
+            <IonCardTitle>Le tue prenotazioni</IonCardTitle>
+          </IonCardHeader>
+          <IonCardContent>
+            <IonList>
+              {bookings.data.map((booking: TBooking) => (
+                <IonItemSliding key={booking.id}>
+                  <IonItem>
+                    <IonLabel>
+                      <IonText>{booking.mail}</IonText>
+                      <IonText>
+                        <p>
+                          {booking.day} {booking.hour}
+                        </p>
+                      </IonText>
+                    </IonLabel>
+                  </IonItem>
+                  <IonItemOptions>
+                    <IonItemOption
+                      onClick={() => handleOpenActionSheet(booking.id)}
+                      color="danger"
+                    >
+                      Elimina
+                    </IonItemOption>
+                  </IonItemOptions>
+                </IonItemSliding>
+              ))}
+            </IonList>
+          </IonCardContent>
+        </IonCard>
+      )}
+
+      {/* Action Sheet */}
+      <IonActionSheet
+        isOpen={isOpen}
+        header="Azioni"
+        buttons={[
+          {
+            text: "Elimina",
+            role: "destructive",
+            data: {
+              action: "delete",
+            },
+            handler: () => {
+              handleDeleteActionSheet();
+            },
+          },
+          {
+            text: "Cancella",
+            role: "cancel",
+            data: {
+              action: "cancel",
+            },
+          },
+        ]}
+      ></IonActionSheet>
     </>
   );
 };
