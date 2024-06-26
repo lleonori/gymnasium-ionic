@@ -19,36 +19,39 @@ import {
 } from "@ionic/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { arrowForwardCircle, barbell } from "ionicons/icons";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { fetchTimetables } from "../api/timetable/timetableApi";
-import { TBooking, TCreateBooking } from "../models/booking/bookingModel";
-import "./BookingContainer.css";
-import Spinner from "./Spinner";
-import { getCalendar } from "../api/calendar/calendarApi";
 import {
   deleteBooking,
   getBookings,
   saveBooking,
 } from "../api/booking/bookingApi";
+import { getCalendar } from "../api/calendar/calendarApi";
+import { fetchTimetables } from "../api/timetable/timetableApi";
+import { TBooking, TCreateBooking } from "../models/booking/bookingModel";
 import { TTimetable } from "../models/timetable/timetableModel";
-import { useState } from "react";
+import "./BookingContainer.css";
+import Spinner from "./Spinner";
 
 const BookingContainer: React.FC = () => {
   const queryClient = useQueryClient();
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentBookingId, setCurrentBookingId] = useState<number | null>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    resetField,
   } = useForm<TCreateBooking>();
 
   const { data: calendar, isLoading: isCalendarLoading } = useQuery({
-    queryFn: () => getCalendar(),
+    queryFn: () => getCalendar("lorenzo.leonori@gmail.com"),
     queryKey: ["calendar"],
   });
 
   const { data: bookings, isLoading: isBookingsLoading } = useQuery({
-    queryFn: () => getBookings(),
+    queryFn: () => getBookings("lorenzo.leonori@gmail.com"),
     queryKey: ["bookings"],
   });
 
@@ -62,25 +65,27 @@ const BookingContainer: React.FC = () => {
     onSuccess: () => {
       // Invalidate and refetch bookings
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
+      queryClient.invalidateQueries({ queryKey: ["calendar"] });
     },
   });
 
-  const { mutate: deleteBookingMutate } = useMutation({
-    mutationFn: () => deleteBooking(currentBookingId!),
-    onSuccess: () => {
-      setIsOpen(false);
-      setCurrentBookingId(null);
-      // Invalidate and refetch bookings
-      queryClient.invalidateQueries({ queryKey: ["bookings"] });
-    },
-    onError: () => {
-      setIsOpen(false);
-      setCurrentBookingId(null);
-    },
-  });
+  const onSubmit: SubmitHandler<TCreateBooking> = (data) => {
+    // Extract the day object from data
+    const { day, ...rest } = data;
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentBookingId, setCurrentBookingId] = useState<number | null>(null);
+    // Modify the day in the date object
+    const updatedDate = new Date(day);
+
+    // Construct the new data object with the updated day
+    const formatData: TCreateBooking = {
+      ...rest,
+      day: updatedDate,
+    };
+
+    saveBookingMutate(formatData);
+    resetField("day");
+    resetField("hour");
+  };
 
   const handleOpenActionSheet = (bookingId: number) => {
     setCurrentBookingId(bookingId);
@@ -89,15 +94,28 @@ const BookingContainer: React.FC = () => {
 
   const handleDeleteActionSheet = () => {
     deleteBookingMutate();
+    resetField("day");
+    resetField("hour");
   };
+
+  const { mutate: deleteBookingMutate } = useMutation({
+    mutationFn: () => deleteBooking(currentBookingId!),
+    onSuccess: () => {
+      setIsOpen(false);
+      setCurrentBookingId(null);
+      // Invalidate and refetch bookings
+      queryClient.invalidateQueries({ queryKey: ["bookings"] });
+      queryClient.invalidateQueries({ queryKey: ["calendar"] });
+    },
+    onError: () => {
+      setIsOpen(false);
+      setCurrentBookingId(null);
+    },
+  });
 
   if (isCalendarLoading && isBookingsLoading && isTimetablesLoading) {
     return <Spinner />;
   }
-
-  const onSubmit: SubmitHandler<TCreateBooking> = (data) => {
-    saveBookingMutate(data);
-  };
 
   return (
     <>
@@ -138,12 +156,16 @@ const BookingContainer: React.FC = () => {
               labelPlacement="floating"
               {...register("day", { required: true })}
             >
-              <IonSelectOption value={calendar?.today}>
-                {calendar?.today}
-              </IonSelectOption>
-              <IonSelectOption value={calendar?.tomorrow}>
-                {calendar?.tomorrow}
-              </IonSelectOption>
+              {calendar?.today && (
+                <IonSelectOption value={calendar.today}>
+                  {calendar.today.toString()}
+                </IonSelectOption>
+              )}
+              {calendar?.tomorrow && (
+                <IonSelectOption value={calendar.tomorrow}>
+                  {calendar.tomorrow.toString()}
+                </IonSelectOption>
+              )}
             </IonSelect>
             {errors.day && <span>Campo obbligatorio</span>}
             {/* Hour Field */}
@@ -184,7 +206,7 @@ const BookingContainer: React.FC = () => {
                       <IonText>{booking.mail}</IonText>
                       <IonText>
                         <p>
-                          {booking.day} {booking.hour}
+                          {booking.day.toString()} {booking.hour}
                         </p>
                       </IonText>
                     </IonLabel>

@@ -1,8 +1,12 @@
 import { TBooking, TCreateBooking } from "../../models/booking/bookingModel";
 import { TResponse } from "../../models/commos/responseModel";
 
-export const getBookings = async (): Promise<TResponse<TBooking>> => {
-  const response = await fetch("http://127.0.0.1:3000/api/v1/booking");
+export const getBookings = async (
+  mail: string
+): Promise<TResponse<TBooking>> => {
+  const response = await fetch(
+    `http://127.0.0.1:3000/api/v1/booking/${encodeURIComponent(mail)}`
+  );
   const data = await response.json();
   return data as TResponse<TBooking>;
 };

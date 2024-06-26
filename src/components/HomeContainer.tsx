@@ -7,6 +7,7 @@ import {
   IonCardTitle,
   IonChip,
   IonIcon,
+  IonImg,
   IonLabel,
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
@@ -56,8 +57,14 @@ const HomeContainer: React.FC = () => {
             <IonCardSubtitle>
               <IonAvatar>
                 <img
-                  alt="Silhouette of a person's head"
-                  src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                  alt="Coach's avatar"
+                  src={
+                    coach.name.includes("Valerio")
+                      ? "/assets/valerio.png"
+                      : coach.name.includes("Leandro")
+                      ? "/assets/leandro.png"
+                      : "/assets/mara.png"
+                  }
                 />
               </IonAvatar>
             </IonCardSubtitle>
