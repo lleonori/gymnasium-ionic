@@ -3,4 +3,5 @@ export type TCoach = {
   name: string;
   surname: string;
   notes: string;
+  image: string;
 };

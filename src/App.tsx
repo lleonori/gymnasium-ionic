@@ -26,24 +26,25 @@ import { useEffect } from "react";
 import AppTabs from "./pages/AppTabs";
 import Login from "./pages/Login";
 import "./theme/variables.css";
+import { callbackUri } from "./auth.config";
 
 setupIonicReact();
 
 const App: React.FC = () => {
-  // Get the callback handler from the Auth0 React hook
   const { handleRedirectCallback } = useAuth0();
 
   useEffect(() => {
-    // Handle the 'appUrlOpen' event and call `handleRedirectCallback`
     CapApp.addListener("appUrlOpen", async ({ url }) => {
-      if (
-        url.includes("state") &&
-        (url.includes("code") || url.includes("error"))
-      ) {
-        await handleRedirectCallback(url);
+      if (url.startsWith(callbackUri)) {
+        if (
+          url.includes("state") &&
+          (url.includes("code") || url.includes("error"))
+        ) {
+          await handleRedirectCallback(url);
+        }
+
+        await Browser.close();
       }
-      // No-op on Android
-      await Browser.close();
     });
   }, [handleRedirectCallback]);
 

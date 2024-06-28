@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import {
   IonActionSheet,
   IonButton,
@@ -16,9 +17,10 @@ import {
   IonSelect,
   IonSelectOption,
   IonText,
+  IonToast,
 } from "@ionic/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { arrowForwardCircle, barbell } from "ionicons/icons";
+import { arrowForwardCircle, barbell, trashBin } from "ionicons/icons";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -32,11 +34,21 @@ import { TBooking, TCreateBooking } from "../models/booking/bookingModel";
 import { TTimetable } from "../models/timetable/timetableModel";
 import "./BookingContainer.css";
 import Spinner from "./Spinner";
+import { Colors } from "../utils/enums";
 
 const BookingContainer: React.FC = () => {
+  const { user } = useAuth0();
   const queryClient = useQueryClient();
-  const [isOpen, setIsOpen] = useState(false);
+  // state for ActionSheet
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  // state for selected Booking
   const [currentBookingId, setCurrentBookingId] = useState<number | null>(null);
+  // state for Toast
+  const [showToast, setShowToast] = useState<boolean>(false);
+  // state for Toast message
+  const [toastMessage, setToastMessage] = useState<string>("");
+  // state for Toast message
+  const [toastColor, setToastColor] = useState<string>("");
 
   const {
     register,
@@ -46,27 +58,18 @@ const BookingContainer: React.FC = () => {
   } = useForm<TCreateBooking>();
 
   const { data: calendar, isLoading: isCalendarLoading } = useQuery({
-    queryFn: () => getCalendar("lorenzo.leonori@gmail.com"),
+    queryFn: () => getCalendar(user?.email!),
     queryKey: ["calendar"],
   });
 
   const { data: bookings, isLoading: isBookingsLoading } = useQuery({
-    queryFn: () => getBookings("lorenzo.leonori@gmail.com"),
+    queryFn: () => getBookings(user?.email!),
     queryKey: ["bookings"],
   });
 
   const { data: timetables, isLoading: isTimetablesLoading } = useQuery({
     queryFn: () => fetchTimetables(),
     queryKey: ["timetables"],
-  });
-
-  const { mutate: saveBookingMutate } = useMutation({
-    mutationFn: (newBooking: TCreateBooking) => saveBooking(newBooking),
-    onSuccess: () => {
-      // Invalidate and refetch bookings
-      queryClient.invalidateQueries({ queryKey: ["bookings"] });
-      queryClient.invalidateQueries({ queryKey: ["calendar"] });
-    },
   });
 
   const onSubmit: SubmitHandler<TCreateBooking> = (data) => {
@@ -87,6 +90,16 @@ const BookingContainer: React.FC = () => {
     resetField("hour");
   };
 
+  const { mutate: saveBookingMutate } = useMutation({
+    mutationFn: (newBooking: TCreateBooking) => saveBooking(newBooking),
+    onSuccess: () => {
+      // Invalidate and refetch bookings
+      queryClient.invalidateQueries({ queryKey: ["bookings"] });
+      queryClient.invalidateQueries({ queryKey: ["calendar"] });
+      showToastWithMessage("Lezione Prenotata", Colors.SUCCESS);
+    },
+  });
+
   const handleOpenActionSheet = (bookingId: number) => {
     setCurrentBookingId(bookingId);
     setIsOpen(true);
@@ -106,12 +119,19 @@ const BookingContainer: React.FC = () => {
       // Invalidate and refetch bookings
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
       queryClient.invalidateQueries({ queryKey: ["calendar"] });
+      showToastWithMessage("Lezione Eliminata", Colors.DANGER);
     },
     onError: () => {
       setIsOpen(false);
       setCurrentBookingId(null);
     },
   });
+
+  const showToastWithMessage = (message: string, color: string) => {
+    setToastColor(color);
+    setToastMessage(message);
+    setShowToast(true);
+  };
 
   if (isCalendarLoading && isBookingsLoading && isTimetablesLoading) {
     return <Spinner />;
@@ -128,13 +148,12 @@ const BookingContainer: React.FC = () => {
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
-          È possibile prenotare la tua lezione <em>una volta al giorno.</em>
+          È possibile prenotare la lezione <em>una volta al giorno.</em>
           <br />
           Per dare la possibilità a tutti di partecipare
-          <em> sono disponibili due giorni alla volta.</em>
+          <em> sono disponibili le date di oggi e domani.</em>
         </IonCardContent>
       </IonCard>
-
       {/* Booking Card */}
       <IonCard>
         <IonCardHeader>
@@ -145,7 +164,7 @@ const BookingContainer: React.FC = () => {
             {/* Mail Field */}
             <input
               {...register("mail", {
-                value: "lorenzo.leonori@gmail.com",
+                value: user!.email,
                 required: true,
               })}
               type="hidden"
@@ -183,14 +202,13 @@ const BookingContainer: React.FC = () => {
             {errors.hour && <span>Campo obbligatorio</span>}
             {/* Submit */}
             <div className="button-container">
-              <IonButton type="submit" shape="round" size="small">
+              <IonButton type="submit" size="small">
                 <IonIcon slot="icon-only" icon={arrowForwardCircle}></IonIcon>
               </IonButton>
             </div>
           </form>
         </IonCardContent>
       </IonCard>
-
       {/* Your Booking Card */}
       {bookings && bookings.data.length > 0 && (
         <IonCard>
@@ -216,7 +234,7 @@ const BookingContainer: React.FC = () => {
                       onClick={() => handleOpenActionSheet(booking.id)}
                       color="danger"
                     >
-                      Elimina
+                      <IonIcon aria-hidden="true" icon={trashBin} />
                     </IonItemOption>
                   </IonItemOptions>
                 </IonItemSliding>
@@ -225,7 +243,6 @@ const BookingContainer: React.FC = () => {
           </IonCardContent>
         </IonCard>
       )}
-
       {/* Action Sheet */}
       <IonActionSheet
         isOpen={isOpen}
@@ -250,6 +267,15 @@ const BookingContainer: React.FC = () => {
           },
         ]}
       ></IonActionSheet>
+
+      {/* Toasts */}
+      <IonToast
+        isOpen={showToast}
+        message={toastMessage}
+        color={toastColor}
+        duration={2000}
+        onDidDismiss={() => setShowToast(false)}
+      />
     </>
   );
 };

@@ -6,23 +6,27 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import "./Login.css";
+import { Browser } from "@capacitor/browser";
+import { useAuth0 } from "@auth0/auth0-react";
 
-const Home: React.FC = () => {
+const Login: React.FC = () => {
+  const { loginWithRedirect } = useAuth0();
+
   const router = useIonRouter();
-  // const login = async () => {
-  //   await loginWithRedirect({
-  //     async openUrl(url) {
-  //       await Browser.open({
-  //         url,
-  //         windowName: "_self",
-  //       });
-  //     },
-  //   });
-  // };
-
-  const login = () => {
-    router.push("/tab");
+  const login = async () => {
+    await loginWithRedirect({
+      async openUrl(url) {
+        await Browser.open({
+          url,
+          windowName: "_self",
+        });
+      },
+    });
   };
+
+  // const login = () => {
+  //   router.push("/tab");
+  // };
 
   return (
     <IonPage>
@@ -38,4 +42,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default Login;

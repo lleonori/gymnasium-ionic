@@ -1,12 +1,12 @@
 import { TBooking, TCreateBooking } from "../../models/booking/bookingModel";
 import { TResponse } from "../../models/commos/responseModel";
 
+const API_BASE_URL = "http://127.0.0.1:3000/api/v1/booking";
+
 export const getBookings = async (
   mail: string
 ): Promise<TResponse<TBooking>> => {
-  const response = await fetch(
-    `http://127.0.0.1:3000/api/v1/booking/${encodeURIComponent(mail)}`
-  );
+  const response = await fetch(API_BASE_URL + `/${encodeURIComponent(mail)}`);
   const data = await response.json();
   return data as TResponse<TBooking>;
 };
@@ -14,7 +14,7 @@ export const getBookings = async (
 export const saveBooking = async (
   booking: TCreateBooking
 ): Promise<TResponse<TBooking>> => {
-  const response = await fetch("http://127.0.0.1:3000/api/v1/booking", {
+  const response = await fetch(API_BASE_URL, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(booking),
@@ -26,12 +26,9 @@ export const saveBooking = async (
 export const deleteBooking = async (
   currentBookingId: number
 ): Promise<TResponse<TBooking>> => {
-  const response = await fetch(
-    "http://127.0.0.1:3000/api/v1/booking/" + currentBookingId,
-    {
-      method: "delete",
-    }
-  );
+  const response = await fetch(API_BASE_URL + `/${currentBookingId}`, {
+    method: "delete",
+  });
   const data = await response.json();
   return data as TResponse<TBooking>;
 };

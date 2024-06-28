@@ -56,16 +56,7 @@ const HomeContainer: React.FC = () => {
             </IonCardTitle>
             <IonCardSubtitle>
               <IonAvatar>
-                <img
-                  alt="Coach's avatar"
-                  src={
-                    coach.name.includes("Valerio")
-                      ? "/assets/valerio.png"
-                      : coach.name.includes("Leandro")
-                      ? "/assets/leandro.png"
-                      : "/assets/mara.png"
-                  }
-                />
+                <img alt="Coach's avatar" src={coach.image} />
               </IonAvatar>
             </IonCardSubtitle>
           </IonCardHeader>
