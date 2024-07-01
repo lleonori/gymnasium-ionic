@@ -35,6 +35,7 @@ import { TTimetable } from "../models/timetable/timetableModel";
 import "./BookingContainer.css";
 import Spinner from "./Spinner";
 import { Colors } from "../utils/enums";
+import { TResponseError } from "../models/problems/responseErrorModel";
 
 const BookingContainer: React.FC = () => {
   const { user } = useAuth0();
@@ -58,7 +59,7 @@ const BookingContainer: React.FC = () => {
   } = useForm<TCreateBooking>();
 
   const { data: calendar, isLoading: isCalendarLoading } = useQuery({
-    queryFn: () => getCalendar(user?.email!),
+    queryFn: () => getCalendar(),
     queryKey: ["calendar"],
   });
 
@@ -84,6 +85,7 @@ const BookingContainer: React.FC = () => {
       ...rest,
       day: updatedDate,
     };
+    debugger;
 
     saveBookingMutate(formatData);
     resetField("day");
@@ -96,7 +98,10 @@ const BookingContainer: React.FC = () => {
       // Invalidate and refetch bookings
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
       queryClient.invalidateQueries({ queryKey: ["calendar"] });
-      showToastWithMessage("Lezione Prenotata", Colors.SUCCESS);
+      showToastWithMessage("Lezione prenotata", Colors.SUCCESS);
+    },
+    onError: (error: TResponseError) => {
+      showToastWithMessage(error.message, Colors.DANGER);
     },
   });
 
@@ -119,7 +124,7 @@ const BookingContainer: React.FC = () => {
       // Invalidate and refetch bookings
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
       queryClient.invalidateQueries({ queryKey: ["calendar"] });
-      showToastWithMessage("Lezione Eliminata", Colors.DANGER);
+      showToastWithMessage("Lezione eliminata", Colors.DANGER);
     },
     onError: () => {
       setIsOpen(false);
@@ -148,7 +153,8 @@ const BookingContainer: React.FC = () => {
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
-          È possibile prenotare la lezione <em>una volta al giorno.</em>
+          È possibile prenotare <em>una lezione al giorno.</em>
+          <br />
           <br />
           Per dare la possibilità a tutti di partecipare
           <em> sono disponibili le date di oggi e domani.</em>
