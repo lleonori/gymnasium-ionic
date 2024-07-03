@@ -85,7 +85,6 @@ const BookingContainer: React.FC = () => {
       ...rest,
       day: updatedDate,
     };
-    debugger;
 
     saveBookingMutate(formatData);
     resetField("day");

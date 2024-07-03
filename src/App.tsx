@@ -44,6 +44,9 @@ const App: React.FC = () => {
         }
 
         await Browser.close();
+        console.log("url: ", url);
+        console.log("origin: ", window.location.origin);
+        console.log("window: ", window.location.href);
       }
     });
   }, [handleRedirectCallback]);

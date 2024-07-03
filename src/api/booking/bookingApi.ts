@@ -12,6 +12,12 @@ export const getBookings = async (
   return data as TResponse<TBooking>;
 };
 
+export const getAllBookings = async (): Promise<TResponse<TBooking>> => {
+  const response = await fetch(API_BASE_URL);
+  const data = await response.json();
+  return data as TResponse<TBooking>;
+};
+
 export const saveBooking = async (
   booking: TCreateBooking
 ): Promise<TResponse<TBooking>> => {

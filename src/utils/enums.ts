@@ -9,3 +9,8 @@ export enum Colors {
   TERTIARY = "tertiary",
   WARNING = "warning",
 }
+
+export enum Roles {
+  ADMINISTRATOR = "administrator",
+  USER = "user",
+}
