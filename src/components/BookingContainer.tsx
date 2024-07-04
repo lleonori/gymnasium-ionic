@@ -146,7 +146,7 @@ const BookingContainer: React.FC = () => {
       {/* Presentational Card */}
       <IonCard>
         <IonCardHeader>
-          <IonCardTitle>Regole di prenotazione</IonCardTitle>
+          <IonCardTitle>Regole</IonCardTitle>
           <IonCardSubtitle>
             <IonIcon aria-hidden="true" icon={barbell} />
           </IonCardSubtitle>
@@ -162,7 +162,7 @@ const BookingContainer: React.FC = () => {
       {/* Booking Card */}
       <IonCard>
         <IonCardHeader>
-          <IonCardTitle>Prenotati</IonCardTitle>
+          <IonCardTitle>Scegli data e orario</IonCardTitle>
         </IonCardHeader>
         <IonCardContent>
           <form onSubmit={handleSubmit(onSubmit)}>

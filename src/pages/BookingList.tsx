@@ -5,7 +5,6 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import "./Booking.css";
 import BookingListContainer from "../components/BookingListContainer";
 
 const BookingList: React.FC = () => {
@@ -13,13 +12,13 @@ const BookingList: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Lista Prenotazioni</IonTitle>
+          <IonTitle>Prenotazioni</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Lista Prenotazioni</IonTitle>
+            <IonTitle size="large">Prenotazioni</IonTitle>
           </IonToolbar>
         </IonHeader>
         <BookingListContainer />

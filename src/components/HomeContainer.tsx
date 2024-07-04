@@ -13,7 +13,6 @@ import { useQuery } from "@tanstack/react-query";
 import { barbell } from "ionicons/icons";
 import { getCoachs } from "../api/coach/coachApi";
 import { TCoach } from "../models/coach/coachModel";
-import "./HomeContainer.css";
 import Spinner from "./Spinner";
 
 const HomeContainer: React.FC = () => {

@@ -6,7 +6,6 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import BookingContainer from "../components/BookingContainer";
-import "./Booking.css";
 
 const Booking: React.FC = () => {
   return (

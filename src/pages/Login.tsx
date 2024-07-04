@@ -1,18 +1,11 @@
-import {
-  IonButton,
-  IonContent,
-  IonImg,
-  IonPage,
-  useIonRouter,
-} from "@ionic/react";
-import "./Login.css";
-import { Browser } from "@capacitor/browser";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Browser } from "@capacitor/browser";
+import { IonButton, IonContent, IonImg, IonPage } from "@ionic/react";
+import "./Login.css";
 
 const Login: React.FC = () => {
   const { loginWithRedirect } = useAuth0();
 
-  const router = useIonRouter();
   const login = async () => {
     await loginWithRedirect({
       async openUrl(url) {
@@ -23,10 +16,6 @@ const Login: React.FC = () => {
       },
     });
   };
-
-  // const login = () => {
-  //   router.push("/tab");
-  // };
 
   return (
     <IonPage>

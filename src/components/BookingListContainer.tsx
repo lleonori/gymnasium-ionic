@@ -64,10 +64,7 @@ const BookingListContainer: React.FC = () => {
       {bookings?.data.map((booking: TBooking) => (
         <IonCard key={booking.id}>
           <IonCardHeader>
-            <IonCardTitle>
-              Prenotazione <br />
-              {booking.mail}
-            </IonCardTitle>
+            <IonCardTitle>{booking.mail}</IonCardTitle>
             <IonCardSubtitle>
               <IonAvatar>
                 <img alt="User's avatar" src={images[booking.id]} />

@@ -8,5 +8,5 @@ const auth0Domain = domain;
 const iosOrAndroid = isPlatform("hybrid");
 
 export const callbackUri = iosOrAndroid
-  ? `${appId}://${auth0Domain}/capacitor/${appId}/tab`
-  : "http://localhost:8100/tab";
+  ? `${appId}://${auth0Domain}/capacitor/${appId}`
+  : "http://localhost:8100";

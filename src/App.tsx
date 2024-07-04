@@ -1,6 +1,6 @@
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -23,15 +23,18 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { App as CapApp } from "@capacitor/app";
 import { Browser } from "@capacitor/browser";
 import { useEffect } from "react";
-import AppTabs from "./pages/AppTabs";
+import { callbackUri } from "./auth.config";
+import AppAdmin from "./pages/AppAdmin";
+import AppUsers from "./pages/AppUsers";
 import Login from "./pages/Login";
 import "./theme/variables.css";
-import { callbackUri } from "./auth.config";
+import { Roles } from "./utils/enums";
+import BookingList from "./pages/BookingList";
 
 setupIonicReact();
 
 const App: React.FC = () => {
-  const { handleRedirectCallback } = useAuth0();
+  const { isAuthenticated, user, handleRedirectCallback } = useAuth0();
 
   useEffect(() => {
     CapApp.addListener("appUrlOpen", async ({ url }) => {
@@ -44,9 +47,6 @@ const App: React.FC = () => {
         }
 
         await Browser.close();
-        console.log("url: ", url);
-        console.log("origin: ", window.location.origin);
-        console.log("window: ", window.location.href);
       }
     });
   }, [handleRedirectCallback]);
@@ -55,8 +55,23 @@ const App: React.FC = () => {
     <IonApp>
       <IonReactRouter>
         <IonRouterOutlet>
-          <Route exact path="/" component={Login} />
-          <Route path="/tab" component={AppTabs} />
+          <Route
+            exact
+            path="/"
+            render={() => {
+              return isAuthenticated ? (
+                user &&
+                user["https://my-app.example.com/app_metadata"].role ===
+                  Roles.ADMINISTRATOR ? (
+                  <AppAdmin />
+                ) : (
+                  <AppUsers />
+                )
+              ) : (
+                <Login />
+              );
+            }}
+          />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
