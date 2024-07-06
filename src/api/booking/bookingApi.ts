@@ -1,4 +1,8 @@
-import { TBooking, TCreateBooking } from "../../models/booking/bookingModel";
+import {
+  TBooking,
+  TCreateBooking,
+  TFilterBooking,
+} from "../../models/booking/bookingModel";
 import { TResponse } from "../../models/commos/responseModel";
 import { TResponseError } from "../../models/problems/responseErrorModel";
 
@@ -12,8 +16,13 @@ export const getBookings = async (
   return data as TResponse<TBooking>;
 };
 
-export const getAllBookings = async (): Promise<TResponse<TBooking>> => {
-  const response = await fetch(API_BASE_URL);
+export const getAllBookings = async (
+  filterBooking: TFilterBooking
+): Promise<TResponse<TBooking>> => {
+  const queryString = new URLSearchParams(
+    filterBooking as Record<string, string>
+  ).toString();
+  const response = await fetch(`${API_BASE_URL}?${queryString}`);
   const data = await response.json();
   return data as TResponse<TBooking>;
 };

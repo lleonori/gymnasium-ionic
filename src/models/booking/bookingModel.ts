@@ -6,3 +6,8 @@ export type TBooking = {
 };
 
 export type TCreateBooking = Omit<TBooking, "id">;
+
+export type TFilterBooking = Partial<{
+  day: string;
+  hour: string;
+}>;

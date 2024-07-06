@@ -8,22 +8,55 @@ import {
   IonChip,
   IonIcon,
   IonLabel,
+  IonSelect,
+  IonSelectOption,
+  SelectChangeEventDetail,
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
-import { barbell } from "ionicons/icons";
+import { barbell, filter } from "ionicons/icons";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { getAllBookings } from "../api/booking/bookingApi";
-import { TBooking } from "../models/booking/bookingModel";
-import { getRandomImage } from "../utils/functions";
+import { getCalendar } from "../api/calendar/calendarApi";
+import { fetchTimetables } from "../api/timetable/timetableApi";
+import { TBooking, TFilterBooking } from "../models/booking/bookingModel";
+import { TTimetable } from "../models/timetable/timetableModel";
+import { formatDate, getRandomImage } from "../utils/functions";
 import Spinner from "./Spinner";
 
 const BookingListContainer: React.FC = () => {
-  const [images, setImages] = useState<{ [key: string]: string }>({});
+  const { register } = useForm<TFilterBooking>();
 
-  const { data: bookings, isLoading: isLoading } = useQuery({
-    queryFn: () => getAllBookings(),
-    queryKey: ["bookings"],
+  const [images, setImages] = useState<{ [key: string]: string }>({});
+  const [filterBooking, setFilterBooking] = useState<TFilterBooking>({
+    day: formatDate(new Date()),
+    hour: "",
   });
+
+  const { data: bookings, isLoading: isBookingsLoading } = useQuery({
+    queryFn: () => getAllBookings(filterBooking),
+    queryKey: ["bookings", filterBooking],
+  });
+
+  const { data: calendar, isLoading: isCalendarLoading } = useQuery({
+    queryFn: () => getCalendar(),
+    queryKey: ["calendar"],
+  });
+
+  const { data: timetables, isLoading: isTimetablesLoading } = useQuery({
+    queryFn: () => fetchTimetables(),
+    queryKey: ["timetables"],
+  });
+
+  const onFilterChange =
+    (field: keyof TFilterBooking) =>
+    (event: CustomEvent<SelectChangeEventDetail>) => {
+      const value = event.detail.value;
+      setFilterBooking((prev: TFilterBooking) => ({
+        ...prev,
+        [field]: value,
+      }));
+    };
 
   useEffect(() => {
     if (bookings) {
@@ -37,7 +70,7 @@ const BookingListContainer: React.FC = () => {
     }
   }, [bookings]);
 
-  if (isLoading) {
+  if (isCalendarLoading && isBookingsLoading && isTimetablesLoading) {
     return <Spinner />;
   }
 
@@ -59,7 +92,51 @@ const BookingListContainer: React.FC = () => {
           "I am. I can. I will. I do."
         </IonCardContent>
       </IonCard>
-
+      {/* Filters Card */}
+      <IonCard>
+        <IonCardHeader>
+          <IonCardTitle>
+            Filtri <br />
+          </IonCardTitle>
+          <IonCardSubtitle>
+            <IonIcon aria-hidden="true" icon={filter} />
+          </IonCardSubtitle>
+        </IonCardHeader>
+        <IonCardContent>
+          {/* Day Field */}
+          <IonSelect
+            value={filterBooking.day}
+            label="Giorno"
+            labelPlacement="floating"
+            {...register("day")}
+            onIonChange={onFilterChange("day")}
+          >
+            {calendar?.today && (
+              <IonSelectOption value={calendar.today}>
+                {calendar.today.toString()}
+              </IonSelectOption>
+            )}
+            {calendar?.tomorrow && (
+              <IonSelectOption value={calendar.tomorrow}>
+                {calendar.tomorrow.toString()}
+              </IonSelectOption>
+            )}
+          </IonSelect>
+          {/* Hour Field */}
+          <IonSelect
+            label="Orario"
+            labelPlacement="floating"
+            {...register("hour")}
+            onIonChange={onFilterChange("hour")}
+          >
+            {timetables?.data.map((timetable: TTimetable) => (
+              <IonSelectOption key={timetable.id} value={timetable.hour}>
+                {timetable.hour}
+              </IonSelectOption>
+            ))}
+          </IonSelect>
+        </IonCardContent>
+      </IonCard>
       {/* Coach Card */}
       {bookings?.data.map((booking: TBooking) => (
         <IonCard key={booking.id}>
