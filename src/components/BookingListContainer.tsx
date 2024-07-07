@@ -23,6 +23,7 @@ import { TBooking, TFilterBooking } from "../models/booking/bookingModel";
 import { TTimetable } from "../models/timetable/timetableModel";
 import { formatDate, getRandomImage } from "../utils/functions";
 import Spinner from "./Spinner";
+import Error from "./Error";
 
 const BookingListContainer: React.FC = () => {
   const { register } = useForm<TFilterBooking>();
@@ -33,17 +34,29 @@ const BookingListContainer: React.FC = () => {
     hour: "",
   });
 
-  const { data: bookings, isLoading: isBookingsLoading } = useQuery({
+  const {
+    data: bookings,
+    isLoading: isBookingsLoading,
+    error: bookingsError,
+  } = useQuery({
     queryFn: () => getAllBookings(filterBooking),
     queryKey: ["bookings", filterBooking],
   });
 
-  const { data: calendar, isLoading: isCalendarLoading } = useQuery({
+  const {
+    data: calendar,
+    isLoading: isCalendarLoading,
+    error: calendarError,
+  } = useQuery({
     queryFn: () => getCalendar(),
     queryKey: ["calendar"],
   });
 
-  const { data: timetables, isLoading: isTimetablesLoading } = useQuery({
+  const {
+    data: timetables,
+    isLoading: isTimetablesLoading,
+    error: timetablesError,
+  } = useQuery({
     queryFn: () => fetchTimetables(),
     queryKey: ["timetables"],
   });
@@ -72,6 +85,10 @@ const BookingListContainer: React.FC = () => {
 
   if (isCalendarLoading && isBookingsLoading && isTimetablesLoading) {
     return <Spinner />;
+  }
+
+  if (calendarError || bookingsError || timetablesError) {
+    return <Error />;
   }
 
   return (

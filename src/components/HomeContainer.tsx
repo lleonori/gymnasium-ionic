@@ -14,15 +14,24 @@ import { barbell } from "ionicons/icons";
 import { getCoachs } from "../api/coach/coachApi";
 import { TCoach } from "../models/coach/coachModel";
 import Spinner from "./Spinner";
+import Error from "./Error";
 
 const HomeContainer: React.FC = () => {
-  const { data: coachs, isLoading: isCoachsLoading } = useQuery({
+  const {
+    data: coachs,
+    isLoading: isCoachsLoading,
+    error: coachsError,
+  } = useQuery({
     queryFn: () => getCoachs(),
     queryKey: ["coachs"],
   });
 
   if (isCoachsLoading) {
     return <Spinner />;
+  }
+
+  if (coachsError) {
+    return <Error />;
   }
 
   return (

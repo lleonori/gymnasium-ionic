@@ -24,6 +24,9 @@ export const getAllBookings = async (
   ).toString();
   const response = await fetch(`${API_BASE_URL}?${queryString}`);
   const data = await response.json();
+  if (!response.ok) {
+    throw data as TResponseError;
+  }
   return data as TResponse<TBooking>;
 };
 
@@ -49,5 +52,8 @@ export const deleteBooking = async (
     method: "delete",
   });
   const data = await response.json();
+  if (!response.ok) {
+    throw data as TResponseError;
+  }
   return data as TResponse<TBooking>;
 };

@@ -36,6 +36,7 @@ import "./BookingContainer.css";
 import Spinner from "./Spinner";
 import { Colors } from "../utils/enums";
 import { TResponseError } from "../models/problems/responseErrorModel";
+import Error from "./Error";
 
 const BookingContainer: React.FC = () => {
   const { user } = useAuth0();
@@ -58,17 +59,29 @@ const BookingContainer: React.FC = () => {
     resetField,
   } = useForm<TCreateBooking>();
 
-  const { data: calendar, isLoading: isCalendarLoading } = useQuery({
+  const {
+    data: calendar,
+    isLoading: isCalendarLoading,
+    error: calendarError,
+  } = useQuery({
     queryFn: () => getCalendar(),
     queryKey: ["calendar"],
   });
 
-  const { data: bookings, isLoading: isBookingsLoading } = useQuery({
+  const {
+    data: bookings,
+    isLoading: isBookingsLoading,
+    error: bookingsError,
+  } = useQuery({
     queryFn: () => getBookings(user?.email!),
     queryKey: ["bookings"],
   });
 
-  const { data: timetables, isLoading: isTimetablesLoading } = useQuery({
+  const {
+    data: timetables,
+    isLoading: isTimetablesLoading,
+    error: timetablesError,
+  } = useQuery({
     queryFn: () => fetchTimetables(),
     queryKey: ["timetables"],
   });
@@ -137,8 +150,12 @@ const BookingContainer: React.FC = () => {
     setShowToast(true);
   };
 
-  if (isCalendarLoading && isBookingsLoading && isTimetablesLoading) {
+  if (isCalendarLoading || isBookingsLoading || isTimetablesLoading) {
     return <Spinner />;
+  }
+
+  if (calendarError || bookingsError || timetablesError) {
+    return <Error />;
   }
 
   return (
