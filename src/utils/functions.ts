@@ -1,11 +1,18 @@
-const images = import.meta.glob(
-  "/public/assets/avatar-user/*.{jpg,png,jpeg,gif}"
-);
+const imagePaths = [
+  "/assets/avatar-user/balls.png",
+  "/assets/avatar-user/barbell.png",
+  "/assets/avatar-user/bottle.png",
+  "/assets/avatar-user/elastic-band.png",
+  "/assets/avatar-user/kettlebell.png",
+  "/assets/avatar-user/mat.png",
+  "/assets/avatar-user/rings.png",
+  "/assets/avatar-user/roller.png",
+  "/assets/avatar-user/weight.png",
+];
 
 export const getRandomImage = (): string => {
-  const keys = Object.keys(images);
-  const randomIndex = Math.floor(Math.random() * keys.length);
-  return keys[randomIndex];
+  const randomIndex = Math.floor(Math.random() * imagePaths.length);
+  return imagePaths[randomIndex];
 };
 
 export const formatDate = (date: Date): string => {
