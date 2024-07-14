@@ -1,6 +1,6 @@
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { Redirect, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -29,7 +29,6 @@ import AppUsers from "./pages/AppUsers";
 import Login from "./pages/Login";
 import "./theme/variables.css";
 import { Roles } from "./utils/enums";
-import BookingList from "./pages/BookingList";
 
 setupIonicReact();
 
@@ -56,7 +55,6 @@ const App: React.FC = () => {
       <IonReactRouter>
         <IonRouterOutlet>
           <Route
-            exact
             path="/"
             render={() => {
               return isAuthenticated ? (

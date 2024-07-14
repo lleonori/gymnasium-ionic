@@ -1,10 +1,20 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Browser } from "@capacitor/browser";
-import { IonContent, IonFab, IonFabButton, IonIcon } from "@ionic/react";
-import { logOut } from "ionicons/icons";
+import {
+  IonContent,
+  IonFab,
+  IonFabButton,
+  IonFabList,
+  IonHeader,
+  IonIcon,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
+import { chevronDownCircleOutline, logOutOutline } from "ionicons/icons";
 import { callbackUri } from "../auth.config";
+import AppAdminContainer from "../components/AppAdminContainer";
 import Spinner from "../components/Spinner";
-import BookingList from "./BookingList";
 
 const AppAdmin: React.FC = () => {
   const { logout, isLoading } = useAuth0();
@@ -26,14 +36,31 @@ const AppAdmin: React.FC = () => {
   if (isLoading) return <Spinner />;
 
   return (
-    <IonContent className="ion-padding">
-      <IonFab horizontal="end">
-        <IonFabButton onClick={handleLogout}>
-          <IonIcon icon={logOut}></IonIcon>
-        </IonFabButton>
-      </IonFab>
-      <BookingList />
-    </IonContent>
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Prenotazioni</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent className="ion-padding" fullscreen>
+        <IonFab slot="fixed" vertical="top" horizontal="end" edge={true}>
+          <IonFabButton>
+            <IonIcon icon={chevronDownCircleOutline}></IonIcon>
+          </IonFabButton>
+          <IonFabList side="bottom">
+            <IonFabButton onClick={handleLogout}>
+              <IonIcon icon={logOutOutline}></IonIcon>
+            </IonFabButton>
+          </IonFabList>
+        </IonFab>
+        <IonHeader collapse="condense">
+          <IonToolbar>
+            <IonTitle size="large">Prenotazioni</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <AppAdminContainer />
+      </IonContent>
+    </IonPage>
   );
 };
 

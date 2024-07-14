@@ -19,7 +19,7 @@ const Login: React.FC = () => {
 
   return (
     <IonPage>
-      <IonContent fullscreen>
+      <IonContent className="ion-padding" fullscreen>
         <div className="container">
           <IonImg src="/assets/Gymnasium_completo.svg" alt="logo"></IonImg>
           <IonButton color={"warning"} shape="round" onClick={login}>

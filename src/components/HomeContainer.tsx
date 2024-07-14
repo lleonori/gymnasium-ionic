@@ -10,7 +10,7 @@ import {
   IonLabel,
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
-import { barbell } from "ionicons/icons";
+import { barbell, barbellOutline } from "ionicons/icons";
 import { getCoachs } from "../api/coach/coachApi";
 import { TCoach } from "../models/coach/coachModel";
 import Spinner from "./Spinner";
@@ -43,7 +43,7 @@ const HomeContainer: React.FC = () => {
             Benvenuto <br />
           </IonCardTitle>
           <IonCardSubtitle>
-            <IonIcon aria-hidden="true" icon={barbell} />
+            <IonIcon aria-hidden="true" icon={barbellOutline} />
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>

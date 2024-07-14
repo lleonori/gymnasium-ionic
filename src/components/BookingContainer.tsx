@@ -20,7 +20,14 @@ import {
   IonToast,
 } from "@ionic/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { arrowForwardCircle, barbell, trashBin } from "ionicons/icons";
+import {
+  arrowForwardCircle,
+  arrowForwardCircleOutline,
+  barbell,
+  barbellOutline,
+  trashBin,
+  trashBinOutline,
+} from "ionicons/icons";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -165,7 +172,7 @@ const BookingContainer: React.FC = () => {
         <IonCardHeader>
           <IonCardTitle>Regole</IonCardTitle>
           <IonCardSubtitle>
-            <IonIcon aria-hidden="true" icon={barbell} />
+            <IonIcon aria-hidden="true" icon={barbellOutline} />
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
@@ -225,7 +232,10 @@ const BookingContainer: React.FC = () => {
             {/* Submit */}
             <div className="button-container">
               <IonButton type="submit" size="small">
-                <IonIcon slot="icon-only" icon={arrowForwardCircle}></IonIcon>
+                <IonIcon
+                  slot="icon-only"
+                  icon={arrowForwardCircleOutline}
+                ></IonIcon>
               </IonButton>
             </div>
           </form>
@@ -256,7 +266,7 @@ const BookingContainer: React.FC = () => {
                       onClick={() => handleOpenActionSheet(booking.id)}
                       color="danger"
                     >
-                      <IonIcon aria-hidden="true" icon={trashBin} />
+                      <IonIcon aria-hidden="true" icon={trashBinOutline} />
                     </IonItemOption>
                   </IonItemOptions>
                 </IonItemSliding>

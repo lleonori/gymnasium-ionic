@@ -6,7 +6,7 @@ import {
   IonCardTitle,
   IonIcon,
 } from "@ionic/react";
-import { warning } from "ionicons/icons";
+import { warning, warningOutline } from "ionicons/icons";
 
 const Error: React.FC = () => {
   return (
@@ -16,7 +16,7 @@ const Error: React.FC = () => {
           Errore <br />
         </IonCardTitle>
         <IonCardSubtitle>
-          <IonIcon aria-hidden="true" icon={warning} />
+          <IonIcon aria-hidden="true" icon={warningOutline} />
         </IonCardSubtitle>
       </IonCardHeader>
       <IonCardContent>

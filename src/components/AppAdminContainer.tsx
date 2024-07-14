@@ -13,7 +13,7 @@ import {
   SelectChangeEventDetail,
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
-import { barbell, filter } from "ionicons/icons";
+import { barbellOutline, filterOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { getAllBookings } from "../api/booking/bookingApi";
@@ -22,10 +22,10 @@ import { fetchTimetables } from "../api/timetable/timetableApi";
 import { TBooking, TFilterBooking } from "../models/booking/bookingModel";
 import { TTimetable } from "../models/timetable/timetableModel";
 import { formatDate, getRandomImage } from "../utils/functions";
-import Spinner from "./Spinner";
 import Error from "./Error";
+import Spinner from "./Spinner";
 
-const BookingListContainer: React.FC = () => {
+const AppAdminContainer: React.FC = () => {
   const { register } = useForm<TFilterBooking>();
 
   const [images, setImages] = useState<{ [key: string]: string }>({});
@@ -100,7 +100,7 @@ const BookingListContainer: React.FC = () => {
             Benvenuto <br />
           </IonCardTitle>
           <IonCardSubtitle>
-            <IonIcon aria-hidden="true" icon={barbell} />
+            <IonIcon aria-hidden="true" icon={barbellOutline} />
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
@@ -116,7 +116,7 @@ const BookingListContainer: React.FC = () => {
             Filtri <br />
           </IonCardTitle>
           <IonCardSubtitle>
-            <IonIcon aria-hidden="true" icon={filter} />
+            <IonIcon aria-hidden="true" icon={filterOutline} />
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
@@ -179,4 +179,4 @@ const BookingListContainer: React.FC = () => {
   );
 };
 
-export default BookingListContainer;
+export default AppAdminContainer;
