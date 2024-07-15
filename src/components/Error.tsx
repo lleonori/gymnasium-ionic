@@ -6,7 +6,7 @@ import {
   IonCardTitle,
   IonIcon,
 } from "@ionic/react";
-import { warning, warningOutline } from "ionicons/icons";
+import { warningOutline } from "ionicons/icons";
 
 const Error: React.FC = () => {
   return (

@@ -10,19 +10,22 @@ import {
   IonLabel,
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
-import { barbell, barbellOutline } from "ionicons/icons";
+import { barbellOutline } from "ionicons/icons";
 import { getCoachs } from "../api/coach/coachApi";
 import { TCoach } from "../models/coach/coachModel";
-import Spinner from "./Spinner";
 import Error from "./Error";
+import Spinner from "./Spinner";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const HomeContainer: React.FC = () => {
+  const { getAccessTokenSilently } = useAuth0();
+
   const {
     data: coachs,
     isLoading: isCoachsLoading,
     error: coachsError,
   } = useQuery({
-    queryFn: () => getCoachs(),
+    queryFn: () => getCoachs(getAccessTokenSilently),
     queryKey: ["coachs"],
   });
 

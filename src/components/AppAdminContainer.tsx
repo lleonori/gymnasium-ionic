@@ -24,11 +24,16 @@ import { TTimetable } from "../models/timetable/timetableModel";
 import { formatDate, getRandomImage } from "../utils/functions";
 import Error from "./Error";
 import Spinner from "./Spinner";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const AppAdminContainer: React.FC = () => {
+  // form
   const { register } = useForm<TFilterBooking>();
-
+  // token
+  const { getAccessTokenSilently } = useAuth0();
+  // get user avatar
   const [images, setImages] = useState<{ [key: string]: string }>({});
+  // booking filter
   const [filterBooking, setFilterBooking] = useState<TFilterBooking>({
     day: formatDate(new Date()),
     hour: "",
@@ -39,7 +44,7 @@ const AppAdminContainer: React.FC = () => {
     isLoading: isBookingsLoading,
     error: bookingsError,
   } = useQuery({
-    queryFn: () => getAllBookings(filterBooking),
+    queryFn: () => getAllBookings(filterBooking, getAccessTokenSilently),
     queryKey: ["bookings", filterBooking],
   });
 
@@ -48,7 +53,7 @@ const AppAdminContainer: React.FC = () => {
     isLoading: isCalendarLoading,
     error: calendarError,
   } = useQuery({
-    queryFn: () => getCalendar(),
+    queryFn: () => getCalendar(getAccessTokenSilently),
     queryKey: ["calendar"],
   });
 
@@ -57,7 +62,7 @@ const AppAdminContainer: React.FC = () => {
     isLoading: isTimetablesLoading,
     error: timetablesError,
   } = useQuery({
-    queryFn: () => fetchTimetables(),
+    queryFn: () => fetchTimetables(getAccessTokenSilently),
     queryKey: ["timetables"],
   });
 

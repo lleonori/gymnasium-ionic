@@ -46,8 +46,9 @@ import { TResponseError } from "../models/problems/responseErrorModel";
 import Error from "./Error";
 
 const BookingContainer: React.FC = () => {
-  const { user } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const queryClient = useQueryClient();
+
   // state for ActionSheet
   const [isOpen, setIsOpen] = useState<boolean>(false);
   // state for selected Booking
@@ -71,7 +72,7 @@ const BookingContainer: React.FC = () => {
     isLoading: isCalendarLoading,
     error: calendarError,
   } = useQuery({
-    queryFn: () => getCalendar(),
+    queryFn: () => getCalendar(getAccessTokenSilently),
     queryKey: ["calendar"],
   });
 
@@ -80,7 +81,7 @@ const BookingContainer: React.FC = () => {
     isLoading: isBookingsLoading,
     error: bookingsError,
   } = useQuery({
-    queryFn: () => getBookings(user?.email!),
+    queryFn: () => getBookings(user?.email!, getAccessTokenSilently),
     queryKey: ["bookings"],
   });
 
@@ -89,7 +90,7 @@ const BookingContainer: React.FC = () => {
     isLoading: isTimetablesLoading,
     error: timetablesError,
   } = useQuery({
-    queryFn: () => fetchTimetables(),
+    queryFn: () => fetchTimetables(getAccessTokenSilently),
     queryKey: ["timetables"],
   });
 
@@ -112,7 +113,8 @@ const BookingContainer: React.FC = () => {
   };
 
   const { mutate: saveBookingMutate } = useMutation({
-    mutationFn: (newBooking: TCreateBooking) => saveBooking(newBooking),
+    mutationFn: (newBooking: TCreateBooking) =>
+      saveBooking(newBooking, getAccessTokenSilently),
     onSuccess: () => {
       // Invalidate and refetch bookings
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
@@ -136,7 +138,7 @@ const BookingContainer: React.FC = () => {
   };
 
   const { mutate: deleteBookingMutate } = useMutation({
-    mutationFn: () => deleteBooking(currentBookingId!),
+    mutationFn: () => deleteBooking(currentBookingId!, getAccessTokenSilently),
     onSuccess: () => {
       setIsOpen(false);
       setCurrentBookingId(null);
