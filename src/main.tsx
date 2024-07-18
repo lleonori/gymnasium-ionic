@@ -18,7 +18,7 @@ root.render(
       authorizationParams={{
         redirect_uri: callbackUri,
       }}
-      useRefreshTokens={false}
+      useRefreshTokens={true}
       useRefreshTokensFallback={false}
     >
       <QueryClientProvider client={queryClient}>
