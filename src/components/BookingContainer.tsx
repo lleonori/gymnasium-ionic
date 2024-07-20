@@ -21,6 +21,8 @@ import {
 } from "@ionic/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  alertCircle,
+  alertCircleOutline,
   arrowForwardCircle,
   arrowForwardCircleOutline,
   barbell,
@@ -64,7 +66,7 @@ const BookingContainer: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-    resetField,
+    clearErrors,
   } = useForm<TCreateBooking>();
 
   const {
@@ -108,8 +110,6 @@ const BookingContainer: React.FC = () => {
     };
 
     saveBookingMutate(formatData);
-    resetField("day");
-    resetField("hour");
   };
 
   const { mutate: saveBookingMutate } = useMutation({
@@ -133,8 +133,6 @@ const BookingContainer: React.FC = () => {
 
   const handleDeleteActionSheet = () => {
     deleteBookingMutate();
-    resetField("day");
-    resetField("hour");
   };
 
   const { mutate: deleteBookingMutate } = useMutation({
@@ -145,7 +143,7 @@ const BookingContainer: React.FC = () => {
       // Invalidate and refetch bookings
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
       queryClient.invalidateQueries({ queryKey: ["calendar"] });
-      showToastWithMessage("Lezione eliminata", Colors.DANGER);
+      showToastWithMessage("Lezione eliminata", Colors.SUCCESS);
     },
     onError: () => {
       setIsOpen(false);
@@ -202,10 +200,19 @@ const BookingContainer: React.FC = () => {
             />
             {/* Day Field */}
             <IonSelect
-              label="Giorno"
               labelPlacement="floating"
               {...register("day", { required: true })}
+              onIonChange={() => clearErrors("day")}
             >
+              <div slot="label">
+                Giorno
+                {errors.day && (
+                  <IonIcon
+                    color={Colors.DANGER}
+                    icon={alertCircleOutline}
+                  ></IonIcon>
+                )}
+              </div>
               {calendar?.today && (
                 <IonSelectOption value={calendar.today}>
                   {calendar.today.toString()}
@@ -217,20 +224,27 @@ const BookingContainer: React.FC = () => {
                 </IonSelectOption>
               )}
             </IonSelect>
-            {errors.day && <span>Campo obbligatorio</span>}
             {/* Hour Field */}
             <IonSelect
-              label="Orario"
               labelPlacement="floating"
               {...register("hour", { required: true })}
+              onIonChange={() => clearErrors("hour")}
             >
+              <div slot="label">
+                Orario
+                {errors.hour && (
+                  <IonIcon
+                    color={Colors.DANGER}
+                    icon={alertCircleOutline}
+                  ></IonIcon>
+                )}
+              </div>
               {timetables?.data.map((timetable: TTimetable) => (
                 <IonSelectOption key={timetable.id} value={timetable.hour}>
                   {timetable.hour}
                 </IonSelectOption>
               ))}
             </IonSelect>
-            {errors.hour && <span>Campo obbligatorio</span>}
             {/* Submit */}
             <div className="button-container">
               <IonButton type="submit" size="small">
