@@ -206,12 +206,7 @@ const BookingContainer: React.FC = () => {
             >
               <div slot="label">
                 Giorno
-                {errors.day && (
-                  <IonIcon
-                    color={Colors.DANGER}
-                    icon={alertCircleOutline}
-                  ></IonIcon>
-                )}
+                {errors.day && <IonText color="danger">(Obbligatorio)</IonText>}
               </div>
               {calendar?.today && (
                 <IonSelectOption value={calendar.today}>
@@ -233,10 +228,7 @@ const BookingContainer: React.FC = () => {
               <div slot="label">
                 Orario
                 {errors.hour && (
-                  <IonIcon
-                    color={Colors.DANGER}
-                    icon={alertCircleOutline}
-                  ></IonIcon>
+                  <IonText color="danger">(Obbligatorio)</IonText>
                 )}
               </div>
               {timetables?.data.map((timetable: TTimetable) => (
