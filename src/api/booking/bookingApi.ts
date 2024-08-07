@@ -7,7 +7,7 @@ import { TGetAccessTokenSilently } from "../../models/commos/accessTokenSilently
 import { TResponse } from "../../models/commos/responseModel";
 import { TResponseError } from "../../models/problems/responseErrorModel";
 
-const API_BASE_URL = "http://127.0.0.1:3000/api/v1/booking";
+const API_BASE_URL = import.meta.env.VITE_API_URL + "/booking";
 
 export const getBookings = async (
   mail: string,

@@ -3,10 +3,11 @@ import { TResponse } from "../../models/commos/responseModel";
 import { TResponseError } from "../../models/problems/responseErrorModel";
 import { TTimetable } from "../../models/timetable/timetableModel";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL + "/timetable";
+
 export const fetchTimetables = async (
   getAccessTokenSilently: TGetAccessTokenSilently
 ): Promise<TResponse<TTimetable>> => {
-  const API_BASE_URL = "http://127.0.0.1:3000/api/v1/timetable";
   const token = await getAccessTokenSilently();
   const response = await fetch(API_BASE_URL, {
     headers: {
