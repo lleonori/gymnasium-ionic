@@ -30,7 +30,7 @@ import {
   trashBin,
   trashBinOutline,
 } from "ionicons/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
   deleteBooking,
@@ -73,6 +73,7 @@ const BookingContainer: React.FC = () => {
     data: calendar,
     isLoading: isCalendarLoading,
     error: calendarError,
+    isFetching: isCalendarFetching,
   } = useQuery({
     queryFn: () => getCalendar(getAccessTokenSilently),
     queryKey: ["calendar"],
@@ -82,6 +83,7 @@ const BookingContainer: React.FC = () => {
     data: bookings,
     isLoading: isBookingsLoading,
     error: bookingsError,
+    isFetching: isBookingsFetching,
   } = useQuery({
     queryFn: () => getBookings(user?.email!, getAccessTokenSilently),
     queryKey: ["bookings"],
@@ -91,6 +93,7 @@ const BookingContainer: React.FC = () => {
     data: timetables,
     isLoading: isTimetablesLoading,
     error: timetablesError,
+    isFetching: isTimetablesFetching,
   } = useQuery({
     queryFn: () => fetchTimetables(getAccessTokenSilently),
     queryKey: ["timetables"],
@@ -158,6 +161,10 @@ const BookingContainer: React.FC = () => {
   };
 
   if (isCalendarLoading || isBookingsLoading || isTimetablesLoading) {
+    return <Spinner />;
+  }
+
+  if (isCalendarFetching || isBookingsFetching || isTimetablesFetching) {
     return <Spinner />;
   }
 

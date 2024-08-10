@@ -43,6 +43,7 @@ const AppAdminContainer: React.FC = () => {
     data: bookings,
     isLoading: isBookingsLoading,
     error: bookingsError,
+    isFetching: isBookingsFetching,
   } = useQuery({
     queryFn: () => getAllBookings(filterBooking, getAccessTokenSilently),
     queryKey: ["bookings", filterBooking],
@@ -52,6 +53,7 @@ const AppAdminContainer: React.FC = () => {
     data: calendar,
     isLoading: isCalendarLoading,
     error: calendarError,
+    isFetching: isCalendarFetching,
   } = useQuery({
     queryFn: () => getCalendar(getAccessTokenSilently),
     queryKey: ["calendar"],
@@ -61,6 +63,7 @@ const AppAdminContainer: React.FC = () => {
     data: timetables,
     isLoading: isTimetablesLoading,
     error: timetablesError,
+    isFetching: isTimetablesFetching,
   } = useQuery({
     queryFn: () => fetchTimetables(getAccessTokenSilently),
     queryKey: ["timetables"],
@@ -89,6 +92,10 @@ const AppAdminContainer: React.FC = () => {
   }, [bookings]);
 
   if (isCalendarLoading && isBookingsLoading && isTimetablesLoading) {
+    return <Spinner />;
+  }
+
+  if (isCalendarFetching || isBookingsFetching || isTimetablesFetching) {
     return <Spinner />;
   }
 
