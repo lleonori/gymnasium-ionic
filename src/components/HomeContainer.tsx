@@ -17,7 +17,7 @@ import Error from "./Error";
 import Spinner from "./Spinner";
 import { useAuth0 } from "@auth0/auth0-react";
 
-const HomeContainer: React.FC = () => {
+const HomeContainer = () => {
   const { getAccessTokenSilently } = useAuth0();
 
   const {

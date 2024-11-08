@@ -32,7 +32,7 @@ import { Roles } from "./utils/enums";
 
 setupIonicReact();
 
-const App: React.FC = () => {
+const App = () => {
   const { isAuthenticated, user, handleRedirectCallback } = useAuth0();
 
   useEffect(() => {

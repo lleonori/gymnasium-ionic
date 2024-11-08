@@ -3,7 +3,7 @@ import { Browser } from "@capacitor/browser";
 import { IonButton, IonContent, IonImg, IonPage } from "@ionic/react";
 import "./Login.css";
 
-const Login: React.FC = () => {
+const Login = () => {
   const { loginWithRedirect } = useAuth0();
 
   const login = async () => {

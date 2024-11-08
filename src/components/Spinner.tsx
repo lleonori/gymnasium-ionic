@@ -1,7 +1,7 @@
 import { IonSpinner } from "@ionic/react";
 import "./Spinner.css";
 
-const Spinner: React.FC = () => {
+const Spinner = () => {
   return (
     <div className="container">
       <IonSpinner></IonSpinner>

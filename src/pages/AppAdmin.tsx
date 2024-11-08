@@ -16,7 +16,7 @@ import { callbackUri } from "../auth.config";
 import AppAdminContainer from "../components/AppAdminContainer";
 import Spinner from "../components/Spinner";
 
-const AppAdmin: React.FC = () => {
+const AppAdmin = () => {
   const { logout, isLoading } = useAuth0();
 
   const handleLogout = async () => {
@@ -48,7 +48,7 @@ const AppAdmin: React.FC = () => {
             <IonIcon icon={chevronDownCircleOutline}></IonIcon>
           </IonFabButton>
           <IonFabList side="bottom">
-            <IonFabButton onClick={handleLogout}>
+            <IonFabButton onClick={handleLogout} color="primary">
               <IonIcon icon={logOutOutline}></IonIcon>
             </IonFabButton>
           </IonFabList>

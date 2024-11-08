@@ -21,16 +21,11 @@ import {
 } from "@ionic/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  alertCircle,
-  alertCircleOutline,
-  arrowForwardCircle,
   arrowForwardCircleOutline,
-  barbell,
   barbellOutline,
-  trashBin,
   trashBinOutline,
 } from "ionicons/icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
   deleteBooking,
@@ -40,14 +35,14 @@ import {
 import { getCalendar } from "../api/calendar/calendarApi";
 import { fetchTimetables } from "../api/timetable/timetableApi";
 import { TBooking, TCreateBooking } from "../models/booking/bookingModel";
-import { TTimetable } from "../models/timetable/timetableModel";
-import "./BookingContainer.css";
-import Spinner from "./Spinner";
-import { Colors } from "../utils/enums";
 import { TResponseError } from "../models/problems/responseErrorModel";
+import { TTimetable } from "../models/timetable/timetableModel";
+import { Colors } from "../utils/enums";
+import "./BookingContainer.css";
 import Error from "./Error";
+import Spinner from "./Spinner";
 
-const BookingContainer: React.FC = () => {
+const BookingContainer = () => {
   const { user, getAccessTokenSilently } = useAuth0();
   const queryClient = useQueryClient();
 

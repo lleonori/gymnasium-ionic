@@ -7,7 +7,7 @@ import {
 } from "@ionic/react";
 import BookingContainer from "../components/BookingContainer";
 
-const Booking: React.FC = () => {
+const Booking = () => {
   return (
     <IonPage>
       <IonHeader>

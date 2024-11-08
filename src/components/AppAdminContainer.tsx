@@ -26,7 +26,7 @@ import Error from "./Error";
 import Spinner from "./Spinner";
 import { useAuth0 } from "@auth0/auth0-react";
 
-const AppAdminContainer: React.FC = () => {
+const AppAdminContainer = () => {
   // form
   const { register } = useForm<TFilterBooking>();
   // token

@@ -14,7 +14,7 @@ import Spinner from "../components/Spinner";
 import Booking from "./Booking";
 import Home from "./Home";
 
-const AppUsers: React.FC = () => {
+const AppUsers = () => {
   const { isLoading } = useAuth0();
 
   if (isLoading) return <Spinner />;

@@ -8,7 +8,7 @@ import {
 } from "@ionic/react";
 import { warningOutline } from "ionicons/icons";
 
-const Error: React.FC = () => {
+const Error = () => {
   return (
     <IonCard>
       <IonCardHeader>
