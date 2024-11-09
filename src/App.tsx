@@ -23,14 +23,16 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { App as CapApp } from "@capacitor/app";
 import { Browser } from "@capacitor/browser";
 import { useEffect } from "react";
-import { callbackUri } from "./auth.config";
+import { callbackUri } from "./Auth.config";
 import AppAdmin from "./pages/AppAdmin";
 import AppUsers from "./pages/AppUsers";
 import Login from "./pages/Login";
 import "./theme/variables.css";
 import { Roles } from "./utils/enums";
 
-setupIonicReact();
+setupIonicReact({
+  mode: "ios",
+});
 
 const App = () => {
   const { isAuthenticated, user, handleRedirectCallback } = useAuth0();
