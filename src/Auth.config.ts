@@ -1,7 +1,7 @@
 import { isPlatform } from "@ionic/react";
 
-export const domain = "dev-cjdd0dct4ytaucqh.eu.auth0.com";
-export const clientId = "Fq6el0lCqOPkWLXdh7a3v1zrerywxoEK";
+export const domain = import.meta.env.VITE_DOMAIN_AUTH0;
+export const clientId = import.meta.env.VITE_CLIENT_ID_AUTH0;
 
 const appId = "gymnasium.ionic";
 const auth0Domain = domain;
