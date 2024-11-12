@@ -6,7 +6,6 @@ export const clientId = "Fq6el0lCqOPkWLXdh7a3v1zrerywxoEK";
 const appId = "gymnasium.ionic";
 const auth0Domain = domain;
 const iosOrAndroid = isPlatform("hybrid");
-console.log("Here!", iosOrAndroid);
 
 export const callbackUri = iosOrAndroid
   ? `${appId}://${auth0Domain}/capacitor/${appId}`

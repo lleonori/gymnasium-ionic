@@ -60,9 +60,8 @@ const App = () => {
             path="/"
             render={() => {
               return isAuthenticated ? (
-                user &&
-                user["https://my-app.example.com/app_metadata"].role ===
-                  Roles.ADMINISTRATOR ? (
+                // user_status is a custom property
+                user && user["user_status"].role === Roles.ADMINISTRATOR ? (
                   <AppAdmin />
                 ) : (
                   <AppUsers />

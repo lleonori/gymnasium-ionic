@@ -26,6 +26,7 @@ root.render(
       }}
       useRefreshTokens={true}
       useRefreshTokensFallback={false}
+      cacheLocation="localstorage"
     >
       <QueryClientProvider client={queryClient}>
         <App />
