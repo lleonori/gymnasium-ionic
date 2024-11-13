@@ -43,7 +43,7 @@ import Error from "./Error";
 import Spinner from "./Spinner";
 
 const BookingContainer = () => {
-  const { user, getAccessTokenSilently } = useAuth0();
+  const { user } = useAuth0();
   const queryClient = useQueryClient();
 
   // state for ActionSheet
@@ -70,7 +70,7 @@ const BookingContainer = () => {
     error: calendarError,
     isFetching: isCalendarFetching,
   } = useQuery({
-    queryFn: () => getCalendar(getAccessTokenSilently),
+    queryFn: () => getCalendar(),
     queryKey: ["calendar"],
   });
 
@@ -80,7 +80,7 @@ const BookingContainer = () => {
     error: bookingsError,
     isFetching: isBookingsFetching,
   } = useQuery({
-    queryFn: () => getBookings(user?.email!, getAccessTokenSilently),
+    queryFn: () => getBookings(user?.email!),
     queryKey: ["bookings"],
   });
 
@@ -90,7 +90,7 @@ const BookingContainer = () => {
     error: timetablesError,
     isFetching: isTimetablesFetching,
   } = useQuery({
-    queryFn: () => fetchTimetables(getAccessTokenSilently),
+    queryFn: () => fetchTimetables(),
     queryKey: ["timetables"],
   });
 
@@ -111,8 +111,7 @@ const BookingContainer = () => {
   };
 
   const { mutate: saveBookingMutate } = useMutation({
-    mutationFn: (newBooking: TCreateBooking) =>
-      saveBooking(newBooking, getAccessTokenSilently),
+    mutationFn: (newBooking: TCreateBooking) => saveBooking(newBooking),
     onSuccess: () => {
       // Invalidate and refetch bookings
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
@@ -134,7 +133,7 @@ const BookingContainer = () => {
   };
 
   const { mutate: deleteBookingMutate } = useMutation({
-    mutationFn: () => deleteBooking(currentBookingId!, getAccessTokenSilently),
+    mutationFn: () => deleteBooking(currentBookingId!),
     onSuccess: () => {
       setIsOpen(false);
       setCurrentBookingId(null);

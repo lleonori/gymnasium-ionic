@@ -29,12 +29,15 @@ import AppUsers from "./pages/AppUsers";
 import Login from "./pages/Login";
 import "./theme/variables.css";
 import { Roles } from "./utils/enums";
+import { useAuthInterceptor } from "./hooks/useAuthInterceptor";
 
 setupIonicReact({
   mode: "ios",
 });
 
 const App = () => {
+  useAuthInterceptor();
+
   const { isAuthenticated, user, handleRedirectCallback } = useAuth0();
 
   useEffect(() => {

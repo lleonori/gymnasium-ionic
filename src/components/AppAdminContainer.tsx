@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import {
   IonAvatar,
   IonCard,
@@ -24,13 +25,10 @@ import { TTimetable } from "../models/timetable/timetableModel";
 import { formatDate, getRandomImage } from "../utils/functions";
 import Error from "./Error";
 import Spinner from "./Spinner";
-import { useAuth0 } from "@auth0/auth0-react";
 
 const AppAdminContainer = () => {
   // form
   const { register } = useForm<TFilterBooking>();
-  // token
-  const { getAccessTokenSilently } = useAuth0();
   // get user avatar
   const [images, setImages] = useState<{ [key: string]: string }>({});
   // booking filter
@@ -45,7 +43,7 @@ const AppAdminContainer = () => {
     error: bookingsError,
     isFetching: isBookingsFetching,
   } = useQuery({
-    queryFn: () => getAllBookings(filterBooking, getAccessTokenSilently),
+    queryFn: () => getAllBookings(filterBooking),
     queryKey: ["bookings", filterBooking],
   });
 
@@ -55,7 +53,7 @@ const AppAdminContainer = () => {
     error: calendarError,
     isFetching: isCalendarFetching,
   } = useQuery({
-    queryFn: () => getCalendar(getAccessTokenSilently),
+    queryFn: () => getCalendar(),
     queryKey: ["calendar"],
   });
 
@@ -65,7 +63,7 @@ const AppAdminContainer = () => {
     error: timetablesError,
     isFetching: isTimetablesFetching,
   } = useQuery({
-    queryFn: () => fetchTimetables(getAccessTokenSilently),
+    queryFn: () => fetchTimetables(),
     queryKey: ["timetables"],
   });
 
