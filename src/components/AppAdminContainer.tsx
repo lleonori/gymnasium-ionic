@@ -1,4 +1,3 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import {
   IonAvatar,
   IonCard,
@@ -16,7 +15,6 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { barbellOutline, filterOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { getAllBookings } from "../api/booking/bookingApi";
 import { getCalendar } from "../api/calendar/calendarApi";
 import { fetchTimetables } from "../api/timetable/timetableApi";
@@ -27,8 +25,6 @@ import Error from "./Error";
 import Spinner from "./Spinner";
 
 const AppAdminContainer = () => {
-  // form
-  const { register } = useForm<TFilterBooking>();
   // get user avatar
   const [images, setImages] = useState<{ [key: string]: string }>({});
   // booking filter
@@ -70,6 +66,7 @@ const AppAdminContainer = () => {
   const onFilterChange =
     (field: keyof TFilterBooking) =>
     (event: CustomEvent<SelectChangeEventDetail>) => {
+      debugger;
       const value = event.detail.value;
       setFilterBooking((prev: TFilterBooking) => ({
         ...prev,
@@ -135,7 +132,6 @@ const AppAdminContainer = () => {
             value={filterBooking.day}
             label="Giorno"
             labelPlacement="floating"
-            {...register("day")}
             onIonChange={onFilterChange("day")}
           >
             {calendar?.today && (
@@ -151,10 +147,10 @@ const AppAdminContainer = () => {
           </IonSelect>
           {/* Hour Field */}
           <IonSelect
+            value={filterBooking.hour} // Use filterBooking state directly
             label="Orario"
             labelPlacement="floating"
-            {...register("hour")}
-            onIonChange={onFilterChange("hour")}
+            onIonChange={onFilterChange("hour")} // Update filterBooking on change
           >
             {timetables?.data.map((timetable: TTimetable) => (
               <IonSelectOption key={timetable.id} value={timetable.hour}>
@@ -164,7 +160,7 @@ const AppAdminContainer = () => {
           </IonSelect>
         </IonCardContent>
       </IonCard>
-      {/* Coach Card */}
+      {/* Booking Card */}
       {bookings?.data.map((booking: TBooking) => (
         <IonCard key={booking.id}>
           <IonCardHeader>

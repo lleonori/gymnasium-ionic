@@ -4,7 +4,7 @@ import "./Spinner.css";
 const Spinner = () => {
   return (
     <div className="container">
-      <IonSpinner></IonSpinner>
+      <IonSpinner name="dots"></IonSpinner>
     </div>
   );
 };

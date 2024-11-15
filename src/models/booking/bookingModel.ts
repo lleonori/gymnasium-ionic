@@ -1,6 +1,7 @@
 export type TBooking = {
   id: number;
   mail: string;
+  fullName?: string;
   day: Date;
   hour: string;
 };

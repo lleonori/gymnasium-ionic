@@ -21,7 +21,7 @@ const Login = () => {
     <IonPage>
       <IonContent className="ion-padding" fullscreen>
         <div className="container">
-          <IonImg src="/assets/Gymnasium_completo.svg" alt="logo"></IonImg>
+          <IonImg src="/assets/Gymnasium_completo.svg"></IonImg>
           <IonButton color={"warning"} shape="round" onClick={login}>
             Accedi
           </IonButton>
