@@ -80,7 +80,7 @@ const BookingContainer = () => {
     error: bookingsError,
     isFetching: isBookingsFetching,
   } = useQuery({
-    queryFn: () => getBookings(user?.email!),
+    queryFn: () => getBookings(user!.email!),
     queryKey: ["bookings"],
   });
 

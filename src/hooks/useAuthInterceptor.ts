@@ -22,7 +22,7 @@ export const useAuthInterceptor = function () {
       },
       (error) => {
         return Promise.reject(error);
-      }
+      },
     );
 
     // clean up function

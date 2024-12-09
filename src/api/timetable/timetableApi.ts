@@ -8,9 +8,8 @@ const API_BASE_URL = "/timetable";
 
 export const fetchTimetables = async (): Promise<TResponse<TTimetable>> => {
   try {
-    const response = await axiosInstance.get<TResponse<TTimetable>>(
-      API_BASE_URL
-    );
+    const response =
+      await axiosInstance.get<TResponse<TTimetable>>(API_BASE_URL);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {

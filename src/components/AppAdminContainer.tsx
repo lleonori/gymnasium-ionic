@@ -66,7 +66,6 @@ const AppAdminContainer = () => {
   const onFilterChange =
     (field: keyof TFilterBooking) =>
     (event: CustomEvent<SelectChangeEventDetail>) => {
-      debugger;
       const value = event.detail.value;
       setFilterBooking((prev: TFilterBooking) => ({
         ...prev,
