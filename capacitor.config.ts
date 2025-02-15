@@ -5,8 +5,8 @@ const config: CapacitorConfig = {
   appName: "gymnasium-ionic",
   webDir: "dist",
   server: {
-    androidScheme: "http",
-    iosScheme: "http",
+    androidScheme: "https",
+    iosScheme: "https",
   },
 };
 

@@ -37,3 +37,6 @@ resources/android/**/*
 .env.test.local
 .env.production.local
 .env.local
+
+# ssl
+ssl
