@@ -22,14 +22,13 @@ import "@ionic/react/css/text-transformation.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { App as CapApp } from "@capacitor/app";
 import { Browser } from "@capacitor/browser";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect } from "react";
 import { callbackUri } from "./auth.config";
 import AppAdmin from "./pages/AppAdmin";
 import AppUsers from "./pages/AppUsers";
 import Login from "./pages/Login";
 import "./theme/variables.css";
 import { Roles } from "./utils/enums";
-import Spinner from "./components/Spinner";
 import { useAuthInterceptor } from "./hooks/useAuthInterceptor";
 
 setupIonicReact({
@@ -40,13 +39,6 @@ const App = () => {
   useAuthInterceptor();
 
   const { isAuthenticated, user, handleRedirectCallback } = useAuth0();
-  const [isAppLoading, setIsAppLoading] = useState(true);
-
-  useLayoutEffect(() => {
-    setTimeout(() => {
-      setIsAppLoading(false);
-    }, 2000);
-  }, []);
 
   useEffect(() => {
     CapApp.addListener("appUrlOpen", async ({ url }) => {
@@ -62,10 +54,6 @@ const App = () => {
       }
     });
   }, [handleRedirectCallback]);
-
-  if (isAppLoading) {
-    return <Spinner />;
-  }
 
   return (
     <IonApp>

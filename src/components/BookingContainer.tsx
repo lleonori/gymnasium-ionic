@@ -100,12 +100,12 @@ const BookingContainer = () => {
 
     // Modify the day in the date object
     const updatedDate = new Date(day);
-    const fullName = user?.name;
+    const fullname = user?.name;
 
     // Construct the new data object with the updated day
     const formatData: TCreateBooking = {
       ...rest,
-      fullName: fullName,
+      fullname: fullname,
       day: updatedDate,
     };
 

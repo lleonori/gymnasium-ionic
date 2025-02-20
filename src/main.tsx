@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import { domain, callbackUri, clientId } from "./auth.config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import SessionCache from "./utils/sessionCache";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
@@ -24,13 +25,12 @@ root.render(
       authorizationParams={{
         redirect_uri: callbackUri,
       }}
-      useRefreshTokens={true}
-      useRefreshTokensFallback={false}
-      cacheLocation="localstorage"
+      cache={new SessionCache()}
+      useRefreshTokens={false}
     >
       <QueryClientProvider client={queryClient}>
         <App />
       </QueryClientProvider>
     </Auth0Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
