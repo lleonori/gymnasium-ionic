@@ -236,7 +236,7 @@ const BookingContainer = () => {
               </div>
               {timetables?.data.map((timetable: TTimetable) => (
                 <IonSelectOption key={timetable.id} value={timetable.hour}>
-                  {timetable.hour}
+                  {timetable.hour.slice(0, -1)}
                 </IonSelectOption>
               ))}
             </IonSelect>

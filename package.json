@@ -25,6 +25,7 @@
     "@ionic/react-router": "8.4.1",
     "@tanstack/react-query": "5.64.2",
     "axios": "1.7.9",
+    "dotenv": "^16.4.7",
     "ionicons": "^7.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
