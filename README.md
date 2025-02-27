@@ -31,3 +31,9 @@ For running the application on BROWSER use:
 ```bash
 npx vite --open --host=0.0.0.0 --port=8100
 ```
+
+For running the application on real device use (Google Pixel 8 Pro):
+
+```bash
+npx vite build --mode production && npx cap copy android && npx cap run android --target=37171FDJG007N0
+```
