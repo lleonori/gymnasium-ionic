@@ -265,10 +265,13 @@ const BookingContainer = () => {
                 <IonItemSliding key={booking.id}>
                   <IonItem>
                     <IonLabel>
-                      <IonText>{booking.mail}</IonText>
+                      <IonText>
+                        {booking.fullname ? booking.fullname : booking.mail}
+                      </IonText>
                       <IonText>
                         <p>
-                          {booking.day.toString()} {booking.hour}
+                          {booking.day.toString()} {booking.hour.split(":")[0]}
+                          :00
                         </p>
                       </IonText>
                     </IonLabel>

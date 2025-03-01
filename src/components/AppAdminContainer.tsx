@@ -153,7 +153,7 @@ const AppAdminContainer = () => {
           >
             {timetables?.data.map((timetable: TTimetable) => (
               <IonSelectOption key={timetable.id} value={timetable.hour}>
-                {timetable.hour}
+                {timetable.hour.split(":")[0]}:00
               </IonSelectOption>
             ))}
           </IonSelect>
@@ -163,7 +163,9 @@ const AppAdminContainer = () => {
       {bookings?.data.map((booking: TBooking) => (
         <IonCard key={booking.id}>
           <IonCardHeader>
-            <IonCardTitle>{booking.mail}</IonCardTitle>
+            <IonCardTitle>
+              {booking.fullname ? booking.fullname : booking.mail}
+            </IonCardTitle>
             <IonCardSubtitle>
               <IonAvatar>
                 <img alt="User's avatar" src={images[booking.id]} />
@@ -175,7 +177,7 @@ const AppAdminContainer = () => {
               <IonLabel>{booking.day.toString()}</IonLabel>
             </IonChip>
             <IonChip>
-              <IonLabel>{booking.hour}</IonLabel>
+              <IonLabel>{booking.hour.split(":")[0]}:00</IonLabel>
             </IonChip>
           </IonCardContent>
         </IonCard>

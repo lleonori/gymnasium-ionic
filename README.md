@@ -37,3 +37,9 @@ For running the application on real device use (Google Pixel 8 Pro):
 ```bash
 npx vite build --mode production && npx cap copy android && npx cap run android --target=37171FDJG007N0
 ```
+
+For running the application on real device use (Iphone 7):
+
+```bash
+npx vite build --mode production && npx cap copy ios && npx cap run ios --target=2a2bf6075987ccc23d490f2b4f93eaad1bf83e99
+```
