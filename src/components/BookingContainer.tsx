@@ -56,12 +56,15 @@ const BookingContainer = () => {
   const [toastMessage, setToastMessage] = useState<string>("");
   // state for Toast message
   const [toastColor, setToastColor] = useState<string>("");
+  // state for selected day
+  const [selectedDay, setSelectedDay] = useState<string>("");
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     clearErrors,
+    setValue,
   } = useForm<TCreateBooking>();
 
   const {
@@ -90,15 +93,26 @@ const BookingContainer = () => {
     error: timetablesError,
     isFetching: isTimetablesFetching,
   } = useQuery({
-    queryFn: () => fetchTimetables(),
-    queryKey: ["timetables"],
+    queryFn: () => fetchTimetables(selectedDay),
+    queryKey: ["timetables", selectedDay],
+    // query enabled only if selectedDay is set
+    enabled: !!selectedDay,
   });
+
+  // when the day changes, fetch the timetables
+  const handleDayChange = (day: string) => {
+    // set the selected day
+    setSelectedDay(day);
+    // update the form value for day
+    setValue("day", new Date(day));
+    clearErrors("day");
+  };
 
   const onSubmit: SubmitHandler<TCreateBooking> = (data) => {
     // Extract the day object from data
     const { day, ...rest } = data;
 
-    // Modify the day in the date object
+    // Modify the day string in the date object
     const updatedDate = new Date(day);
     const fullname = user?.name;
 
@@ -203,9 +217,14 @@ const BookingContainer = () => {
             />
             {/* Day Field */}
             <IonSelect
+              value={selectedDay}
               labelPlacement="floating"
-              {...register("day", { required: true })}
-              onIonChange={() => clearErrors("day")}
+              {...register("day", {
+                required: true,
+              })}
+              onIonChange={(e) => {
+                handleDayChange(e.detail.value);
+              }}
             >
               <div slot="label">
                 Giorno
@@ -213,12 +232,12 @@ const BookingContainer = () => {
               </div>
               {calendar?.today && (
                 <IonSelectOption value={calendar.today}>
-                  {calendar.today.toString()}
+                  {calendar.today}
                 </IonSelectOption>
               )}
               {calendar?.tomorrow && (
                 <IonSelectOption value={calendar.tomorrow}>
-                  {calendar.tomorrow.toString()}
+                  {calendar.tomorrow}
                 </IonSelectOption>
               )}
             </IonSelect>

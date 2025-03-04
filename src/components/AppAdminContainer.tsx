@@ -1,5 +1,6 @@
 import {
   IonAvatar,
+  IonButton,
   IonCard,
   IonCardContent,
   IonCardHeader,
@@ -10,10 +11,15 @@ import {
   IonLabel,
   IonSelect,
   IonSelectOption,
+  IonToast,
   SelectChangeEventDetail,
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
-import { barbellOutline, filterOutline } from "ionicons/icons";
+import {
+  arrowForwardCircleOutline,
+  barbellOutline,
+  filterOutline,
+} from "ionicons/icons";
 import { useEffect, useState } from "react";
 import { getAllBookings } from "../api/booking/bookingApi";
 import { getCalendar } from "../api/calendar/calendarApi";
@@ -23,6 +29,7 @@ import { TTimetable } from "../models/timetable/timetableModel";
 import { formatDate, getRandomImage } from "../utils/functions";
 import Error from "./Error";
 import Spinner from "./Spinner";
+import { Colors } from "../utils/enums";
 
 const AppAdminContainer = () => {
   // get user avatar
@@ -32,15 +39,23 @@ const AppAdminContainer = () => {
     day: formatDate(new Date()),
     hour: "",
   });
+  // state for Toast
+  const [showToast, setShowToast] = useState<boolean>(false);
+  // state for Toast message
+  const [toastMessage, setToastMessage] = useState<string>("");
+  // state for Toast message
+  const [toastColor, setToastColor] = useState<string>("");
 
   const {
     data: bookings,
     isLoading: isBookingsLoading,
     error: bookingsError,
     isFetching: isBookingsFetching,
+    refetch: refetchBookings,
   } = useQuery({
     queryFn: () => getAllBookings(filterBooking),
-    queryKey: ["bookings", filterBooking],
+    queryKey: ["bookings"],
+    enabled: false, // La query non parte automaticamente
   });
 
   const {
@@ -59,8 +74,10 @@ const AppAdminContainer = () => {
     error: timetablesError,
     isFetching: isTimetablesFetching,
   } = useQuery({
-    queryFn: () => fetchTimetables(),
-    queryKey: ["timetables"],
+    queryFn: () => fetchTimetables(filterBooking.day!),
+    queryKey: ["timetables", filterBooking.day],
+    // query enabled only if filterBooking.day is set
+    enabled: !!filterBooking.day,
   });
 
   const onFilterChange =
@@ -72,6 +89,23 @@ const AppAdminContainer = () => {
         [field]: value,
       }));
     };
+
+  const handleFetchBookings = () => {
+    if (filterBooking.day && filterBooking.hour) {
+      refetchBookings();
+    } else {
+      showToastWithMessage(
+        "Seleziona sia il giorno che l'orario prima di cercare.",
+        Colors.WARNING
+      );
+    }
+  };
+
+  const showToastWithMessage = (message: string, color: string) => {
+    setToastColor(color);
+    setToastMessage(message);
+    setShowToast(true);
+  };
 
   useEffect(() => {
     if (bookings) {
@@ -135,12 +169,12 @@ const AppAdminContainer = () => {
           >
             {calendar?.today && (
               <IonSelectOption value={calendar.today}>
-                {calendar.today.toString()}
+                {calendar.today}
               </IonSelectOption>
             )}
             {calendar?.tomorrow && (
               <IonSelectOption value={calendar.tomorrow}>
-                {calendar.tomorrow.toString()}
+                {calendar.tomorrow}
               </IonSelectOption>
             )}
           </IonSelect>
@@ -157,6 +191,14 @@ const AppAdminContainer = () => {
               </IonSelectOption>
             ))}
           </IonSelect>
+          <div className="button-container">
+            <IonButton type="button" size="small" onClick={handleFetchBookings}>
+              <IonIcon
+                slot="icon-only"
+                icon={arrowForwardCircleOutline}
+              ></IonIcon>
+            </IonButton>
+          </div>
         </IonCardContent>
       </IonCard>
       {/* Booking Card */}
@@ -182,6 +224,14 @@ const AppAdminContainer = () => {
           </IonCardContent>
         </IonCard>
       ))}
+      {/* Toasts */}
+      <IonToast
+        isOpen={showToast}
+        message={toastMessage}
+        color={toastColor}
+        duration={2000}
+        onDidDismiss={() => setShowToast(false)}
+      />
     </>
   );
 };
