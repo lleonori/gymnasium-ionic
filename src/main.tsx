@@ -4,7 +4,6 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import { domain, callbackUri, clientId, audience } from "./auth.config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import SessionCache from "./utils/sessionCache";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
@@ -26,8 +25,8 @@ root.render(
         audience: audience,
         redirect_uri: callbackUri,
       }}
-      cache={new SessionCache()}
-      useRefreshTokens={false}
+      cacheLocation="localstorage"
+      useRefreshTokens={true}
     >
       <QueryClientProvider client={queryClient}>
         <App />
