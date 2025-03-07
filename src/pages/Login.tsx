@@ -2,6 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Browser } from "@capacitor/browser";
 import { IonButton, IonContent, IonImg, IonPage } from "@ionic/react";
 import "./Login.css";
+import { Colors } from "../utils/enums";
 
 const Login = () => {
   const { loginWithRedirect } = useAuth0();
@@ -22,7 +23,7 @@ const Login = () => {
       <IonContent className="ion-padding" fullscreen>
         <div className="container">
           <IonImg src="/assets/Gymnasium_completo.svg"></IonImg>
-          <IonButton color={"warning"} shape="round" onClick={login}>
+          <IonButton color={Colors.WARNING} shape="round" onClick={login}>
             Accedi
           </IonButton>
         </div>

@@ -5,24 +5,31 @@ import {
   IonCardSubtitle,
   IonCardTitle,
   IonIcon,
+  IonText,
 } from "@ionic/react";
 import { warningOutline } from "ionicons/icons";
+import { Colors } from "../utils/enums";
 
 const Error = () => {
   return (
     <IonCard>
       <IonCardHeader>
-        <IonCardTitle>
-          Errore <br />
-        </IonCardTitle>
+        <IonCardTitle>Errore</IonCardTitle>
         <IonCardSubtitle>
-          <IonIcon aria-hidden="true" icon={warningOutline} />
+          <IonIcon
+            aria-hidden="true"
+            color={Colors.WARNING}
+            icon={warningOutline}
+          />
         </IonCardSubtitle>
       </IonCardHeader>
       <IonCardContent>
-        C'è qualche problema di connessione? <br />
-        <br />
-        Contattare Gymnasium se il problema sussiste.
+        <IonText>
+          <p>C'è qualche problema di connessione?</p>
+        </IonText>
+        <IonText color={Colors.WARNING}>
+          <p>Contattare Gymnasium se il problema sussiste.</p>
+        </IonText>
       </IonCardContent>
     </IonCard>
   );
