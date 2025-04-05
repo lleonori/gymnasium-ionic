@@ -12,9 +12,9 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { chevronDownCircleOutline, logOutOutline } from "ionicons/icons";
-import { callbackUri } from "../auth.config";
 import AppAdminContainer from "../components/AppAdminContainer";
 import Spinner from "../components/Spinner";
+import { callbackUri } from "../Auth.config";
 
 const AppAdmin = () => {
   const { logout, isLoading } = useAuth0();

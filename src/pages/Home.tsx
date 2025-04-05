@@ -12,7 +12,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { chevronDownCircleOutline, logOutOutline } from "ionicons/icons";
-import { callbackUri } from "../auth.config";
+import { callbackUri } from "../Auth.config";
 import HomeContainer from "../components/HomeContainer";
 
 const Home = () => {
