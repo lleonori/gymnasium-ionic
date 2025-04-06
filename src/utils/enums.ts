@@ -10,7 +10,8 @@ export enum Colors {
   WARNING = "warning",
 }
 
-export enum Roles {
+export enum UserRoles {
+  SYSTEM_ADMINISTRATOR = "systemAdministrator",
   ADMINISTRATOR = "administrator",
   USER = "user",
 }

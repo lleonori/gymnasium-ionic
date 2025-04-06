@@ -23,13 +23,14 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { App as CapApp } from "@capacitor/app";
 import { Browser } from "@capacitor/browser";
 import { useEffect } from "react";
+import { callbackUri } from "./Auth.config";
+import { useAuthInterceptor } from "./hooks/useAuthInterceptor";
+import { TUser } from "./models/user/userModel";
 import AppAdmin from "./pages/AppAdmin";
 import AppUsers from "./pages/AppUsers";
 import Login from "./pages/Login";
 import "./theme/variables.css";
-import { Roles } from "./utils/enums";
-import { useAuthInterceptor } from "./hooks/useAuthInterceptor";
-import { callbackUri } from "./Auth.config";
+import { UserRoles } from "./utils/enums";
 
 setupIonicReact({
   mode: "ios",
@@ -39,6 +40,7 @@ const App = () => {
   useAuthInterceptor();
 
   const { isAuthenticated, user, handleRedirectCallback } = useAuth0();
+  const extendedUser = user as TUser;
 
   useEffect(() => {
     CapApp.addListener("appUrlOpen", async ({ url }) => {
@@ -63,8 +65,10 @@ const App = () => {
             path="/"
             render={() => {
               return isAuthenticated ? (
-                // user_status is a custom property
-                user && user["user_status"].role === Roles.ADMINISTRATOR ? (
+                extendedUser &&
+                extendedUser.app_metadata.roles.includes(
+                  UserRoles.ADMINISTRATOR
+                ) ? (
                   <AppAdmin />
                 ) : (
                   <AppUsers />

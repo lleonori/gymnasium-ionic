@@ -41,9 +41,11 @@ import { Colors } from "../utils/enums";
 import "./BookingContainer.css";
 import Error from "./Error";
 import Spinner from "./Spinner";
+import { TUser } from "../models/user/userModel";
 
 const BookingContainer = () => {
   const { user } = useAuth0();
+  const extendedUser = user as TUser;
   const queryClient = useQueryClient();
 
   // state for ActionSheet
@@ -83,7 +85,7 @@ const BookingContainer = () => {
     error: bookingsError,
     isFetching: isBookingsFetching,
   } = useQuery({
-    queryFn: () => getBookings(user!.email!),
+    queryFn: () => getBookings(extendedUser!.email!),
     queryKey: ["bookings"],
   });
 
@@ -114,7 +116,7 @@ const BookingContainer = () => {
 
     // Modify the day string in the date object
     const updatedDate = new Date(day);
-    const fullname = user?.name;
+    const fullname = extendedUser?.name;
 
     // Construct the new data object with the updated day
     const formatData: TCreateBooking = {
@@ -210,7 +212,7 @@ const BookingContainer = () => {
             {/* Mail Field */}
             <input
               {...register("mail", {
-                value: user!.email,
+                value: extendedUser!.email,
                 required: true,
               })}
               type="hidden"
