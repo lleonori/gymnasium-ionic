@@ -11,10 +11,10 @@ import {
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
 import { barbellOutline } from "ionicons/icons";
-import { getCoachs } from "../api/coach/coachApi";
-import { TCoach } from "../models/coach/coachModel";
-import Error from "./Error";
-import Spinner from "./Spinner";
+import { getCoachs } from "../../api/coach/coachApi";
+import { TCoach } from "../../models/coach/coachModel";
+import Error from "../common/Error";
+import Spinner from "../common/Spinner/Spinner";
 
 const HomeContainer = () => {
   const {

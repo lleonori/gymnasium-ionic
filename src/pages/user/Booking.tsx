@@ -5,7 +5,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import BookingContainer from "../components/BookingContainer";
+import BookingContainer from "../../components/containers/BookingContainer/BookingContainer";
 
 const Booking = () => {
   return (

@@ -8,7 +8,7 @@ import {
   IonText,
 } from "@ionic/react";
 import { warningOutline } from "ionicons/icons";
-import { Colors } from "../utils/enums";
+import { Colors } from "../../utils/enums";
 
 const Error = () => {
   return (

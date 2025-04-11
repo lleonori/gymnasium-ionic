@@ -21,17 +21,17 @@ import {
   filterOutline,
 } from "ionicons/icons";
 import { useEffect, useState } from "react";
-import { getAllBookings } from "../api/booking/bookingApi";
-import { getCalendar } from "../api/calendar/calendarApi";
-import { fetchTimetables } from "../api/timetable/timetableApi";
-import { TBooking, TFilterBooking } from "../models/booking/bookingModel";
-import { TTimetable } from "../models/timetable/timetableModel";
-import { formatDate, getRandomImage } from "../utils/functions";
-import Error from "./Error";
-import Spinner from "./Spinner";
-import { Colors } from "../utils/enums";
+import { getAllBookings } from "../../api/booking/bookingApi";
+import { getCalendar } from "../../api/calendar/calendarApi";
+import { fetchTimetables } from "../../api/timetable/timetableApi";
+import { TBooking, TFilterBooking } from "../../models/booking/bookingModel";
+import { TTimetable } from "../../models/timetable/timetableModel";
+import { formatDate, getRandomImage } from "../../utils/functions";
+import { Colors } from "../../utils/enums";
+import Error from "../common/Error";
+import Spinner from "../common/Spinner/Spinner";
 
-const AppAdminContainer = () => {
+const AdminBookingsContainer = () => {
   // get user avatar
   const [images, setImages] = useState<{ [key: string]: string }>({});
   // booking filter
@@ -236,4 +236,4 @@ const AppAdminContainer = () => {
   );
 };
 
-export default AppAdminContainer;
+export default AdminBookingsContainer;

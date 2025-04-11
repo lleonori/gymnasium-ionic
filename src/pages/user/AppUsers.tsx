@@ -10,7 +10,7 @@ import {
 import { IonReactRouter } from "@ionic/react-router";
 import { barbellOutline, calendarNumberOutline } from "ionicons/icons";
 import { Redirect, Route } from "react-router";
-import Spinner from "../components/Spinner";
+import Spinner from "../../components/common/Spinner/Spinner";
 import Booking from "./Booking";
 import Home from "./Home";
 

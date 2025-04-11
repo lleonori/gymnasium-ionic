@@ -31,17 +31,16 @@ import {
   deleteBooking,
   getBookings,
   saveBooking,
-} from "../api/booking/bookingApi";
-import { getCalendar } from "../api/calendar/calendarApi";
-import { fetchTimetables } from "../api/timetable/timetableApi";
-import { TBooking, TCreateBooking } from "../models/booking/bookingModel";
-import { TResponseError } from "../models/problems/responseErrorModel";
-import { TTimetable } from "../models/timetable/timetableModel";
-import { Colors } from "../utils/enums";
-import "./BookingContainer.css";
-import Error from "./Error";
-import Spinner from "./Spinner";
-import { TUser } from "../models/user/userModel";
+} from "../../../api/booking/bookingApi";
+import { getCalendar } from "../../../api/calendar/calendarApi";
+import { fetchTimetables } from "../../../api/timetable/timetableApi";
+import { TBooking, TCreateBooking } from "../../../models/booking/bookingModel";
+import { TResponseError } from "../../../models/problems/responseErrorModel";
+import { TTimetable } from "../../../models/timetable/timetableModel";
+import { TUser } from "../../../models/user/userModel";
+import { Colors } from "../../../utils/enums";
+import Spinner from "../../common/Spinner/Spinner";
+import Error from "../../common/Error";
 
 const BookingContainer = () => {
   const { user } = useAuth0();
@@ -300,7 +299,7 @@ const BookingContainer = () => {
                   <IonItemOptions>
                     <IonItemOption
                       onClick={() => handleOpenActionSheet(booking.id)}
-                      color="danger"
+                      color={Colors.DANGER}
                     >
                       <IonIcon aria-hidden="true" icon={trashBinOutline} />
                     </IonItemOption>

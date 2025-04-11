@@ -12,11 +12,12 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { chevronDownCircleOutline, logOutOutline } from "ionicons/icons";
-import { callbackUri } from "../Auth.config";
-import HomeContainer from "../components/HomeContainer";
+import { callbackUri } from "../../Auth.config";
+import AppAdminContainer from "../../components/containers/AdminBookingsContainer";
+import Spinner from "../../components/common/Spinner/Spinner";
 
-const Home = () => {
-  const { logout } = useAuth0();
+const AppAdmin = () => {
+  const { logout, isLoading } = useAuth0();
 
   const handleLogout = async () => {
     await logout({
@@ -32,11 +33,13 @@ const Home = () => {
     });
   };
 
+  if (isLoading) return <Spinner />;
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Home</IonTitle>
+          <IonTitle>Prenotazioni</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding" fullscreen>
@@ -52,13 +55,13 @@ const Home = () => {
         </IonFab>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Home</IonTitle>
+            <IonTitle size="large">Prenotazioni</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <HomeContainer />
+        <AppAdminContainer />
       </IonContent>
     </IonPage>
   );
 };
 
-export default Home;
+export default AppAdmin;

@@ -18,7 +18,6 @@ import "@ionic/react/css/padding.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 
-/* Theme variables */
 import { useAuth0 } from "@auth0/auth0-react";
 import { App as CapApp } from "@capacitor/app";
 import { Browser } from "@capacitor/browser";
@@ -26,9 +25,10 @@ import { useEffect } from "react";
 import { callbackUri } from "./Auth.config";
 import { useAuthInterceptor } from "./hooks/useAuthInterceptor";
 import { TUser } from "./models/user/userModel";
-import AppAdmin from "./pages/AppAdmin";
-import AppUsers from "./pages/AppUsers";
-import Login from "./pages/Login";
+import AppAdmin from "./pages/admin/AppAdmin";
+import Login from "./pages/login/Login";
+import AppSystemAdmin from "./pages/systemAdmin/AppSystemAdmin";
+import AppUsers from "./pages/user/AppUsers";
 import "./theme/variables.css";
 import { UserRoles } from "./utils/enums";
 
@@ -64,18 +64,20 @@ const App = () => {
           <Route
             path="/"
             render={() => {
-              return isAuthenticated ? (
-                extendedUser &&
-                extendedUser.app_metadata.roles.includes(
-                  UserRoles.ADMINISTRATOR
-                ) ? (
-                  <AppAdmin />
-                ) : (
-                  <AppUsers />
-                )
-              ) : (
-                <Login />
+              if (!isAuthenticated) return <Login />;
+
+              const roles = extendedUser?.app_metadata?.roles || [];
+
+              const isSystemAdmin = roles.includes(
+                UserRoles.SYSTEM_ADMINISTRATOR
               );
+              const isAdmin = roles.includes(UserRoles.ADMINISTRATOR);
+
+              if (isSystemAdmin) return <AppSystemAdmin />;
+
+              if (isAdmin) return <AppAdmin />;
+
+              return <AppUsers />;
             }}
           />
         </IonRouterOutlet>
