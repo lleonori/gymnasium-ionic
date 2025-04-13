@@ -14,6 +14,7 @@ import {
 import { chevronDownCircleOutline, logOutOutline } from "ionicons/icons";
 import { callbackUri } from "../../Auth.config";
 import HomeContainer from "../../components/containers/HomeContainer";
+import { Colors } from "../../utils/enums";
 
 const Home = () => {
   const { logout } = useAuth0();
@@ -45,7 +46,7 @@ const Home = () => {
             <IonIcon icon={chevronDownCircleOutline}></IonIcon>
           </IonFabButton>
           <IonFabList side="bottom">
-            <IonFabButton onClick={handleLogout} color="primary">
+            <IonFabButton onClick={handleLogout}>
               <IonIcon icon={logOutOutline}></IonIcon>
             </IonFabButton>
           </IonFabList>

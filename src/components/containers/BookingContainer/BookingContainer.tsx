@@ -229,7 +229,9 @@ const BookingContainer = () => {
             >
               <div slot="label">
                 Giorno
-                {errors.day && <IonText color="danger">(Obbligatorio)</IonText>}
+                {errors.day && (
+                  <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
+                )}
               </div>
               {calendar?.today && (
                 <IonSelectOption value={calendar.today}>
@@ -251,7 +253,7 @@ const BookingContainer = () => {
               <div slot="label">
                 Orario
                 {errors.hour && (
-                  <IonText color="danger">(Obbligatorio)</IonText>
+                  <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
                 )}
               </div>
               {timetables?.data.map((timetable: TTimetable) => (

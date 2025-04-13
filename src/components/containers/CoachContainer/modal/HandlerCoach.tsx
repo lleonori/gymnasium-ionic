@@ -15,6 +15,7 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TCoach, TCreateCoach } from "../../../../models/coach/coachModel";
 import { TModalRole } from "../../../../models/modal/modalModel";
+import { Colors } from "../../../../utils/enums";
 
 interface BaseProps {
   dismiss: (data: TCreateCoach | TCoach | null, role: TModalRole) => void;
@@ -71,7 +72,7 @@ const HandlerCoach = (props: HandlerCoachProps) => {
           <IonToolbar>
             <IonButtons slot="start">
               <IonButton
-                color="medium"
+                color={Colors.MEDIUM}
                 onClick={() => props.dismiss(null, "cancel")}
               >
                 Annulla
@@ -101,7 +102,7 @@ const HandlerCoach = (props: HandlerCoachProps) => {
                 <div slot="label">
                   Nome
                   {errors.name && (
-                    <IonText color="danger">(Obbligatorio)</IonText>
+                    <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
                   )}
                 </div>
               </IonInput>
@@ -118,7 +119,7 @@ const HandlerCoach = (props: HandlerCoachProps) => {
                 <div slot="label">
                   Cognome
                   {errors.surname && (
-                    <IonText color="danger">(Obbligatorio)</IonText>
+                    <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
                   )}
                 </div>
               </IonInput>
@@ -138,7 +139,7 @@ const HandlerCoach = (props: HandlerCoachProps) => {
                 <div slot="label">
                   Note
                   {errors.notes && (
-                    <IonText color="danger">(Obbligatorio)</IonText>
+                    <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
                   )}
                 </div>
               </IonTextarea>
@@ -157,7 +158,7 @@ const HandlerCoach = (props: HandlerCoachProps) => {
                 <div slot="label">
                   Immagine
                   {errors.image && (
-                    <IonText color="danger">(Obbligatorio)</IonText>
+                    <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
                   )}
                 </div>
               </IonInput>

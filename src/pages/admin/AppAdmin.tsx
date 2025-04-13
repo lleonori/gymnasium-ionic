@@ -15,6 +15,7 @@ import { chevronDownCircleOutline, logOutOutline } from "ionicons/icons";
 import { callbackUri } from "../../Auth.config";
 import AppAdminContainer from "../../components/containers/AdminBookingsContainer";
 import Spinner from "../../components/common/Spinner/Spinner";
+import { Colors } from "../../utils/enums";
 
 const AppAdmin = () => {
   const { logout, isLoading } = useAuth0();
@@ -48,7 +49,7 @@ const AppAdmin = () => {
             <IonIcon icon={chevronDownCircleOutline}></IonIcon>
           </IonFabButton>
           <IonFabList side="bottom">
-            <IonFabButton onClick={handleLogout} color="primary">
+            <IonFabButton onClick={handleLogout}>
               <IonIcon icon={logOutOutline}></IonIcon>
             </IonFabButton>
           </IonFabList>
