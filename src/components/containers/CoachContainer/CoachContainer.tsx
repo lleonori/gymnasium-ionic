@@ -12,24 +12,52 @@ import {
   IonItemOptions,
   IonItemSliding,
   IonLabel,
+  useIonModal,
 } from "@ionic/react";
-import { useQuery } from "@tanstack/react-query";
+import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 import { createOutline, trashBinOutline } from "ionicons/icons";
-import { getCoachs } from "../../api/coach/coachApi";
-import { TCoach } from "../../models/coach/coachModel";
-import { Colors } from "../../utils/enums";
-import Error from "../common/Error";
-import Spinner from "../common/Spinner/Spinner";
+import { useState } from "react";
+import { TCoach } from "../../../models/coach/coachModel";
+import { TModalRole } from "../../../models/modal/modalModel";
+import { Colors } from "../../../utils/enums";
+import Error from "../../common/Error";
+import Spinner from "../../common/Spinner/Spinner";
+import HandlerCoach from "./modal/HandlerCoach";
 
-const CoachContainer = () => {
-  const {
-    data: coachs,
-    isLoading: isCoachsLoading,
-    error: coachsError,
-  } = useQuery({
-    queryFn: () => getCoachs(),
-    queryKey: ["coachs"],
+interface ICoachProps {
+  coachs: TCoach[] | undefined;
+  isCoachsLoading: boolean;
+  coachsError: Error | null;
+  handleUpdate: (currentCoach: TCoach) => void;
+  handleDelete: (id: number) => void;
+}
+
+const CoachContainer = ({
+  coachs,
+  isCoachsLoading,
+  coachsError,
+  handleUpdate,
+  handleDelete,
+}: ICoachProps) => {
+  const [currentCoach, setCurrentCoach] = useState<TCoach | null>(null);
+
+  const [present, dismissModal] = useIonModal(HandlerCoach, {
+    dismiss: (data: TCoach | null, role: TModalRole) =>
+      dismissModal(data, role),
+    currentCoach: currentCoach,
+    mode: "update",
   });
+
+  const openModal = () => {
+    present({
+      onWillDismiss: (event: CustomEvent<OverlayEventDetail>) => {
+        console.log("event.detail.data", event.detail.data);
+        if ((event.detail.role as TModalRole) === "confirm") {
+          if (event.detail.data as TCoach) handleUpdate(event.detail.data);
+        }
+      },
+    });
+  };
 
   if (isCoachsLoading) {
     return <Spinner />;
@@ -41,10 +69,16 @@ const CoachContainer = () => {
 
   return (
     <>
-      {coachs?.data.map((coach: TCoach) => (
+      {coachs?.map((coach: TCoach) => (
         <IonItemSliding key={coach.id}>
           <IonItemOptions side="start">
-            <IonItemOption color={Colors.WARNING}>
+            <IonItemOption
+              color={Colors.WARNING}
+              onClick={() => {
+                setCurrentCoach(coach);
+                openModal();
+              }}
+            >
               <IonIcon aria-hidden="true" icon={createOutline} />
             </IonItemOption>
           </IonItemOptions>
@@ -76,7 +110,12 @@ const CoachContainer = () => {
             </IonLabel>
           </IonItem>
           <IonItemOptions side="end">
-            <IonItemOption color={Colors.DANGER}>
+            <IonItemOption
+              color={Colors.DANGER}
+              onClick={() => {
+                handleDelete(coach.id);
+              }}
+            >
               <IonIcon aria-hidden="true" icon={trashBinOutline} />
             </IonItemOption>
           </IonItemOptions>

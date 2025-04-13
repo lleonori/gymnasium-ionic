@@ -5,3 +5,5 @@ export type TCoach = {
   notes: string;
   image: string;
 };
+
+export type TCreateCoach = Omit<TCoach, "id">;
