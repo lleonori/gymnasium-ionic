@@ -23,11 +23,11 @@ import {
 import { useEffect, useState } from "react";
 import { getAllBookings } from "../../api/booking/bookingApi";
 import { getCalendar } from "../../api/calendar/calendarApi";
-import { fetchTimetables } from "../../api/timetable/timetableApi";
+import { getTimetablesByDay } from "../../api/timetable/timetableApi";
 import { TBooking, TFilterBooking } from "../../models/booking/bookingModel";
 import { TTimetable } from "../../models/timetable/timetableModel";
-import { formatDate, getRandomImage } from "../../utils/functions";
 import { Colors } from "../../utils/enums";
+import { formatDate, getRandomImage } from "../../utils/functions";
 import Error from "../common/Error";
 import Spinner from "../common/Spinner/Spinner";
 
@@ -74,7 +74,7 @@ const AdminBookingsContainer = () => {
     error: timetablesError,
     isFetching: isTimetablesFetching,
   } = useQuery({
-    queryFn: () => fetchTimetables(filterBooking.day!),
+    queryFn: () => getTimetablesByDay(filterBooking.day!),
     queryKey: ["timetables", filterBooking.day],
     // query enabled only if filterBooking.day is set
     enabled: !!filterBooking.day,

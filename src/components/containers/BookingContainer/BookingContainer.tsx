@@ -33,14 +33,14 @@ import {
   saveBooking,
 } from "../../../api/booking/bookingApi";
 import { getCalendar } from "../../../api/calendar/calendarApi";
-import { fetchTimetables } from "../../../api/timetable/timetableApi";
+import { getTimetablesByDay } from "../../../api/timetable/timetableApi";
 import { TBooking, TCreateBooking } from "../../../models/booking/bookingModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
 import { TTimetable } from "../../../models/timetable/timetableModel";
 import { TUser } from "../../../models/user/userModel";
 import { Colors } from "../../../utils/enums";
-import Spinner from "../../common/Spinner/Spinner";
 import Error from "../../common/Error";
+import Spinner from "../../common/Spinner/Spinner";
 
 const BookingContainer = () => {
   const { user } = useAuth0();
@@ -94,7 +94,7 @@ const BookingContainer = () => {
     error: timetablesError,
     isFetching: isTimetablesFetching,
   } = useQuery({
-    queryFn: () => fetchTimetables(selectedDay),
+    queryFn: () => getTimetablesByDay(selectedDay),
     queryKey: ["timetables", selectedDay],
     // query enabled only if selectedDay is set
     enabled: !!selectedDay,

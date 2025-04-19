@@ -53,7 +53,6 @@ const HandlerCoach = (props: HandlerCoachProps) => {
   });
 
   const onSubmit: SubmitHandler<TCreateCoach | TCoach> = (data) => {
-    debugger;
     if (isUpdateMode) {
       const updatedCoach = {
         ...currentCoach,
