@@ -12,7 +12,7 @@ const API_BASE_URL = "/timetable";
 export const getTimetables = async (): Promise<TResponse<TTimetable>> => {
   try {
     const response = await axiosInstance.get<TResponse<TTimetable>>(
-      `${API_BASE_URL}`,
+      `${API_BASE_URL}?sort=hour.asc`,
     );
     return response.data;
   } catch (error) {
@@ -28,7 +28,7 @@ export const getTimetablesByDay = async (
 ): Promise<TResponse<TTimetable>> => {
   try {
     const response = await axiosInstance.get<TResponse<TTimetable>>(
-      `${API_BASE_URL}/${selectedDay}`,
+      `${API_BASE_URL}/${selectedDay}?sort=hour.asc`,
     );
     return response.data;
   } catch (error) {

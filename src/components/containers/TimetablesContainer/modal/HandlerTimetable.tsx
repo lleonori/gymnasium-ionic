@@ -2,12 +2,12 @@ import {
   IonButton,
   IonButtons,
   IonContent,
-  IonDatetime,
   IonHeader,
   IonItem,
-  IonLabel,
   IonList,
   IonPage,
+  IonSelect,
+  IonSelectOption,
   IonText,
   IonTitle,
   IonToggle,
@@ -21,61 +21,61 @@ import {
 } from "../../../../models/timetable/timetableModel";
 import { Colors } from "../../../../utils/enums";
 
-interface BaseProps {
+interface IBaseProps {
   dismiss: (
     data: TCreateTimetable | TTimetable | null,
     role: TModalRole
   ) => void;
 }
 
-interface CreateTimetableProps extends BaseProps {
+interface ICreateTimetableProps extends IBaseProps {
   mode: "create";
 }
 
-interface UpdateTimetableProps extends BaseProps {
+interface IUpdateTimetableProps extends IBaseProps {
   mode: "update";
   currentTimetable: TTimetable;
 }
 
-type HandlerTimetableProps = CreateTimetableProps | UpdateTimetableProps;
+type HandlerTimetableProps = ICreateTimetableProps | IUpdateTimetableProps;
+
+interface ITimetableForm {
+  hour: string;
+  minute: string;
+  isValidOnWeekend: boolean;
+}
 
 const HandlerTimetable = (props: HandlerTimetableProps) => {
   const isUpdateMode = props.mode === "update";
   const currentTimetable = isUpdateMode ? props.currentTimetable : null;
 
   const {
+    register,
     control,
     handleSubmit,
     formState: { errors },
     clearErrors,
-  } = useForm<TCreateTimetable>({
+  } = useForm<ITimetableForm>({
     defaultValues: isUpdateMode
       ? {
-          hour: currentTimetable?.hour,
+          hour: currentTimetable?.hour.split(":")[0],
+          minute: currentTimetable?.hour.split(":")[1],
           isValidOnWeekend: currentTimetable?.isValidOnWeekend,
         }
       : {},
   });
 
-  const onSubmit: SubmitHandler<TCreateTimetable | TTimetable> = (data) => {
-    const formatTime = (time: string) => {
-      return new Date(time).toISOString().replace(/^.*T(.*)\.\d+Z$/, "$1Z");
+  const onSubmit: SubmitHandler<ITimetableForm> = (data) => {
+    const formattedData: TCreateTimetable | TTimetable = {
+      hour: `${data.hour}:${data.minute}:00Z`,
+      isValidOnWeekend: data.isValidOnWeekend,
     };
 
-    if (isUpdateMode) {
-      const updatedTimetable = {
-        ...currentTimetable,
-        ...data,
-        hour: formatTime(data.hour as string),
-      };
-      props.dismiss(updatedTimetable, "confirm");
-    } else {
-      const formatTimetable = {
-        ...data,
-        hour: formatTime(data.hour as string),
-      };
-      props.dismiss(formatTimetable, "confirm");
-    }
+    const result = isUpdateMode
+      ? { ...currentTimetable, ...formattedData }
+      : formattedData;
+
+    props.dismiss(result, "confirm");
   };
 
   return (
@@ -104,27 +104,52 @@ const HandlerTimetable = (props: HandlerTimetableProps) => {
         <IonContent className="ion-padding">
           <IonList inset={true}>
             <IonItem>
-              <IonLabel>
-                Orario
-                {errors.hour && (
-                  <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
-                )}
-              </IonLabel>
-              <Controller
-                name="hour"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <IonDatetime
-                    presentation="time"
-                    value={field.value}
-                    onIonChange={(e) => {
-                      field.onChange(e.detail.value);
-                      clearErrors("hour");
-                    }}
-                  />
-                )}
-              />
+              <IonSelect
+                labelPlacement="floating"
+                {...register("hour", {
+                  required: true,
+                })}
+                onIonChange={() => {
+                  clearErrors("hour");
+                }}
+              >
+                <div slot="label">
+                  Ora
+                  {errors.hour && (
+                    <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
+                  )}
+                </div>
+                {Array.from({ length: 24 }, (_, i) => {
+                  const hour = i.toString().padStart(2, "0");
+                  return (
+                    <IonSelectOption key={hour} value={hour}>
+                      {hour}
+                    </IonSelectOption>
+                  );
+                })}
+              </IonSelect>
+            </IonItem>
+            <IonItem>
+              <IonSelect
+                labelPlacement="floating"
+                {...register("minute", {
+                  required: true,
+                })}
+                onIonChange={() => {
+                  clearErrors("minute");
+                }}
+              >
+                <div slot="label">
+                  Minuti
+                  {errors.minute && (
+                    <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
+                  )}
+                </div>
+                <IonSelectOption value="00">00</IonSelectOption>
+                <IonSelectOption value="15">15</IonSelectOption>
+                <IonSelectOption value="30">30</IonSelectOption>
+                <IonSelectOption value="45">45</IonSelectOption>
+              </IonSelect>
             </IonItem>
           </IonList>
           <IonList inset={true}>

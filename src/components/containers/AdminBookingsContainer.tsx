@@ -27,7 +27,7 @@ import { getTimetablesByDay } from "../../api/timetable/timetableApi";
 import { TBooking, TFilterBooking } from "../../models/booking/bookingModel";
 import { TTimetable } from "../../models/timetable/timetableModel";
 import { Colors } from "../../utils/enums";
-import { formatDate, getRandomImage } from "../../utils/functions";
+import { formatDate, formatTime, getRandomImage } from "../../utils/functions";
 import Error from "../common/Error";
 import Spinner from "../common/Spinner/Spinner";
 
@@ -187,7 +187,7 @@ const AdminBookingsContainer = () => {
           >
             {timetables?.data.map((timetable: TTimetable) => (
               <IonSelectOption key={timetable.id} value={timetable.hour}>
-                {timetable.hour.split(":")[0]}:00
+                {formatTime(timetable.hour)}
               </IonSelectOption>
             ))}
           </IonSelect>
@@ -219,7 +219,7 @@ const AdminBookingsContainer = () => {
               <IonLabel>{booking.day.toString()}</IonLabel>
             </IonChip>
             <IonChip>
-              <IonLabel>{booking.hour.split(":")[0]}:00</IonLabel>
+              <IonLabel>{formatTime(booking.hour)}</IonLabel>
             </IonChip>
           </IonCardContent>
         </IonCard>

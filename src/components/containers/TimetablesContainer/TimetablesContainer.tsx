@@ -28,6 +28,7 @@ import { Colors } from "../../../utils/enums";
 import Error from "../../common/Error";
 import Spinner from "../../common/Spinner/Spinner";
 import HandlerTimetable from "./modal/HandlerTimetable";
+import { formatTime } from "../../../utils/functions";
 
 interface ITimetablesContainerProps {
   timetables: TTimetable[] | undefined;
@@ -93,10 +94,7 @@ const TimetablesContainer = ({
             <IonLabel>
               <IonCard>
                 <IonCardHeader>
-                  <IonCardTitle>
-                    {/* 11:00:00Z clients needs to see 11:00 */}
-                    {timetable.hour.split(":")[0]}:00
-                  </IonCardTitle>
+                  <IonCardTitle>{formatTime(timetable.hour)}</IonCardTitle>
                   <IonCardSubtitle>
                     <IonIcon aria-hidden="true" icon={timeOutline} />
                   </IonCardSubtitle>

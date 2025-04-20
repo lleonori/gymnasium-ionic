@@ -41,6 +41,7 @@ import { TUser } from "../../../models/user/userModel";
 import { Colors } from "../../../utils/enums";
 import Error from "../../common/Error";
 import Spinner from "../../common/Spinner/Spinner";
+import { formatTime } from "../../../utils/functions";
 
 const BookingContainer = () => {
   const { user } = useAuth0();
@@ -258,8 +259,7 @@ const BookingContainer = () => {
               </div>
               {timetables?.data.map((timetable: TTimetable) => (
                 <IonSelectOption key={timetable.id} value={timetable.hour}>
-                  {/* 11:00:00Z clients needs to see 11:00 */}
-                  {timetable.hour.split(":")[0]}:00
+                  {formatTime(timetable.hour)}
                 </IonSelectOption>
               ))}
             </IonSelect>
