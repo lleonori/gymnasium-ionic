@@ -20,20 +20,23 @@ import {
   barbellOutline,
   filterOutline,
 } from "ionicons/icons";
-import { useEffect, useState } from "react";
-import { getAllBookings } from "../../api/booking/bookingApi";
-import { getCalendar } from "../../api/calendar/calendarApi";
-import { getTimetablesByDay } from "../../api/timetable/timetableApi";
-import { TBooking, TFilterBooking } from "../../models/booking/bookingModel";
-import { TTimetable } from "../../models/timetable/timetableModel";
-import { Colors } from "../../utils/enums";
-import { formatDate, formatTime, getRandomImage } from "../../utils/functions";
-import Error from "../common/Error";
-import Spinner from "../common/Spinner/Spinner";
+import { useEffect, useMemo, useState } from "react";
+import { getAllBookings } from "../../../api/booking/bookingApi";
+import { getCalendar } from "../../../api/calendar/calendarApi";
+import { getTimetablesByDay } from "../../../api/timetable/timetableApi";
+import { TBooking, TFilterBooking } from "../../../models/booking/bookingModel";
+import { TTimetable } from "../../../models/timetable/timetableModel";
+import { Colors } from "../../../utils/enums";
+import {
+  formatDate,
+  formatTime,
+  getRandomImage,
+} from "../../../utils/functions";
+import Error from "../../common/Error";
+import Spinner from "../../common/Spinner/Spinner";
+import "./SearchBookingsContainer.css";
 
-const AdminBookingsContainer = () => {
-  // get user avatar
-  const [images, setImages] = useState<{ [key: string]: string }>({});
+const SearchBookingsContainer = () => {
   // booking filter
   const [filterBooking, setFilterBooking] = useState<TFilterBooking>({
     day: formatDate(new Date()),
@@ -80,15 +83,16 @@ const AdminBookingsContainer = () => {
     enabled: !!filterBooking.day,
   });
 
-  const onFilterChange =
-    (field: keyof TFilterBooking) =>
-    (event: CustomEvent<SelectChangeEventDetail>) => {
-      const value = event.detail.value;
-      setFilterBooking((prev: TFilterBooking) => ({
-        ...prev,
-        [field]: value,
-      }));
-    };
+  const onFilterChange = (
+    event: CustomEvent<SelectChangeEventDetail>,
+    field: keyof TFilterBooking
+  ) => {
+    const value = event.detail.value;
+    setFilterBooking((prev: TFilterBooking) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
   const handleFetchBookings = () => {
     if (filterBooking.day && filterBooking.hour) {
@@ -107,16 +111,14 @@ const AdminBookingsContainer = () => {
     setShowToast(true);
   };
 
-  useEffect(() => {
-    if (bookings) {
-      const imagesMap: { [key: string]: string } = {};
+  const imagesMap = useMemo(() => {
+    if (!bookings) return {};
 
-      bookings.data.forEach((booking: TBooking) => {
-        imagesMap[booking.id] = getRandomImage();
-      });
-
-      setImages(imagesMap);
-    }
+    const map: { [key: string]: string } = {};
+    bookings.data.forEach((booking: TBooking) => {
+      map[booking.id] = getRandomImage();
+    });
+    return map;
   }, [bookings]);
 
   if (isCalendarLoading && isBookingsLoading && isTimetablesLoading) {
@@ -165,7 +167,7 @@ const AdminBookingsContainer = () => {
             value={filterBooking.day}
             label="Giorno"
             labelPlacement="floating"
-            onIonChange={onFilterChange("day")}
+            onIonChange={(e) => onFilterChange(e, "day")}
           >
             {calendar?.today && (
               <IonSelectOption value={calendar.today}>
@@ -183,7 +185,7 @@ const AdminBookingsContainer = () => {
             value={filterBooking.hour} // Use filterBooking state directly
             label="Orario"
             labelPlacement="floating"
-            onIonChange={onFilterChange("hour")} // Update filterBooking on change
+            onIonChange={(e) => onFilterChange(e, "hour")}
           >
             {timetables?.data.map((timetable: TTimetable) => (
               <IonSelectOption key={timetable.id} value={timetable.hour}>
@@ -202,28 +204,39 @@ const AdminBookingsContainer = () => {
         </IonCardContent>
       </IonCard>
       {/* Booking Card */}
-      {bookings?.data.map((booking: TBooking) => (
-        <IonCard key={booking.id}>
+      {bookings?.data.length === 0 ? (
+        <IonCard>
           <IonCardHeader>
-            <IonCardTitle>
-              {booking.fullname ? booking.fullname : booking.mail}
-            </IonCardTitle>
-            <IonCardSubtitle>
-              <IonAvatar>
-                <img alt="User's avatar" src={images[booking.id]} />
-              </IonAvatar>
-            </IonCardSubtitle>
+            <IonCardTitle>Nessuna prenotazione</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <IonChip>
-              <IonLabel>{booking.day.toString()}</IonLabel>
-            </IonChip>
-            <IonChip>
-              <IonLabel>{formatTime(booking.hour)}</IonLabel>
-            </IonChip>
+            <p>Al momento non ci sono prenotazioni.</p>
           </IonCardContent>
         </IonCard>
-      ))}
+      ) : (
+        bookings?.data.map((booking: TBooking) => (
+          <IonCard key={booking.id}>
+            <IonCardHeader>
+              <IonCardTitle>
+                {booking.fullname ? booking.fullname : booking.mail}
+              </IonCardTitle>
+              <IonCardSubtitle>
+                <IonAvatar>
+                  <img alt="User's avatar" src={imagesMap[booking.id]} />
+                </IonAvatar>
+              </IonCardSubtitle>
+            </IonCardHeader>
+            <IonCardContent>
+              <IonChip color={Colors.MEDIUM}>
+                <IonLabel>{formatTime(booking.hour)}</IonLabel>
+              </IonChip>
+              <IonChip color={Colors.PRIMARY}>
+                <IonLabel>{booking.day.toString()}</IonLabel>
+              </IonChip>
+            </IonCardContent>
+          </IonCard>
+        ))
+      )}
       {/* Toasts */}
       <IonToast
         isOpen={showToast}
@@ -236,4 +249,4 @@ const AdminBookingsContainer = () => {
   );
 };
 
-export default AdminBookingsContainer;
+export default SearchBookingsContainer;

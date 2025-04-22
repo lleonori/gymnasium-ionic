@@ -33,7 +33,7 @@ import "./theme/variables.css";
 import { UserRoles } from "./utils/enums";
 
 setupIonicReact({
-  mode: "ios",
+  mode: "md",
 });
 
 const App = () => {

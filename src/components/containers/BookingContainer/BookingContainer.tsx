@@ -1,12 +1,15 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   IonActionSheet,
+  IonAvatar,
+  IonBadge,
   IonButton,
   IonCard,
   IonCardContent,
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
+  IonChip,
   IonIcon,
   IonItem,
   IonItemOption,
@@ -23,9 +26,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   arrowForwardCircleOutline,
   barbellOutline,
+  calendarNumberOutline,
+  timeOutline,
   trashBinOutline,
 } from "ionicons/icons";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
   deleteBooking,
@@ -39,9 +44,9 @@ import { TResponseError } from "../../../models/problems/responseErrorModel";
 import { TTimetable } from "../../../models/timetable/timetableModel";
 import { TUser } from "../../../models/user/userModel";
 import { Colors } from "../../../utils/enums";
+import { formatTime, getRandomImage } from "../../../utils/functions";
 import Error from "../../common/Error";
 import Spinner from "../../common/Spinner/Spinner";
-import { formatTime } from "../../../utils/functions";
 
 const BookingContainer = () => {
   const { user } = useAuth0();
@@ -112,10 +117,11 @@ const BookingContainer = () => {
 
   const onSubmit: SubmitHandler<TCreateBooking> = (data) => {
     // Extract the day object from data
-    const { day, ...rest } = data;
+    const { day, hour, ...rest } = data;
 
     // Modify the day string in the date object
     const updatedDate = new Date(day);
+    const updatedHour = `${hour}Z`;
     const fullname = extendedUser?.name;
 
     // Construct the new data object with the updated day
@@ -123,6 +129,7 @@ const BookingContainer = () => {
       ...rest,
       fullname: fullname,
       day: updatedDate,
+      hour: updatedHour,
     };
 
     saveBookingMutate(formatData);
@@ -171,6 +178,16 @@ const BookingContainer = () => {
     setToastMessage(message);
     setShowToast(true);
   };
+
+  const imagesMap = useMemo(() => {
+    if (!bookings) return {};
+
+    const map: { [key: string]: string } = {};
+    bookings.data.forEach((booking: TBooking) => {
+      map[booking.id] = getRandomImage();
+    });
+    return map;
+  }, [bookings]);
 
   if (isCalendarLoading || isBookingsLoading || isTimetablesLoading) {
     return <Spinner />;
@@ -286,16 +303,24 @@ const BookingContainer = () => {
               {bookings.data.map((booking: TBooking) => (
                 <IonItemSliding key={booking.id}>
                   <IonItem>
+                    <IonAvatar>
+                      <img alt="User's avatar" src={imagesMap[booking.id]} />
+                    </IonAvatar>
                     <IonLabel>
-                      <IonText>
-                        {booking.fullname ? booking.fullname : booking.mail}
+                      <IonText className="ion-margin-start">
+                        {booking.fullname ?? booking.mail}
                       </IonText>
-                      <IonText>
-                        <p>
-                          {booking.day.toString()} {booking.hour.split(":")[0]}
-                          :00
-                        </p>
-                      </IonText>
+                      <div className="ion-margin-start">
+                        <IonChip color={Colors.MEDIUM}>
+                          {formatTime(booking.hour)}
+                        </IonChip>
+                        <IonChip
+                          className="ion-margin-start"
+                          color={Colors.PRIMARY}
+                        >
+                          {booking.day.toString()}
+                        </IonChip>
+                      </div>
                     </IonLabel>
                   </IonItem>
                   <IonItemOptions>
@@ -328,13 +353,14 @@ const BookingContainer = () => {
             },
           },
           {
-            text: "Cancella",
+            text: "Annulla",
             role: "cancel",
             data: {
               action: "cancel",
             },
           },
         ]}
+        onDidDismiss={() => setIsOpen(false)}
       ></IonActionSheet>
 
       {/* Toasts */}

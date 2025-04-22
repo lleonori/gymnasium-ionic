@@ -124,12 +124,6 @@ const Coachs = () => {
             <IonChip color={Colors.PRIMARY} onClick={() => openModal()}>
               Aggiungi Coach<IonIcon icon={barbellOutline}></IonIcon>
             </IonChip>
-            {/* <IonIcon
-              size="large"
-              slot="end"
-              icon={addCircleOutline}
-              onClick={() => openModal()}
-            ></IonIcon> */}
           </IonToolbar>
         </IonHeader>
         <CoachContainer
