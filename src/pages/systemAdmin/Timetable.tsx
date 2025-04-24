@@ -13,6 +13,7 @@ import {
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { timeOutline } from "ionicons/icons";
 import { useState } from "react";
 import {
   deleteTimetable,
@@ -20,8 +21,8 @@ import {
   saveTimetable,
   updateTimetable,
 } from "../../api/timetable/timetableApi";
-import HandlerTimetable from "../../components/containers/TimetablesContainer/modal/HandlerTimetable";
-import TimetablesContainer from "../../components/containers/TimetablesContainer/TimetablesContainer";
+import HandlerTimetable from "../../components/containers/TimetableContainer/modal/HandlerTimetable";
+import TimetableContainer from "../../components/containers/TimetableContainer/TimetableContainer";
 import { TModalRole } from "../../models/modal/modalModel";
 import { TResponseError } from "../../models/problems/responseErrorModel";
 import {
@@ -29,9 +30,8 @@ import {
   TTimetable,
 } from "../../models/timetable/timetableModel";
 import { Colors } from "../../utils/enums";
-import { timeOutline } from "ionicons/icons";
 
-const Timetables = () => {
+const Timetable = () => {
   const queryClient = useQueryClient();
 
   // state for Toast
@@ -130,7 +130,7 @@ const Timetables = () => {
             </IonChip>
           </IonToolbar>
         </IonHeader>
-        <TimetablesContainer
+        <TimetableContainer
           timetables={timetables?.data}
           isTimetablesLoading={isTimetablesLoading}
           timetablesError={timetablesError}
@@ -150,4 +150,4 @@ const Timetables = () => {
   );
 };
 
-export default Timetables;
+export default Timetable;

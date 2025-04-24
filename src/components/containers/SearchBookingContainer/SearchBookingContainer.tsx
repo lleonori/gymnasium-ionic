@@ -20,7 +20,7 @@ import {
   barbellOutline,
   filterOutline,
 } from "ionicons/icons";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { getAllBookings } from "../../../api/booking/bookingApi";
 import { getCalendar } from "../../../api/calendar/calendarApi";
 import { getTimetablesByDay } from "../../../api/timetable/timetableApi";
@@ -34,9 +34,9 @@ import {
 } from "../../../utils/functions";
 import Error from "../../common/Error";
 import Spinner from "../../common/Spinner/Spinner";
-import "./SearchBookingsContainer.css";
+import "./SearchBookingContainer.css";
 
-const SearchBookingsContainer = () => {
+const SearchBookingContainer = () => {
   // booking filter
   const [filterBooking, setFilterBooking] = useState<TFilterBooking>({
     day: formatDate(new Date()),
@@ -249,4 +249,4 @@ const SearchBookingsContainer = () => {
   );
 };
 
-export default SearchBookingsContainer;
+export default SearchBookingContainer;

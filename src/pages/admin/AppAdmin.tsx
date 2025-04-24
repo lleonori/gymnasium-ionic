@@ -13,7 +13,7 @@ import { logOutOutline, searchOutline } from "ionicons/icons";
 import { Redirect, Route } from "react-router";
 import { callbackUri } from "../../Auth.config";
 import Spinner from "../../components/common/Spinner/Spinner";
-import SearchBookings from "./SearchBookings";
+import SearchBooking from "./SearchBooking";
 
 const AppAdmin = () => {
   const { logout, isLoading } = useAuth0();
@@ -38,12 +38,12 @@ const AppAdmin = () => {
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Redirect exact path="/" to="/searchBookings" />
-          <Route path="/searchBookings" component={SearchBookings} />
+          <Redirect exact path="/" to="/SearchBooking" />
+          <Route path="/SearchBooking" component={SearchBooking} />
         </IonRouterOutlet>
 
         <IonTabBar slot="bottom">
-          <IonTabButton tab="searchBookings" href="/searchBookings">
+          <IonTabButton tab="SearchBooking" href="/SearchBooking">
             <IonIcon icon={searchOutline} />
             <IonLabel>Prenotazioni</IonLabel>
           </IonTabButton>

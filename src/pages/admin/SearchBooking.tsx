@@ -5,9 +5,9 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import SearchBookingsContainer from "../../components/containers/SearchBookingsContainer/SearchBookingsContainer";
+import SearchBookingContainer from "../../components/containers/SearchBookingContainer/SearchBookingContainer";
 
-const AppAdmin = () => {
+const SearchBooking = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -21,10 +21,10 @@ const AppAdmin = () => {
             <IonTitle size="large">Prenotazioni</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <SearchBookingsContainer />
+        <SearchBookingContainer />
       </IonContent>
     </IonPage>
   );
 };
 
-export default AppAdmin;
+export default SearchBooking;

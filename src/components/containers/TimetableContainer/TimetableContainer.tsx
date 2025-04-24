@@ -38,7 +38,7 @@ interface ITimetablesContainerProps {
   handleDelete: (id: number) => void;
 }
 
-const TimetablesContainer = ({
+const TimetableContainer = ({
   timetables,
   isTimetablesLoading,
   timetablesError,
@@ -133,4 +133,4 @@ const TimetablesContainer = ({
   );
 };
 
-export default TimetablesContainer;
+export default TimetableContainer;

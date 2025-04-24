@@ -28,7 +28,7 @@ import { TModalRole } from "../../models/modal/modalModel";
 import { TResponseError } from "../../models/problems/responseErrorModel";
 import { Colors } from "../../utils/enums";
 
-const Coachs = () => {
+const Coach = () => {
   const queryClient = useQueryClient();
 
   // state for Toast
@@ -146,4 +146,4 @@ const Coachs = () => {
   );
 };
 
-export default Coachs;
+export default Coach;

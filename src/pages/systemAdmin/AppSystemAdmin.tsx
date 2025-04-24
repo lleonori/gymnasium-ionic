@@ -9,12 +9,18 @@ import {
   IonTabs,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { barbellOutline, logOutOutline, timeOutline } from "ionicons/icons";
+import {
+  barbellOutline,
+  briefcaseOutline,
+  logOutOutline,
+  timeOutline,
+} from "ionicons/icons";
 import { Redirect, Route } from "react-router";
 import { callbackUri } from "../../Auth.config";
 import Spinner from "../../components/common/Spinner/Spinner";
-import Coachs from "./Coachs";
-import Timetables from "./Timetables";
+import AssignTimetable from "./AssignTimetable";
+import Coach from "./Coach";
+import Timetable from "./Timetable";
 
 const AppSystemAdmin = () => {
   const { isLoading, logout } = useAuth0();
@@ -40,8 +46,9 @@ const AppSystemAdmin = () => {
       <IonTabs>
         <IonRouterOutlet>
           <Redirect exact path="/" to="/coachs" />
-          <Route path="/coachs" component={Coachs} />
-          <Route path="/timetables" component={Timetables} />
+          <Route path="/coachs" component={Coach} />
+          <Route path="/timetables" component={Timetable} />
+          <Route path="/assign-timetables" component={AssignTimetable} />
         </IonRouterOutlet>
 
         <IonTabBar slot="bottom">
@@ -49,12 +56,14 @@ const AppSystemAdmin = () => {
             <IonIcon icon={barbellOutline} />
             <IonLabel>Coachs</IonLabel>
           </IonTabButton>
-
           <IonTabButton tab="timetables" href="/timetables">
             <IonIcon icon={timeOutline} />
             <IonLabel>Orari</IonLabel>
           </IonTabButton>
-
+          <IonTabButton tab="assign-timetables" href="/assign-timetables">
+            <IonIcon icon={briefcaseOutline} />
+            <IonLabel>Assegna Orari</IonLabel>
+          </IonTabButton>
           <IonTabButton tab="logout" onClick={handleLogout}>
             <IonIcon icon={logOutOutline} />
             <IonLabel>Logout</IonLabel>
