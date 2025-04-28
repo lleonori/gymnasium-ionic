@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "^7.0.0",
-    "@tanstack/eslint-plugin-query": "5.67.2",
+    "@tanstack/eslint-plugin-query": "5.74.7",
     "@types/react": "18.3.1",
     "@types/react-dom": "18.3.3",
     "@types/react-router": "^5.1.20",
