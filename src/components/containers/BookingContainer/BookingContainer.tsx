@@ -2,7 +2,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import {
   IonActionSheet,
   IonAvatar,
-  IonBadge,
   IonButton,
   IonCard,
   IonCardContent,
@@ -26,8 +25,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   arrowForwardCircleOutline,
   barbellOutline,
-  calendarNumberOutline,
-  timeOutline,
   trashBinOutline,
 } from "ionicons/icons";
 import { useMemo, useState } from "react";
@@ -56,7 +53,7 @@ const BookingContainer = () => {
   // state for ActionSheet
   const [isOpen, setIsOpen] = useState<boolean>(false);
   // state for selected Booking
-  const [currentBookingId, setCurrentBookingId] = useState<number | null>(null);
+  const [currentBooking, setCurrentBooking] = useState<TBooking | null>(null);
   // state for Toast
   const [showToast, setShowToast] = useState<boolean>(false);
   // state for Toast message
@@ -148,28 +145,23 @@ const BookingContainer = () => {
     },
   });
 
-  const handleOpenActionSheet = (bookingId: number) => {
-    setCurrentBookingId(bookingId);
+  const handleOpenActionSheet = () => {
     setIsOpen(true);
   };
 
-  const handleDeleteActionSheet = () => {
-    deleteBookingMutate();
-  };
-
   const { mutate: deleteBookingMutate } = useMutation({
-    mutationFn: () => deleteBooking(currentBookingId!),
+    mutationFn: () => deleteBooking(currentBooking!.id),
     onSuccess: () => {
       setIsOpen(false);
-      setCurrentBookingId(null);
       // Invalidate and refetch bookings
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
       queryClient.invalidateQueries({ queryKey: ["calendar"] });
       showToastWithMessage("Lezione eliminata", Colors.SUCCESS);
     },
-    onError: () => {
+    onError: (error: TResponseError) => {
+      setCurrentBooking(null);
       setIsOpen(false);
-      setCurrentBookingId(null);
+      showToastWithMessage(error.message, Colors.DANGER);
     },
   });
 
@@ -325,7 +317,10 @@ const BookingContainer = () => {
                   </IonItem>
                   <IonItemOptions>
                     <IonItemOption
-                      onClick={() => handleOpenActionSheet(booking.id)}
+                      onClick={() => {
+                        handleOpenActionSheet();
+                        setCurrentBooking(booking);
+                      }}
                       color={Colors.DANGER}
                     >
                       <IonIcon aria-hidden="true" icon={trashBinOutline} />
@@ -349,7 +344,7 @@ const BookingContainer = () => {
               action: "delete",
             },
             handler: () => {
-              handleDeleteActionSheet();
+              deleteBookingMutate();
             },
           },
           {

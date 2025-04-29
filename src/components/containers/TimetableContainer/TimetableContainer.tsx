@@ -1,45 +1,41 @@
 import {
+  IonActionSheet,
   IonCard,
-  IonCardContent,
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
-  IonChip,
   IonIcon,
   IonItem,
   IonItemOption,
   IonItemOptions,
   IonItemSliding,
   IonLabel,
+  IonToast,
   useIonModal,
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
-import {
-  checkmarkOutline,
-  closeOutline,
-  createOutline,
-  timeOutline,
-  trashBinOutline,
-} from "ionicons/icons";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createOutline, timeOutline, trashBinOutline } from "ionicons/icons";
 import { useState } from "react";
+import {
+  deleteTimetable,
+  getTimetables,
+  updateTimetable,
+} from "../../../api/timetable/timetableApi";
 import { TModalRole } from "../../../models/modal/modalModel";
+import { TResponseError } from "../../../models/problems/responseErrorModel";
 import { TTimetable } from "../../../models/timetable/timetableModel";
 import { Colors } from "../../../utils/enums";
 import { formatTime } from "../../../utils/functions";
-import HandlerTimetable from "./modal/HandlerTimetable";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  getTimetables,
-  updateTimetable,
-  deleteTimetable,
-} from "../../../api/timetable/timetableApi";
-import { TResponseError } from "../../../models/problems/responseErrorModel";
-import Spinner from "../../common/Spinner/Spinner";
 import Error from "../../common/Error";
+import Spinner from "../../common/Spinner/Spinner";
+import HandlerTimetable from "./modal/HandlerTimetable";
 
 const TimetableContainer = () => {
   const queryClient = useQueryClient();
 
+  // state for ActionSheet
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   // state for Toast
   const [showToast, setShowToast] = useState<boolean>(false);
   // state for Toast message
@@ -92,14 +88,20 @@ const TimetableContainer = () => {
     },
   });
 
+  const handleOpenActionSheet = () => {
+    setIsOpen(true);
+  };
+
   const { mutate: deleteTimetableMutate } = useMutation({
-    mutationFn: (id: number) => deleteTimetable(id),
+    mutationFn: () => deleteTimetable(currentTimetable!.id),
     onSuccess: () => {
       // Invalidate and refetch timetables
       queryClient.invalidateQueries({ queryKey: ["timetables"] });
       showToastWithMessage("Orario eliminato", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {
+      setCurrentTimetable(null);
+      setIsOpen(false);
       showToastWithMessage(error.message, Colors.DANGER);
     },
   });
@@ -149,7 +151,8 @@ const TimetableContainer = () => {
             <IonItemOption
               color={Colors.DANGER}
               onClick={() => {
-                deleteTimetableMutate(timetable.id);
+                handleOpenActionSheet();
+                setCurrentTimetable(timetable);
               }}
             >
               <IonIcon aria-hidden="true" icon={trashBinOutline} />
@@ -157,6 +160,40 @@ const TimetableContainer = () => {
           </IonItemOptions>
         </IonItemSliding>
       ))}
+      {/* Action Sheet */}
+      <IonActionSheet
+        isOpen={isOpen}
+        header="Azioni"
+        buttons={[
+          {
+            text: "Elimina",
+            role: "destructive",
+            data: {
+              action: "delete",
+            },
+            handler: () => {
+              deleteTimetableMutate();
+            },
+          },
+          {
+            text: "Annulla",
+            role: "cancel",
+            data: {
+              action: "cancel",
+            },
+          },
+        ]}
+        onDidDismiss={() => setIsOpen(false)}
+      ></IonActionSheet>
+
+      {/* Toasts */}
+      <IonToast
+        isOpen={showToast}
+        message={toastMessage}
+        color={toastColor}
+        duration={2000}
+        onDidDismiss={() => setShowToast(false)}
+      />
     </>
   );
 };

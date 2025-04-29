@@ -1,4 +1,5 @@
 import {
+  IonActionSheet,
   IonAvatar,
   IonCard,
   IonCardContent,
@@ -16,26 +17,27 @@ import {
   useIonModal,
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createOutline, trashBinOutline } from "ionicons/icons";
 import { useState } from "react";
-import { TCoach, TCreateCoach } from "../../../models/coach/coachModel";
-import { TModalRole } from "../../../models/modal/modalModel";
-import { Colors } from "../../../utils/enums";
-import HandlerCoach from "./modal/HandlerCoach";
-import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import {
   deleteCoach,
   getCoachs,
-  saveCoach,
   updateCoach,
 } from "../../../api/coach/coachApi";
-import Spinner from "../../common/Spinner/Spinner";
-import Error from "../../common/Error";
+import { TCoach } from "../../../models/coach/coachModel";
+import { TModalRole } from "../../../models/modal/modalModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
+import { Colors } from "../../../utils/enums";
+import Error from "../../common/Error";
+import Spinner from "../../common/Spinner/Spinner";
+import HandlerCoach from "./modal/HandlerCoach";
 
 const CoachContainer = () => {
   const queryClient = useQueryClient();
 
+  // state for ActionSheet
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   // state for Toast
   const [showToast, setShowToast] = useState<boolean>(false);
   // state for Toast message
@@ -84,14 +86,20 @@ const CoachContainer = () => {
     },
   });
 
+  const handleOpenActionSheet = () => {
+    setIsOpen(true);
+  };
+
   const { mutate: deleteCoachMutate } = useMutation({
-    mutationFn: (id: number) => deleteCoach(id),
+    mutationFn: () => deleteCoach(currentCoach!.id),
     onSuccess: () => {
       // Invalidate and refetch coachs
       queryClient.invalidateQueries({ queryKey: ["coachs"] });
       showToastWithMessage("Coach eliminato", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {
+      setCurrentCoach(null);
+      setIsOpen(false);
       showToastWithMessage(error.message, Colors.DANGER);
     },
   });
@@ -156,7 +164,8 @@ const CoachContainer = () => {
             <IonItemOption
               color={Colors.DANGER}
               onClick={() => {
-                deleteCoachMutate(coach.id);
+                handleOpenActionSheet();
+                setCurrentCoach(coach);
               }}
             >
               <IonIcon aria-hidden="true" icon={trashBinOutline} />
@@ -164,6 +173,32 @@ const CoachContainer = () => {
           </IonItemOptions>
         </IonItemSliding>
       ))}
+      {/* Action Sheet */}
+      <IonActionSheet
+        isOpen={isOpen}
+        header="Azioni"
+        buttons={[
+          {
+            text: "Elimina",
+            role: "destructive",
+            data: {
+              action: "delete",
+            },
+            handler: () => {
+              deleteCoachMutate();
+            },
+          },
+          {
+            text: "Annulla",
+            role: "cancel",
+            data: {
+              action: "cancel",
+            },
+          },
+        ]}
+        onDidDismiss={() => setIsOpen(false)}
+      ></IonActionSheet>
+
       {/* Toasts */}
       <IonToast
         isOpen={showToast}
