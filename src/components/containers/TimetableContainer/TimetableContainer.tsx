@@ -25,29 +25,40 @@ import { useState } from "react";
 import { TModalRole } from "../../../models/modal/modalModel";
 import { TTimetable } from "../../../models/timetable/timetableModel";
 import { Colors } from "../../../utils/enums";
-import Error from "../../common/Error";
-import Spinner from "../../common/Spinner/Spinner";
-import HandlerTimetable from "./modal/HandlerTimetable";
 import { formatTime } from "../../../utils/functions";
+import HandlerTimetable from "./modal/HandlerTimetable";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  getTimetables,
+  updateTimetable,
+  deleteTimetable,
+} from "../../../api/timetable/timetableApi";
+import { TResponseError } from "../../../models/problems/responseErrorModel";
+import Spinner from "../../common/Spinner/Spinner";
+import Error from "../../common/Error";
 
-interface ITimetablesContainerProps {
-  timetables: TTimetable[] | undefined;
-  isTimetablesLoading: boolean;
-  timetablesError: Error | null;
-  handleUpdate: (currentTimetable: TTimetable) => void;
-  handleDelete: (id: number) => void;
-}
+const TimetableContainer = () => {
+  const queryClient = useQueryClient();
 
-const TimetableContainer = ({
-  timetables,
-  isTimetablesLoading,
-  timetablesError,
-  handleUpdate,
-  handleDelete,
-}: ITimetablesContainerProps) => {
+  // state for Toast
+  const [showToast, setShowToast] = useState<boolean>(false);
+  // state for Toast message
+  const [toastMessage, setToastMessage] = useState<string>("");
+  // state for Toast message
+  const [toastColor, setToastColor] = useState<string>("");
+  // state for currentTimetable
   const [currentTimetable, setCurrentTimetable] = useState<TTimetable | null>(
     null
   );
+
+  const {
+    data: timetables,
+    isLoading: isTimetablesLoading,
+    error: timetablesError,
+  } = useQuery({
+    queryFn: () => getTimetables(),
+    queryKey: ["timetables"],
+  });
 
   const [present, dismissModal] = useIonModal(HandlerTimetable, {
     dismiss: (data: TTimetable | null, role: TModalRole) =>
@@ -61,10 +72,42 @@ const TimetableContainer = ({
       onWillDismiss: (event: CustomEvent<OverlayEventDetail>) => {
         console.log("event.detail.data", event.detail.data);
         if ((event.detail.role as TModalRole) === "confirm") {
-          if (event.detail.data as TTimetable) handleUpdate(event.detail.data);
+          if (event.detail.data as TTimetable)
+            updateTimetableMutate(event.detail.data);
         }
       },
     });
+  };
+
+  const { mutate: updateTimetableMutate } = useMutation({
+    mutationFn: (currentTimetable: TTimetable) =>
+      updateTimetable(currentTimetable),
+    onSuccess: () => {
+      // Invalidate and refetch timetables
+      queryClient.invalidateQueries({ queryKey: ["timetables"] });
+      showToastWithMessage("Orario aggiornato", Colors.SUCCESS);
+    },
+    onError: (error: TResponseError) => {
+      showToastWithMessage(error.message, Colors.DANGER);
+    },
+  });
+
+  const { mutate: deleteTimetableMutate } = useMutation({
+    mutationFn: (id: number) => deleteTimetable(id),
+    onSuccess: () => {
+      // Invalidate and refetch timetables
+      queryClient.invalidateQueries({ queryKey: ["timetables"] });
+      showToastWithMessage("Orario eliminato", Colors.SUCCESS);
+    },
+    onError: (error: TResponseError) => {
+      showToastWithMessage(error.message, Colors.DANGER);
+    },
+  });
+
+  const showToastWithMessage = (message: string, color: string) => {
+    setToastColor(color);
+    setToastMessage(message);
+    setShowToast(true);
   };
 
   if (isTimetablesLoading) {
@@ -77,7 +120,7 @@ const TimetableContainer = ({
 
   return (
     <>
-      {timetables?.map((timetable: TTimetable) => (
+      {timetables?.data?.map((timetable: TTimetable) => (
         <IonItemSliding key={timetable.id}>
           <IonItemOptions side="start">
             <IonItemOption
@@ -99,21 +142,6 @@ const TimetableContainer = ({
                     <IonIcon aria-hidden="true" icon={timeOutline} />
                   </IonCardSubtitle>
                 </IonCardHeader>
-                <IonCardContent>
-                  <IonChip color={Colors.MEDIUM}>
-                    {timetable.isValidOnWeekend ? (
-                      <>
-                        Valido nel Weekend
-                        <IonIcon icon={checkmarkOutline}></IonIcon>
-                      </>
-                    ) : (
-                      <>
-                        Non valido nel Weekend
-                        <IonIcon icon={closeOutline}></IonIcon>
-                      </>
-                    )}
-                  </IonChip>
-                </IonCardContent>
               </IonCard>
             </IonLabel>
           </IonItem>
@@ -121,7 +149,7 @@ const TimetableContainer = ({
             <IonItemOption
               color={Colors.DANGER}
               onClick={() => {
-                handleDelete(timetable.id);
+                deleteTimetableMutate(timetable.id);
               }}
             >
               <IonIcon aria-hidden="true" icon={trashBinOutline} />

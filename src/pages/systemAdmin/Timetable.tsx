@@ -12,23 +12,15 @@ import {
   useIonModal,
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { timeOutline } from "ionicons/icons";
 import { useState } from "react";
-import {
-  deleteTimetable,
-  getTimetables,
-  saveTimetable,
-  updateTimetable,
-} from "../../api/timetable/timetableApi";
+import { saveTimetable } from "../../api/timetable/timetableApi";
 import HandlerTimetable from "../../components/containers/TimetableContainer/modal/HandlerTimetable";
 import TimetableContainer from "../../components/containers/TimetableContainer/TimetableContainer";
 import { TModalRole } from "../../models/modal/modalModel";
 import { TResponseError } from "../../models/problems/responseErrorModel";
-import {
-  TCreateTimetable,
-  TTimetable,
-} from "../../models/timetable/timetableModel";
+import { TCreateTimetable } from "../../models/timetable/timetableModel";
 import { Colors } from "../../utils/enums";
 
 const Timetable = () => {
@@ -40,15 +32,6 @@ const Timetable = () => {
   const [toastMessage, setToastMessage] = useState<string>("");
   // state for Toast message
   const [toastColor, setToastColor] = useState<string>("");
-
-  const {
-    data: timetables,
-    isLoading: isTimetablesLoading,
-    error: timetablesError,
-  } = useQuery({
-    queryFn: () => getTimetables(),
-    queryKey: ["timetables"],
-  });
 
   const [present, dismissModal] = useIonModal(HandlerTimetable, {
     dismiss: (data: TCreateTimetable | null, role: TModalRole) =>
@@ -80,31 +63,6 @@ const Timetable = () => {
     },
   });
 
-  const { mutate: updateTimetableMutate } = useMutation({
-    mutationFn: (currentTimetable: TTimetable) =>
-      updateTimetable(currentTimetable),
-    onSuccess: () => {
-      // Invalidate and refetch timetables
-      queryClient.invalidateQueries({ queryKey: ["timetables"] });
-      showToastWithMessage("Orario aggiornato", Colors.SUCCESS);
-    },
-    onError: (error: TResponseError) => {
-      showToastWithMessage(error.message, Colors.DANGER);
-    },
-  });
-
-  const { mutate: deleteTimetableMutate } = useMutation({
-    mutationFn: (id: number) => deleteTimetable(id),
-    onSuccess: () => {
-      // Invalidate and refetch timetables
-      queryClient.invalidateQueries({ queryKey: ["timetables"] });
-      showToastWithMessage("Orario eliminato", Colors.SUCCESS);
-    },
-    onError: (error: TResponseError) => {
-      showToastWithMessage(error.message, Colors.DANGER);
-    },
-  });
-
   const showToastWithMessage = (message: string, color: string) => {
     setToastColor(color);
     setToastMessage(message);
@@ -130,13 +88,7 @@ const Timetable = () => {
             </IonChip>
           </IonToolbar>
         </IonHeader>
-        <TimetableContainer
-          timetables={timetables?.data}
-          isTimetablesLoading={isTimetablesLoading}
-          timetablesError={timetablesError}
-          handleUpdate={updateTimetableMutate}
-          handleDelete={deleteTimetableMutate}
-        />
+        <TimetableContainer />
       </IonContent>
       {/* Toasts */}
       <IonToast

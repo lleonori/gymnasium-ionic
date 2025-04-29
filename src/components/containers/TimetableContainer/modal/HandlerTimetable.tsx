@@ -42,7 +42,6 @@ type HandlerTimetableProps = ICreateTimetableProps | IUpdateTimetableProps;
 interface ITimetableForm {
   hour: string;
   minute: string;
-  isValidOnWeekend: boolean;
 }
 
 const HandlerTimetable = (props: HandlerTimetableProps) => {
@@ -60,7 +59,6 @@ const HandlerTimetable = (props: HandlerTimetableProps) => {
       ? {
           hour: currentTimetable?.hour.split(":")[0],
           minute: currentTimetable?.hour.split(":")[1],
-          isValidOnWeekend: currentTimetable?.isValidOnWeekend,
         }
       : {},
   });
@@ -68,7 +66,6 @@ const HandlerTimetable = (props: HandlerTimetableProps) => {
   const onSubmit: SubmitHandler<ITimetableForm> = (data) => {
     const formattedData: TCreateTimetable | TTimetable = {
       hour: `${data.hour}:${data.minute}:00Z`,
-      isValidOnWeekend: data.isValidOnWeekend,
     };
 
     const result = isUpdateMode
@@ -150,24 +147,6 @@ const HandlerTimetable = (props: HandlerTimetableProps) => {
                 <IonSelectOption value="30">30</IonSelectOption>
                 <IonSelectOption value="45">45</IonSelectOption>
               </IonSelect>
-            </IonItem>
-          </IonList>
-          <IonList inset={true}>
-            <IonItem>
-              <Controller
-                name="isValidOnWeekend"
-                control={control}
-                defaultValue={false}
-                render={({ field }) => (
-                  <IonToggle
-                    labelPlacement="start"
-                    checked={field.value}
-                    onIonChange={(e) => field.onChange(e.detail.checked)}
-                  >
-                    Valido nel weekend
-                  </IonToggle>
-                )}
-              />
             </IonItem>
           </IonList>
         </IonContent>

@@ -12,21 +12,16 @@ import {
   useIonModal,
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { barbellOutline } from "ionicons/icons";
-import { useState } from "react";
-import {
-  deleteCoach,
-  getCoachs,
-  saveCoach,
-  updateCoach,
-} from "../../api/coach/coachApi";
 import CoachContainer from "../../components/containers/CoachContainer/CoachContainer";
 import HandlerCoach from "../../components/containers/CoachContainer/modal/HandlerCoach";
-import { TCoach, TCreateCoach } from "../../models/coach/coachModel";
+import { TCreateCoach } from "../../models/coach/coachModel";
 import { TModalRole } from "../../models/modal/modalModel";
-import { TResponseError } from "../../models/problems/responseErrorModel";
 import { Colors } from "../../utils/enums";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { saveCoach } from "../../api/coach/coachApi";
+import { TResponseError } from "../../models/problems/responseErrorModel";
+import { useState } from "react";
 
 const Coach = () => {
   const queryClient = useQueryClient();
@@ -37,51 +32,6 @@ const Coach = () => {
   const [toastMessage, setToastMessage] = useState<string>("");
   // state for Toast message
   const [toastColor, setToastColor] = useState<string>("");
-
-  const {
-    data: coachs,
-    isLoading: isCoachsLoading,
-    error: coachsError,
-  } = useQuery({
-    queryFn: () => getCoachs(),
-    queryKey: ["coachs"],
-  });
-
-  const { mutate: saveCoachMutate } = useMutation({
-    mutationFn: (newCoach: TCreateCoach) => saveCoach(newCoach),
-    onSuccess: () => {
-      // Invalidate and refetch coachs
-      queryClient.invalidateQueries({ queryKey: ["coachs"] });
-      showToastWithMessage("Coach inserito", Colors.SUCCESS);
-    },
-    onError: (error: TResponseError) => {
-      showToastWithMessage(error.message, Colors.DANGER);
-    },
-  });
-
-  const { mutate: updateCoachMutate } = useMutation({
-    mutationFn: (currentCoach: TCoach) => updateCoach(currentCoach),
-    onSuccess: () => {
-      // Invalidate and refetch coachs
-      queryClient.invalidateQueries({ queryKey: ["coachs"] });
-      showToastWithMessage("Coach aggiornato", Colors.SUCCESS);
-    },
-    onError: (error: TResponseError) => {
-      showToastWithMessage(error.message, Colors.DANGER);
-    },
-  });
-
-  const { mutate: deleteCoachMutate } = useMutation({
-    mutationFn: (id: number) => deleteCoach(id),
-    onSuccess: () => {
-      // Invalidate and refetch coachs
-      queryClient.invalidateQueries({ queryKey: ["coachs"] });
-      showToastWithMessage("Coach eliminato", Colors.SUCCESS);
-    },
-    onError: (error: TResponseError) => {
-      showToastWithMessage(error.message, Colors.DANGER);
-    },
-  });
 
   const [present, dismissModal] = useIonModal(HandlerCoach, {
     dismiss: (data: TCreateCoach | null, role: TModalRole) =>
@@ -100,6 +50,18 @@ const Coach = () => {
       },
     });
   };
+
+  const { mutate: saveCoachMutate } = useMutation({
+    mutationFn: (newCoach: TCreateCoach) => saveCoach(newCoach),
+    onSuccess: () => {
+      // Invalidate and refetch coachs
+      queryClient.invalidateQueries({ queryKey: ["coachs"] });
+      showToastWithMessage("Coach inserito", Colors.SUCCESS);
+    },
+    onError: (error: TResponseError) => {
+      showToastWithMessage(error.message, Colors.DANGER);
+    },
+  });
 
   const showToastWithMessage = (message: string, color: string) => {
     setToastColor(color);
@@ -126,13 +88,7 @@ const Coach = () => {
             </IonChip>
           </IonToolbar>
         </IonHeader>
-        <CoachContainer
-          coachs={coachs?.data}
-          isCoachsLoading={isCoachsLoading}
-          coachsError={coachsError}
-          handleUpdate={updateCoachMutate}
-          handleDelete={deleteCoachMutate}
-        />
+        <CoachContainer />
       </IonContent>
       {/* Toasts */}
       <IonToast

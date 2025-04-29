@@ -12,34 +12,47 @@ import {
   IonItemOptions,
   IonItemSliding,
   IonLabel,
+  IonToast,
   useIonModal,
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 import { createOutline, trashBinOutline } from "ionicons/icons";
 import { useState } from "react";
-import { TCoach } from "../../../models/coach/coachModel";
+import { TCoach, TCreateCoach } from "../../../models/coach/coachModel";
 import { TModalRole } from "../../../models/modal/modalModel";
 import { Colors } from "../../../utils/enums";
-import Error from "../../common/Error";
-import Spinner from "../../common/Spinner/Spinner";
 import HandlerCoach from "./modal/HandlerCoach";
+import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
+import {
+  deleteCoach,
+  getCoachs,
+  saveCoach,
+  updateCoach,
+} from "../../../api/coach/coachApi";
+import Spinner from "../../common/Spinner/Spinner";
+import Error from "../../common/Error";
+import { TResponseError } from "../../../models/problems/responseErrorModel";
 
-interface ICoachProps {
-  coachs: TCoach[] | undefined;
-  isCoachsLoading: boolean;
-  coachsError: Error | null;
-  handleUpdate: (currentCoach: TCoach) => void;
-  handleDelete: (id: number) => void;
-}
+const CoachContainer = () => {
+  const queryClient = useQueryClient();
 
-const CoachContainer = ({
-  coachs,
-  isCoachsLoading,
-  coachsError,
-  handleUpdate,
-  handleDelete,
-}: ICoachProps) => {
+  // state for Toast
+  const [showToast, setShowToast] = useState<boolean>(false);
+  // state for Toast message
+  const [toastMessage, setToastMessage] = useState<string>("");
+  // state for Toast message
+  const [toastColor, setToastColor] = useState<string>("");
+  // state for current coach
   const [currentCoach, setCurrentCoach] = useState<TCoach | null>(null);
+
+  const {
+    data: coachs,
+    isLoading: isCoachsLoading,
+    error: coachsError,
+  } = useQuery({
+    queryFn: () => getCoachs(),
+    queryKey: ["coachs"],
+  });
 
   const [present, dismissModal] = useIonModal(HandlerCoach, {
     dismiss: (data: TCoach | null, role: TModalRole) =>
@@ -53,10 +66,40 @@ const CoachContainer = ({
       onWillDismiss: (event: CustomEvent<OverlayEventDetail>) => {
         console.log("event.detail.data", event.detail.data);
         if ((event.detail.role as TModalRole) === "confirm") {
-          if (event.detail.data as TCoach) handleUpdate(event.detail.data);
+          if (event.detail.data as TCoach) updateCoachMutate(event.detail.data);
         }
       },
     });
+  };
+
+  const { mutate: updateCoachMutate } = useMutation({
+    mutationFn: (currentCoach: TCoach) => updateCoach(currentCoach),
+    onSuccess: () => {
+      // Invalidate and refetch coachs
+      queryClient.invalidateQueries({ queryKey: ["coachs"] });
+      showToastWithMessage("Coach aggiornato", Colors.SUCCESS);
+    },
+    onError: (error: TResponseError) => {
+      showToastWithMessage(error.message, Colors.DANGER);
+    },
+  });
+
+  const { mutate: deleteCoachMutate } = useMutation({
+    mutationFn: (id: number) => deleteCoach(id),
+    onSuccess: () => {
+      // Invalidate and refetch coachs
+      queryClient.invalidateQueries({ queryKey: ["coachs"] });
+      showToastWithMessage("Coach eliminato", Colors.SUCCESS);
+    },
+    onError: (error: TResponseError) => {
+      showToastWithMessage(error.message, Colors.DANGER);
+    },
+  });
+
+  const showToastWithMessage = (message: string, color: string) => {
+    setToastColor(color);
+    setToastMessage(message);
+    setShowToast(true);
   };
 
   if (isCoachsLoading) {
@@ -69,7 +112,7 @@ const CoachContainer = ({
 
   return (
     <>
-      {coachs?.map((coach: TCoach) => (
+      {coachs?.data.map((coach: TCoach) => (
         <IonItemSliding key={coach.id}>
           <IonItemOptions side="start">
             <IonItemOption
@@ -113,7 +156,7 @@ const CoachContainer = ({
             <IonItemOption
               color={Colors.DANGER}
               onClick={() => {
-                handleDelete(coach.id);
+                deleteCoachMutate(coach.id);
               }}
             >
               <IonIcon aria-hidden="true" icon={trashBinOutline} />
@@ -121,6 +164,14 @@ const CoachContainer = ({
           </IonItemOptions>
         </IonItemSliding>
       ))}
+      {/* Toasts */}
+      <IonToast
+        isOpen={showToast}
+        message={toastMessage}
+        color={toastColor}
+        duration={2000}
+        onDidDismiss={() => setShowToast(false)}
+      />
     </>
   );
 };
