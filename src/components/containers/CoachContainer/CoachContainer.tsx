@@ -19,7 +19,7 @@ import {
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createOutline, trashBinOutline } from "ionicons/icons";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   deleteCoach,
   getCoachs,
@@ -32,6 +32,7 @@ import { Colors } from "../../../utils/enums";
 import Error from "../../common/Error";
 import Spinner from "../../common/Spinner/Spinner";
 import HandlerCoach from "./modal/HandlerCoach";
+import { getRandomImage } from "../../../utils/functions";
 
 const CoachContainer = () => {
   const queryClient = useQueryClient();
@@ -110,6 +111,16 @@ const CoachContainer = () => {
     setShowToast(true);
   };
 
+  const imagesMap = useMemo(() => {
+    if (!coachs) return {};
+
+    const map: { [key: string]: string } = {};
+    coachs.data.forEach((coach: TCoach) => {
+      map[coach.id] = getRandomImage();
+    });
+    return map;
+  }, [coachs]);
+
   if (isCoachsLoading) {
     return <Spinner />;
   }
@@ -144,7 +155,7 @@ const CoachContainer = () => {
                   </IonCardTitle>
                   <IonCardSubtitle>
                     <IonAvatar>
-                      <img alt="Coach's avatar" src={coach.image} />
+                      <img alt="Coach's avatar" src={imagesMap[coach.id]} />
                     </IonAvatar>
                   </IonCardSubtitle>
                 </IonCardHeader>

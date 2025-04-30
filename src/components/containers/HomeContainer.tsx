@@ -15,6 +15,8 @@ import { getCoachs } from "../../api/coach/coachApi";
 import { TCoach } from "../../models/coach/coachModel";
 import Error from "../common/Error";
 import Spinner from "../common/Spinner/Spinner";
+import { useMemo } from "react";
+import { getRandomImage } from "../../utils/functions";
 
 const HomeContainer = () => {
   const {
@@ -33,6 +35,16 @@ const HomeContainer = () => {
   if (coachsError) {
     return <Error />;
   }
+
+  const imagesMap = useMemo(() => {
+    if (!coachs) return {};
+
+    const map: { [key: string]: string } = {};
+    coachs.data.forEach((coach: TCoach) => {
+      map[coach.id] = getRandomImage();
+    });
+    return map;
+  }, [coachs]);
 
   return (
     <>
@@ -63,7 +75,7 @@ const HomeContainer = () => {
             </IonCardTitle>
             <IonCardSubtitle>
               <IonAvatar>
-                <img alt="Coach's avatar" src={coach.image} />
+                <img alt="Coach's avatar" src={imagesMap[coach.id]} />
               </IonAvatar>
             </IonCardSubtitle>
           </IonCardHeader>

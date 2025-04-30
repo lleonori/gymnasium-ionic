@@ -47,7 +47,6 @@ const HandlerCoach = (props: HandlerCoachProps) => {
           name: currentCoach?.name,
           surname: currentCoach?.surname,
           notes: currentCoach?.notes,
-          image: currentCoach?.image,
         }
       : {},
   });
@@ -142,25 +141,6 @@ const HandlerCoach = (props: HandlerCoachProps) => {
                   )}
                 </div>
               </IonTextarea>
-            </IonItem>
-          </IonList>
-          <IonList inset={true}>
-            <IonItem>
-              <IonInput
-                {...register("image", {
-                  required: true,
-                })}
-                labelPlacement="floating"
-                placeholder="Inserisci l'url dell'immagine"
-                onIonChange={() => clearErrors("image")}
-              >
-                <div slot="label">
-                  Immagine
-                  {errors.image && (
-                    <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
-                  )}
-                </div>
-              </IonInput>
             </IonItem>
           </IonList>
         </IonContent>

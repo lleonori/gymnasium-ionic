@@ -3,7 +3,6 @@ export type TCoach = {
   name: string;
   surname: string;
   notes: string;
-  image: string;
 };
 
 export type TCreateCoach = Omit<TCoach, "id">;

@@ -1,13 +1,13 @@
 const imagePaths = [
-  "/assets/avatar-user/balls.png",
-  "/assets/avatar-user/barbell.png",
-  "/assets/avatar-user/bottle.png",
-  "/assets/avatar-user/elastic-band.png",
-  "/assets/avatar-user/kettlebell.png",
-  "/assets/avatar-user/mat.png",
-  "/assets/avatar-user/rings.png",
-  "/assets/avatar-user/roller.png",
-  "/assets/avatar-user/weight.png",
+  "/assets/avatar/balls.png",
+  "/assets/avatar/barbell.png",
+  "/assets/avatar/bottle.png",
+  "/assets/avatar/elastic-band.png",
+  "/assets/avatar/kettlebell.png",
+  "/assets/avatar/mat.png",
+  "/assets/avatar/rings.png",
+  "/assets/avatar/roller.png",
+  "/assets/avatar/weight.png",
 ];
 
 export const getRandomImage = (): string => {
