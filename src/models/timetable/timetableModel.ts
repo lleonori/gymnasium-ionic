@@ -4,3 +4,7 @@ export type TTimetable = {
 };
 
 export type TCreateTimetable = Omit<TTimetable, "id">;
+
+export type TFilterTimetable = Partial<TCreateTimetable> & {
+  weekdayId?: number;
+};

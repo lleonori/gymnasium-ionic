@@ -28,14 +28,6 @@ const HomeContainer = () => {
     queryKey: ["coachs"],
   });
 
-  if (isCoachsLoading) {
-    return <Spinner />;
-  }
-
-  if (coachsError) {
-    return <Error />;
-  }
-
   const imagesMap = useMemo(() => {
     if (!coachs) return {};
 
@@ -45,6 +37,14 @@ const HomeContainer = () => {
     });
     return map;
   }, [coachs]);
+
+  if (isCoachsLoading) {
+    return <Spinner />;
+  }
+
+  if (coachsError) {
+    return <Error />;
+  }
 
   return (
     <>

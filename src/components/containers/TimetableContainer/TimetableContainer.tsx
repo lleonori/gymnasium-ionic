@@ -24,7 +24,10 @@ import {
 } from "../../../api/timetable/timetableApi";
 import { TModalRole } from "../../../models/modal/modalModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
-import { TTimetable } from "../../../models/timetable/timetableModel";
+import {
+  TFilterTimetable,
+  TTimetable,
+} from "../../../models/timetable/timetableModel";
 import { Colors } from "../../../utils/enums";
 import { formatTime } from "../../../utils/functions";
 import Error from "../../common/Error";
@@ -34,6 +37,8 @@ import HandlerTimetable from "./modal/HandlerTimetable";
 const TimetableContainer = () => {
   const queryClient = useQueryClient();
 
+  // timetable filter
+  const [filterTimetable, _] = useState<TFilterTimetable>({});
   // state for ActionSheet
   const [isOpen, setIsOpen] = useState<boolean>(false);
   // state for Toast
@@ -51,8 +56,9 @@ const TimetableContainer = () => {
     data: timetables,
     isLoading: isTimetablesLoading,
     error: timetablesError,
+    isFetching: isTimetablesFetching,
   } = useQuery({
-    queryFn: () => getTimetables(),
+    queryFn: () => getTimetables(filterTimetable),
     queryKey: ["timetables"],
   });
 
@@ -112,7 +118,7 @@ const TimetableContainer = () => {
     setShowToast(true);
   };
 
-  if (isTimetablesLoading) {
+  if (isTimetablesLoading || isTimetablesFetching) {
     return <Spinner />;
   }
 

@@ -35,10 +35,17 @@ import {
   saveBooking,
 } from "../../../api/booking/bookingApi";
 import { getCalendar } from "../../../api/calendar/calendarApi";
-import { getTimetablesByDay } from "../../../api/timetable/timetableApi";
-import { TBooking, TCreateBooking } from "../../../models/booking/bookingModel";
+import { getTimetables } from "../../../api/timetable/timetableApi";
+import {
+  TBooking,
+  TCreateBooking,
+  TFilterBooking,
+} from "../../../models/booking/bookingModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
-import { TTimetable } from "../../../models/timetable/timetableModel";
+import {
+  TFilterTimetable,
+  TTimetable,
+} from "../../../models/timetable/timetableModel";
 import { TUser } from "../../../models/user/userModel";
 import { Colors } from "../../../utils/enums";
 import { formatTime, getRandomImage } from "../../../utils/functions";
@@ -50,6 +57,12 @@ const BookingContainer = () => {
   const extendedUser = user as TUser;
   const queryClient = useQueryClient();
 
+  // booking filter
+  const [filterBooking, _] = useState<TFilterBooking>({
+    mail: extendedUser!.email,
+  });
+  // timetable filter
+  const [filterTimetable, setFilterTimetable] = useState<TFilterTimetable>({});
   // state for ActionSheet
   const [isOpen, setIsOpen] = useState<boolean>(false);
   // state for selected Booking
@@ -60,15 +73,13 @@ const BookingContainer = () => {
   const [toastMessage, setToastMessage] = useState<string>("");
   // state for Toast message
   const [toastColor, setToastColor] = useState<string>("");
-  // state for selected day
-  const [selectedDay, setSelectedDay] = useState<string>("");
 
   const {
+    setValue,
     register,
     handleSubmit,
     formState: { errors },
     clearErrors,
-    setValue,
   } = useForm<TCreateBooking>();
 
   const {
@@ -87,7 +98,7 @@ const BookingContainer = () => {
     error: bookingsError,
     isFetching: isBookingsFetching,
   } = useQuery({
-    queryFn: () => getBookings(extendedUser!.email!),
+    queryFn: () => getBookings(filterBooking),
     queryKey: ["bookings"],
   });
 
@@ -97,27 +108,17 @@ const BookingContainer = () => {
     error: timetablesError,
     isFetching: isTimetablesFetching,
   } = useQuery({
-    queryFn: () => getTimetablesByDay(selectedDay),
-    queryKey: ["timetables", selectedDay],
+    queryFn: () => getTimetables(filterTimetable),
+    queryKey: ["timetables", filterTimetable],
     // query enabled only if selectedDay is set
-    enabled: !!selectedDay,
+    enabled: !!filterTimetable,
   });
-
-  // when the day changes, fetch the timetables
-  const handleDayChange = (day: string) => {
-    // set the selected day
-    setSelectedDay(day);
-    // update the form value for day
-    setValue("day", new Date(day));
-    clearErrors("day");
-  };
 
   const onSubmit: SubmitHandler<TCreateBooking> = (data) => {
     // Extract the day object from data
-    const { day, hour, ...rest } = data;
+    const { hour, ...rest } = data;
 
     // Modify the day string in the date object
-    const updatedDate = new Date(day);
     const updatedHour = `${hour}Z`;
     const fullname = extendedUser?.name;
 
@@ -125,7 +126,6 @@ const BookingContainer = () => {
     const formatData: TCreateBooking = {
       ...rest,
       fullname: fullname,
-      day: updatedDate,
       hour: updatedHour,
     };
 
@@ -228,13 +228,17 @@ const BookingContainer = () => {
             />
             {/* Day Field */}
             <IonSelect
-              value={selectedDay}
               labelPlacement="floating"
               {...register("day", {
                 required: true,
               })}
               onIonChange={(e) => {
-                handleDayChange(e.detail.value);
+                const selectedDay = e.target.value;
+                setValue("day", selectedDay); // <-- questa è la chiave
+                clearErrors("day");
+                setFilterTimetable({
+                  weekdayId: new Date(selectedDay).getDay(),
+                });
               }}
             >
               <div slot="label">
@@ -243,16 +247,12 @@ const BookingContainer = () => {
                   <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
                 )}
               </div>
-              {calendar?.today && (
-                <IonSelectOption value={calendar.today}>
-                  {calendar.today}
-                </IonSelectOption>
-              )}
-              {calendar?.tomorrow && (
-                <IonSelectOption value={calendar.tomorrow}>
-                  {calendar.tomorrow}
-                </IonSelectOption>
-              )}
+              <IonSelectOption value={calendar?.today}>
+                {calendar?.today}
+              </IonSelectOption>
+              <IonSelectOption value={calendar?.tomorrow}>
+                {calendar?.tomorrow}
+              </IonSelectOption>
             </IonSelect>
             {/* Hour Field */}
             <IonSelect

@@ -15,33 +15,27 @@ import {
   SelectChangeEventDetail,
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
-import {
-  arrowForwardCircleOutline,
-  barbellOutline,
-  filterOutline,
-} from "ionicons/icons";
+import { barbellOutline, filterOutline, searchOutline } from "ionicons/icons";
 import { useMemo, useState } from "react";
-import { getAllBookings } from "../../../api/booking/bookingApi";
+import { getBookings } from "../../../api/booking/bookingApi";
 import { getCalendar } from "../../../api/calendar/calendarApi";
-import { getTimetablesByDay } from "../../../api/timetable/timetableApi";
+import { getTimetables } from "../../../api/timetable/timetableApi";
 import { TBooking, TFilterBooking } from "../../../models/booking/bookingModel";
-import { TTimetable } from "../../../models/timetable/timetableModel";
-import { Colors } from "../../../utils/enums";
 import {
-  formatDate,
-  formatTime,
-  getRandomImage,
-} from "../../../utils/functions";
+  TFilterTimetable,
+  TTimetable,
+} from "../../../models/timetable/timetableModel";
+import { Colors } from "../../../utils/enums";
+import { formatTime, getRandomImage } from "../../../utils/functions";
 import Error from "../../common/Error";
 import Spinner from "../../common/Spinner/Spinner";
 import "./SearchBookingContainer.css";
 
 const SearchBookingContainer = () => {
   // booking filter
-  const [filterBooking, setFilterBooking] = useState<TFilterBooking>({
-    day: formatDate(new Date()),
-    hour: "",
-  });
+  const [filterBooking, setFilterBooking] = useState<TFilterBooking>({});
+  // timetable filter
+  const [filterTimetable, setFilterTimetable] = useState<TFilterTimetable>({});
   // state for Toast
   const [showToast, setShowToast] = useState<boolean>(false);
   // state for Toast message
@@ -56,9 +50,13 @@ const SearchBookingContainer = () => {
     isFetching: isBookingsFetching,
     refetch: refetchBookings,
   } = useQuery({
-    queryFn: () => getAllBookings(filterBooking),
-    queryKey: ["bookings"],
-    enabled: false, // La query non parte automaticamente
+    queryFn: () => getBookings(getNormalizedFilter(filterBooking)),
+    queryKey: ["bookings", filterBooking],
+    enabled: false,
+  });
+
+  const getNormalizedFilter = (filter: TFilterBooking): TFilterBooking => ({
+    hour: `${filter?.hour}Z`,
   });
 
   const {
@@ -77,10 +75,9 @@ const SearchBookingContainer = () => {
     error: timetablesError,
     isFetching: isTimetablesFetching,
   } = useQuery({
-    queryFn: () => getTimetablesByDay(filterBooking.day!),
-    queryKey: ["timetables", filterBooking.day],
-    // query enabled only if filterBooking.day is set
-    enabled: !!filterBooking.day,
+    queryFn: () => getTimetables(filterTimetable),
+    queryKey: ["timetables", filterBooking?.day],
+    enabled: !!filterBooking?.day,
   });
 
   const onFilterChange = (
@@ -88,14 +85,20 @@ const SearchBookingContainer = () => {
     field: keyof TFilterBooking
   ) => {
     const value = event.detail.value;
-    setFilterBooking((prev: TFilterBooking) => ({
+
+    setFilterBooking((prev) => ({
       ...prev,
       [field]: value,
     }));
+
+    if (field === "day") {
+      const weekdayId = new Date(value).getDay();
+      setFilterTimetable({ weekdayId });
+    }
   };
 
   const handleFetchBookings = () => {
-    if (filterBooking.day && filterBooking.hour) {
+    if (filterBooking?.day && filterBooking?.hour) {
       refetchBookings();
     } else {
       showToastWithMessage(
@@ -121,11 +124,14 @@ const SearchBookingContainer = () => {
     return map;
   }, [bookings]);
 
-  if (isCalendarLoading && isBookingsLoading && isTimetablesLoading) {
-    return <Spinner />;
-  }
-
-  if (isCalendarFetching || isBookingsFetching || isTimetablesFetching) {
+  if (
+    isCalendarLoading ||
+    isCalendarFetching ||
+    isBookingsLoading ||
+    isBookingsFetching ||
+    isTimetablesLoading ||
+    isTimetablesFetching
+  ) {
     return <Spinner />;
   }
 
@@ -164,7 +170,7 @@ const SearchBookingContainer = () => {
         <IonCardContent>
           {/* Day Field */}
           <IonSelect
-            value={filterBooking.day}
+            value={filterBooking?.day}
             label="Giorno"
             labelPlacement="floating"
             onIonChange={(e) => onFilterChange(e, "day")}
@@ -182,7 +188,7 @@ const SearchBookingContainer = () => {
           </IonSelect>
           {/* Hour Field */}
           <IonSelect
-            value={filterBooking.hour} // Use filterBooking state directly
+            value={filterBooking?.hour} // Use filterBooking state directly
             label="Orario"
             labelPlacement="floating"
             onIonChange={(e) => onFilterChange(e, "hour")}
@@ -195,10 +201,7 @@ const SearchBookingContainer = () => {
           </IonSelect>
           <div className="button-container">
             <IonButton type="button" size="small" onClick={handleFetchBookings}>
-              <IonIcon
-                slot="icon-only"
-                icon={arrowForwardCircleOutline}
-              ></IonIcon>
+              <IonIcon slot="icon-only" icon={searchOutline}></IonIcon>
             </IonButton>
           </div>
         </IonCardContent>

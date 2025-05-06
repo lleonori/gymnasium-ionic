@@ -30,3 +30,15 @@ export const formatTime = (time: string) => {
   const formattedTime = `${hours}:${minutes}`;
   return formattedTime;
 };
+
+export const buildQueryString = (
+  params: Record<string, string | number | boolean | undefined | null>,
+): string => {
+  const cleanedParams: Record<string, string> = {};
+  for (const [key, value] of Object.entries(params)) {
+    if (value !== undefined && value !== null) {
+      cleanedParams[key] = String(value);
+    }
+  }
+  return new URLSearchParams(cleanedParams).toString();
+};

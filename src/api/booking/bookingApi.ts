@@ -7,31 +7,14 @@ import {
 } from "../../models/booking/bookingModel";
 import { TResponse } from "../../models/commos/responseModel";
 import { TResponseError } from "../../models/problems/responseErrorModel";
+import { buildQueryString } from "../../utils/functions";
 
 const API_BASE_URL = `${import.meta.env.VITE_API_URL}/booking`;
 
 export const getBookings = async (
-  mail: string,
-): Promise<TResponse<TBooking>> => {
-  try {
-    const response = await axiosInstance.get<TResponse<TBooking>>(
-      `${API_BASE_URL}/${encodeURIComponent(mail)}`,
-    );
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw error.response.data as TResponseError;
-    }
-    throw error;
-  }
-};
-
-export const getAllBookings = async (
   filterBooking: TFilterBooking,
 ): Promise<TResponse<TBooking>> => {
-  const queryString = new URLSearchParams(
-    filterBooking as Record<string, string>,
-  ).toString();
+  const queryString = buildQueryString(filterBooking);
 
   try {
     const response = await axiosInstance.get<TResponse<TBooking>>(

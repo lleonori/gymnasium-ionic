@@ -2,13 +2,13 @@ export type TBooking = {
   id: number;
   mail: string;
   fullname?: string;
-  day: Date;
+  day: string;
   hour: string;
 };
 
 export type TCreateBooking = Omit<TBooking, "id">;
 
-export type TFilterBooking = Partial<{
-  day: string;
-  hour: string;
-}>;
+export type TFilterBooking = Partial<TCreateBooking> & {
+  dateFrom?: string;
+  dateTo?: string;
+};
