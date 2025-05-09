@@ -1,12 +1,15 @@
 const imagePaths = [
-  "/assets/avatar/balls.png",
   "/assets/avatar/barbell.png",
   "/assets/avatar/bottle.png",
+  "/assets/avatar/dumbbell.png",
   "/assets/avatar/elastic-band.png",
   "/assets/avatar/kettlebell.png",
   "/assets/avatar/mat.png",
+  "/assets/avatar/proteins.png",
   "/assets/avatar/rings.png",
-  "/assets/avatar/roller.png",
+  "/assets/avatar/sport-bag.png",
+  "/assets/avatar/step.png",
+  "/assets/avatar/weight-lifting.png",
   "/assets/avatar/weight.png",
 ];
 

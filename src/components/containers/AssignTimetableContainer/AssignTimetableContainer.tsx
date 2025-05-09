@@ -38,13 +38,15 @@ import { formatTime } from "../../../utils/functions";
 import Error from "../../common/Error";
 import Spinner from "../../common/Spinner/Spinner";
 import HandlerAssignTimetable from "./modal/HandlerAssignTimetable";
+import { TFilterTimetable } from "../../../models/timetable/timetableModel";
 
 const AssignTimetableContainer = () => {
   const queryClient = useQueryClient();
 
   const [currentWeekdayTime, setCurrentWeekdayTime] =
     useState<TWeekdayTime | null>(null);
-
+  // timetable filter
+  const [filterTimetable, _] = useState<TFilterTimetable>({});
   // state for Toast
   const [showToast, setShowToast] = useState<boolean>(false);
   // state for Toast message
@@ -66,7 +68,7 @@ const AssignTimetableContainer = () => {
     isLoading: isTimetablesLoading,
     error: timetablesError,
   } = useQuery({
-    queryFn: () => getTimetables(),
+    queryFn: () => getTimetables(filterTimetable),
     queryKey: ["timetables"],
   });
 

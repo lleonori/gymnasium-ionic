@@ -228,6 +228,7 @@ const BookingContainer = () => {
             />
             {/* Day Field */}
             <IonSelect
+              cancelText="Annulla"
               labelPlacement="floating"
               {...register("day", {
                 required: true,
@@ -256,6 +257,7 @@ const BookingContainer = () => {
             </IonSelect>
             {/* Hour Field */}
             <IonSelect
+              cancelText="Annulla"
               labelPlacement="floating"
               {...register("hour", { required: true })}
               onIonChange={() => clearErrors("hour")}

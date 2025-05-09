@@ -170,6 +170,7 @@ const SearchBookingContainer = () => {
         <IonCardContent>
           {/* Day Field */}
           <IonSelect
+            cancelText="Annulla"
             value={filterBooking?.day}
             label="Giorno"
             labelPlacement="floating"
@@ -188,6 +189,7 @@ const SearchBookingContainer = () => {
           </IonSelect>
           {/* Hour Field */}
           <IonSelect
+            cancelText="Annulla"
             value={filterBooking?.hour} // Use filterBooking state directly
             label="Orario"
             labelPlacement="floating"

@@ -31,6 +31,7 @@ import AppSystemAdmin from "./pages/systemAdmin/AppSystemAdmin";
 import AppUsers from "./pages/user/AppUsers";
 import "./theme/variables.css";
 import { UserRoles } from "./utils/enums";
+import Spinner from "./components/common/Spinner/Spinner";
 
 setupIonicReact({
   mode: "md",
@@ -39,7 +40,8 @@ setupIonicReact({
 const App = () => {
   useAuthInterceptor();
 
-  const { isAuthenticated, user, handleRedirectCallback } = useAuth0();
+  const { isAuthenticated, user, handleRedirectCallback, isLoading } =
+    useAuth0();
   const extendedUser = user as TUser;
 
   useEffect(() => {
@@ -56,6 +58,10 @@ const App = () => {
       }
     });
   }, [handleRedirectCallback]);
+
+  if (isLoading || (isAuthenticated && !extendedUser)) {
+    return <Spinner />;
+  }
 
   return (
     <IonApp>
