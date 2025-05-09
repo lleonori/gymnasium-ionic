@@ -1,12 +1,15 @@
 const imagePaths = [
-  "/assets/avatar/balls.png",
   "/assets/avatar/barbell.png",
   "/assets/avatar/bottle.png",
+  "/assets/avatar/dumbbell.png",
   "/assets/avatar/elastic-band.png",
   "/assets/avatar/kettlebell.png",
   "/assets/avatar/mat.png",
+  "/assets/avatar/proteins.png",
   "/assets/avatar/rings.png",
-  "/assets/avatar/roller.png",
+  "/assets/avatar/sport-bag.png",
+  "/assets/avatar/step.png",
+  "/assets/avatar/weight-lifting.png",
   "/assets/avatar/weight.png",
 ];
 
@@ -32,7 +35,7 @@ export const formatTime = (time: string) => {
 };
 
 export const buildQueryString = (
-  params: Record<string, string | number | boolean | undefined | null>,
+  params: Record<string, string | number | boolean | undefined | null>
 ): string => {
   const cleanedParams: Record<string, string> = {};
   for (const [key, value] of Object.entries(params)) {

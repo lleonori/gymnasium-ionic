@@ -10,10 +10,9 @@ import {
   IonSelectOption,
   IonText,
   IonTitle,
-  IonToggle,
   IonToolbar,
 } from "@ionic/react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { TModalRole } from "../../../../models/modal/modalModel";
 import {
   TCreateTimetable,
@@ -102,6 +101,7 @@ const HandlerTimetable = (props: HandlerTimetableProps) => {
           <IonList inset={true}>
             <IonItem>
               <IonSelect
+                cancelText="Annulla"
                 labelPlacement="floating"
                 {...register("hour", {
                   required: true,
@@ -111,7 +111,7 @@ const HandlerTimetable = (props: HandlerTimetableProps) => {
                 }}
               >
                 <div slot="label">
-                  Ora
+                  Ora Inizio
                   {errors.hour && (
                     <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
                   )}
@@ -128,6 +128,7 @@ const HandlerTimetable = (props: HandlerTimetableProps) => {
             </IonItem>
             <IonItem>
               <IonSelect
+                cancelText="Annulla"
                 labelPlacement="floating"
                 {...register("minute", {
                   required: true,
@@ -137,7 +138,7 @@ const HandlerTimetable = (props: HandlerTimetableProps) => {
                 }}
               >
                 <div slot="label">
-                  Minuti
+                  Minuti Inizio
                   {errors.minute && (
                     <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
                   )}
