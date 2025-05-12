@@ -34,7 +34,7 @@ import { UserRoles } from "./utils/enums";
 import Spinner from "./components/common/Spinner/Spinner";
 
 setupIonicReact({
-  mode: "md",
+  mode: "ios",
 });
 
 const App = () => {

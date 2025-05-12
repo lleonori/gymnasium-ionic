@@ -43,5 +43,7 @@ export const buildQueryString = (
       cleanedParams[key] = String(value);
     }
   }
-  return new URLSearchParams(cleanedParams).toString();
+  return cleanedParams
+    ? `?${new URLSearchParams(cleanedParams).toString()}`
+    : "";
 };

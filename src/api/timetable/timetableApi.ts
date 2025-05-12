@@ -18,7 +18,7 @@ export const getTimetables = async (
     const queryString = buildQueryString(filterTimetable);
 
     const response = await axiosInstance.get<TResponse<TTimetable>>(
-      `${API_BASE_URL}?${queryString}`,
+      `${API_BASE_URL}${queryString}`,
     );
     return response.data;
   } catch (error) {

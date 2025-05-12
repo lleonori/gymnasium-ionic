@@ -39,8 +39,10 @@ interface IUpdateTimetableProps extends IBaseProps {
 type HandlerTimetableProps = ICreateTimetableProps | IUpdateTimetableProps;
 
 interface ITimetableForm {
-  hour: string;
-  minute: string;
+  startHour: string;
+  startMinute: string;
+  endHour: string;
+  endMinute: string;
 }
 
 const HandlerTimetable = (props: HandlerTimetableProps) => {
@@ -56,15 +58,18 @@ const HandlerTimetable = (props: HandlerTimetableProps) => {
   } = useForm<ITimetableForm>({
     defaultValues: isUpdateMode
       ? {
-          hour: currentTimetable?.hour.split(":")[0],
-          minute: currentTimetable?.hour.split(":")[1],
+          startHour: currentTimetable?.startHour.split(":")[0],
+          startMinute: currentTimetable?.startHour.split(":")[1],
+          endHour: currentTimetable?.endHour.split(":")[0],
+          endMinute: currentTimetable?.endHour.split(":")[1],
         }
       : {},
   });
 
   const onSubmit: SubmitHandler<ITimetableForm> = (data) => {
     const formattedData: TCreateTimetable | TTimetable = {
-      hour: `${data.hour}:${data.minute}:00Z`,
+      startHour: `${data.startHour}:${data.startMinute}:00Z`,
+      endHour: `${data.endHour}:${data.endMinute}:00Z`,
     };
 
     const result = isUpdateMode
@@ -103,16 +108,16 @@ const HandlerTimetable = (props: HandlerTimetableProps) => {
               <IonSelect
                 cancelText="Annulla"
                 labelPlacement="floating"
-                {...register("hour", {
+                {...register("startHour", {
                   required: true,
                 })}
                 onIonChange={() => {
-                  clearErrors("hour");
+                  clearErrors("startHour");
                 }}
               >
                 <div slot="label">
                   Ora Inizio
-                  {errors.hour && (
+                  {errors.startHour && (
                     <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
                   )}
                 </div>
@@ -130,16 +135,68 @@ const HandlerTimetable = (props: HandlerTimetableProps) => {
               <IonSelect
                 cancelText="Annulla"
                 labelPlacement="floating"
-                {...register("minute", {
+                {...register("startMinute", {
                   required: true,
                 })}
                 onIonChange={() => {
-                  clearErrors("minute");
+                  clearErrors("startMinute");
                 }}
               >
                 <div slot="label">
                   Minuti Inizio
-                  {errors.minute && (
+                  {errors.startMinute && (
+                    <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
+                  )}
+                </div>
+                <IonSelectOption value="00">00</IonSelectOption>
+                <IonSelectOption value="15">15</IonSelectOption>
+                <IonSelectOption value="30">30</IonSelectOption>
+                <IonSelectOption value="45">45</IonSelectOption>
+              </IonSelect>
+            </IonItem>
+          </IonList>
+          <IonList inset={true}>
+            <IonItem>
+              <IonSelect
+                cancelText="Annulla"
+                labelPlacement="floating"
+                {...register("endHour", {
+                  required: true,
+                })}
+                onIonChange={() => {
+                  clearErrors("endHour");
+                }}
+              >
+                <div slot="label">
+                  Ora Fine
+                  {errors.startHour && (
+                    <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
+                  )}
+                </div>
+                {Array.from({ length: 24 }, (_, i) => {
+                  const hour = i.toString().padStart(2, "0");
+                  return (
+                    <IonSelectOption key={hour} value={hour}>
+                      {hour}
+                    </IonSelectOption>
+                  );
+                })}
+              </IonSelect>
+            </IonItem>
+            <IonItem>
+              <IonSelect
+                cancelText="Annulla"
+                labelPlacement="floating"
+                {...register("endMinute", {
+                  required: true,
+                })}
+                onIonChange={() => {
+                  clearErrors("endMinute");
+                }}
+              >
+                <div slot="label">
+                  Minuti Fine
+                  {errors.startMinute && (
                     <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
                   )}
                 </div>

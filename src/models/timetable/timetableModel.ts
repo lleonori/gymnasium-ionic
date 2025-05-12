@@ -1,10 +1,11 @@
 export type TTimetable = {
   id: number;
-  hour: string;
+  startHour: string;
+  endHour: string;
 };
 
 export type TCreateTimetable = Omit<TTimetable, "id">;
 
-export type TFilterTimetable = Partial<TCreateTimetable> & {
+export type TFilterTimetable = {
   weekdayId?: number;
 };

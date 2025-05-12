@@ -1,9 +1,11 @@
 import {
   IonActionSheet,
   IonCard,
+  IonCardContent,
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
+  IonChip,
   IonIcon,
   IonItem,
   IonItemOption,
@@ -145,11 +147,19 @@ const TimetableContainer = () => {
             <IonLabel>
               <IonCard>
                 <IonCardHeader>
-                  <IonCardTitle>{formatTime(timetable.hour)}</IonCardTitle>
+                  <IonCardTitle>Orari disponibili</IonCardTitle>
                   <IonCardSubtitle>
                     <IonIcon aria-hidden="true" icon={timeOutline} />
                   </IonCardSubtitle>
                 </IonCardHeader>
+                <IonCardContent>
+                  <IonChip>
+                    <IonLabel>{formatTime(timetable.startHour)}</IonLabel>
+                  </IonChip>
+                  <IonChip>
+                    <IonLabel>{formatTime(timetable.endHour)}</IonLabel>
+                  </IonChip>
+                </IonCardContent>
               </IonCard>
             </IonLabel>
           </IonItem>

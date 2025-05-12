@@ -18,7 +18,7 @@ export const getBookings = async (
 
   try {
     const response = await axiosInstance.get<TResponse<TBooking>>(
-      `${API_BASE_URL}?${queryString}`,
+      `${API_BASE_URL}${queryString}`,
     );
     return response.data;
   } catch (error) {

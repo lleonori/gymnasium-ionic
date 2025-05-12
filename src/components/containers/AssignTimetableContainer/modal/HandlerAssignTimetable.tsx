@@ -129,9 +129,14 @@ const HandlerAssignTimetable = ({
             {timesToBeAssigned.map((timeToBeAssigned) => (
               <IonChip
                 key={timeToBeAssigned.id}
-                onClick={() => addToAssignedTimes(timeToBeAssigned)}
+                onClick={() =>
+                  addToAssignedTimes({
+                    id: timeToBeAssigned.id,
+                    hour: timeToBeAssigned.startHour,
+                  })
+                }
               >
-                <IonLabel>{formatTime(timeToBeAssigned.hour)}</IonLabel>
+                <IonLabel>{formatTime(timeToBeAssigned.startHour)}</IonLabel>
                 <IonIcon icon={addCircleOutline}></IonIcon>
               </IonChip>
             ))}
