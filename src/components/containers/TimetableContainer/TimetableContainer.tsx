@@ -1,5 +1,6 @@
 import {
   IonActionSheet,
+  IonAvatar,
   IonCard,
   IonCardContent,
   IonCardHeader,
@@ -7,6 +8,7 @@ import {
   IonCardTitle,
   IonChip,
   IonIcon,
+  IonImg,
   IonItem,
   IonItemOption,
   IonItemOptions,
@@ -149,15 +151,20 @@ const TimetableContainer = () => {
                 <IonCardHeader>
                   <IonCardTitle>Orari disponibili</IonCardTitle>
                   <IonCardSubtitle>
-                    <IonIcon aria-hidden="true" icon={timeOutline} />
+                    <IonAvatar>
+                      <img
+                        alt="Timetable's avatar"
+                        src="/assets/timetables/watch.png"
+                      />
+                    </IonAvatar>
                   </IonCardSubtitle>
                 </IonCardHeader>
                 <IonCardContent>
                   <IonChip>
-                    <IonLabel>{formatTime(timetable.startHour)}</IonLabel>
-                  </IonChip>
-                  <IonChip>
-                    <IonLabel>{formatTime(timetable.endHour)}</IonLabel>
+                    <IonLabel>
+                      {`${formatTime(timetable.startHour)} - ${formatTime(timetable.endHour)}`}
+                    </IonLabel>
+                    <IonIcon icon={timeOutline} />
                   </IonChip>
                 </IonCardContent>
               </IonCard>

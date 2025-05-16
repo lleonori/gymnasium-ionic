@@ -5,6 +5,7 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
+  IonLabel,
   IonPage,
   IonTitle,
   IonToast,
@@ -84,7 +85,8 @@ const Coach = () => {
           <IonToolbar class="ion-justify-content-center">
             <IonTitle size="large">Coach</IonTitle>
             <IonChip color={Colors.PRIMARY} onClick={() => openModal()}>
-              Aggiungi Coach<IonIcon icon={barbellOutline}></IonIcon>
+              <IonLabel>Aggiungi Coach</IonLabel>
+              <IonIcon icon={barbellOutline}></IonIcon>
             </IonChip>
           </IonToolbar>
         </IonHeader>

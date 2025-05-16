@@ -3,10 +3,12 @@ export type TBooking = {
   mail: string;
   fullname?: string;
   day: string;
-  hour: string;
+  timetableId: number;
+  startHour: string;
+  endHour: string;
 };
 
-export type TCreateBooking = Omit<TBooking, "id">;
+export type TCreateBooking = Omit<TBooking, "id" | "startHour" | "endHour">;
 
 export type TFilterBooking = Partial<TCreateBooking> & {
   dateFrom?: string;

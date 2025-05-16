@@ -15,8 +15,14 @@ import {
   SelectChangeEventDetail,
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
-import { barbellOutline, filterOutline, searchOutline } from "ionicons/icons";
-import { useMemo, useState } from "react";
+import {
+  barbellOutline,
+  calendarOutline,
+  filterOutline,
+  searchOutline,
+  timeOutline,
+} from "ionicons/icons";
+import { useEffect, useMemo, useState } from "react";
 import { getBookings } from "../../../api/booking/bookingApi";
 import { getCalendar } from "../../../api/calendar/calendarApi";
 import { getTimetables } from "../../../api/timetable/timetableApi";
@@ -33,9 +39,13 @@ import "./SearchBookingContainer.css";
 
 const SearchBookingContainer = () => {
   // booking filter
-  const [filterBooking, setFilterBooking] = useState<TFilterBooking>({});
+  const [filterBooking, setFilterBooking] = useState<
+    TFilterBooking | undefined
+  >();
   // timetable filter
-  const [filterTimetable, setFilterTimetable] = useState<TFilterTimetable>({});
+  const [filterTimetable, setFilterTimetable] = useState<
+    TFilterTimetable | undefined
+  >();
   // state for Toast
   const [showToast, setShowToast] = useState<boolean>(false);
   // state for Toast message
@@ -50,13 +60,9 @@ const SearchBookingContainer = () => {
     isFetching: isBookingsFetching,
     refetch: refetchBookings,
   } = useQuery({
-    queryFn: () => getBookings(getNormalizedFilter(filterBooking)),
+    queryFn: () => getBookings(filterBooking),
     queryKey: ["bookings", filterBooking],
     enabled: false,
-  });
-
-  const getNormalizedFilter = (filter: TFilterBooking): TFilterBooking => ({
-    hour: `${filter?.hour}Z`,
   });
 
   const {
@@ -91,14 +97,12 @@ const SearchBookingContainer = () => {
       [field]: value,
     }));
 
-    if (field === "day") {
-      const weekdayId = new Date(value).getDay();
-      setFilterTimetable({ weekdayId });
-    }
+    const weekdayId = new Date(value).getDay();
+    setFilterTimetable({ weekdayId });
   };
 
   const handleFetchBookings = () => {
-    if (filterBooking?.day && filterBooking?.hour) {
+    if (filterBooking?.day && filterBooking?.timetableId) {
       refetchBookings();
     } else {
       showToastWithMessage(
@@ -190,14 +194,14 @@ const SearchBookingContainer = () => {
           {/* Hour Field */}
           <IonSelect
             cancelText="Annulla"
-            value={filterBooking?.hour} // Use filterBooking state directly
+            value={filterBooking?.timetableId}
             label="Orario"
             labelPlacement="floating"
-            onIonChange={(e) => onFilterChange(e, "hour")}
+            onIonChange={(e) => onFilterChange(e, "timetableId")}
           >
             {timetables?.data.map((timetable: TTimetable) => (
-              <IonSelectOption key={timetable.id} value={timetable.startHour}>
-                {formatTime(timetable.startHour)}
+              <IonSelectOption key={timetable.id} value={timetable.id}>
+                {`${formatTime(timetable.startHour)} - ${formatTime(timetable.endHour)}`}
               </IonSelectOption>
             ))}
           </IonSelect>
@@ -232,11 +236,15 @@ const SearchBookingContainer = () => {
               </IonCardSubtitle>
             </IonCardHeader>
             <IonCardContent>
-              <IonChip color={Colors.MEDIUM}>
-                <IonLabel>{formatTime(booking.hour)}</IonLabel>
-              </IonChip>
-              <IonChip color={Colors.PRIMARY}>
+              <IonChip>
                 <IonLabel>{booking.day.toString()}</IonLabel>
+                <IonIcon icon={calendarOutline}></IonIcon>
+              </IonChip>
+              <IonChip>
+                <IonLabel>
+                  {`${formatTime(booking.startHour)} - ${formatTime(booking.endHour)}`}
+                </IonLabel>
+                <IonIcon icon={timeOutline}></IonIcon>
               </IonChip>
             </IonCardContent>
           </IonCard>

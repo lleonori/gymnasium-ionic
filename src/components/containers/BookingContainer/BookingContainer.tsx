@@ -58,15 +58,19 @@ const BookingContainer = () => {
   const queryClient = useQueryClient();
 
   // booking filter
-  const [filterBooking, _] = useState<TFilterBooking>({
+  const [filterBooking, _] = useState<TFilterBooking | undefined>({
     mail: extendedUser!.email,
   });
   // timetable filter
-  const [filterTimetable, setFilterTimetable] = useState<TFilterTimetable>({});
+  const [filterTimetable, setFilterTimetable] = useState<
+    TFilterTimetable | undefined
+  >(undefined);
   // state for ActionSheet
   const [isOpen, setIsOpen] = useState<boolean>(false);
   // state for selected Booking
-  const [currentBooking, setCurrentBooking] = useState<TBooking | null>(null);
+  const [currentBooking, setCurrentBooking] = useState<TBooking | undefined>(
+    undefined
+  );
   // state for Toast
   const [showToast, setShowToast] = useState<boolean>(false);
   // state for Toast message
@@ -110,23 +114,17 @@ const BookingContainer = () => {
   } = useQuery({
     queryFn: () => getTimetables(filterTimetable),
     queryKey: ["timetables", filterTimetable],
-    // query enabled only if selectedDay is set
     enabled: !!filterTimetable,
   });
 
   const onSubmit: SubmitHandler<TCreateBooking> = (data) => {
-    // Extract the day object from data
-    const { hour, ...rest } = data;
-
-    // Modify the day string in the date object
-    const updatedHour = `${hour}Z`;
+    const mail = extendedUser?.email;
     const fullname = extendedUser?.name;
 
-    // Construct the new data object with the updated day
     const formatData: TCreateBooking = {
-      ...rest,
+      ...data,
+      mail: mail!,
       fullname: fullname,
-      hour: updatedHour,
     };
 
     saveBookingMutate(formatData);
@@ -159,7 +157,7 @@ const BookingContainer = () => {
       showToastWithMessage("Lezione eliminata", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {
-      setCurrentBooking(null);
+      setCurrentBooking(undefined);
       setIsOpen(false);
       showToastWithMessage(error.message, Colors.DANGER);
     },
@@ -218,14 +216,6 @@ const BookingContainer = () => {
         </IonCardHeader>
         <IonCardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            {/* Mail Field */}
-            <input
-              {...register("mail", {
-                value: extendedUser!.email,
-                required: true,
-              })}
-              type="hidden"
-            />
             {/* Day Field */}
             <IonSelect
               cancelText="Annulla"
@@ -235,7 +225,7 @@ const BookingContainer = () => {
               })}
               onIonChange={(e) => {
                 const selectedDay = e.target.value;
-                setValue("day", selectedDay); // <-- questa è la chiave
+                setValue("day", selectedDay);
                 clearErrors("day");
                 setFilterTimetable({
                   weekdayId: new Date(selectedDay).getDay(),
@@ -259,18 +249,18 @@ const BookingContainer = () => {
             <IonSelect
               cancelText="Annulla"
               labelPlacement="floating"
-              {...register("hour", { required: true })}
-              onIonChange={() => clearErrors("hour")}
+              {...register("timetableId", { required: true })}
+              onIonChange={() => clearErrors("timetableId")}
             >
               <div slot="label">
                 Orario
-                {errors.hour && (
+                {errors.timetableId && (
                   <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
                 )}
               </div>
               {timetables?.data.map((timetable: TTimetable) => (
-                <IonSelectOption key={timetable.id} value={timetable.startHour}>
-                  {formatTime(timetable.startHour)}
+                <IonSelectOption key={timetable.id} value={timetable.id}>
+                  {`${formatTime(timetable.startHour)} - ${formatTime(timetable.endHour)}`}
                 </IonSelectOption>
               ))}
             </IonSelect>
@@ -305,14 +295,13 @@ const BookingContainer = () => {
                         {booking.fullname ?? booking.mail}
                       </IonText>
                       <div className="ion-margin-start">
-                        <IonChip color={Colors.MEDIUM}>
-                          {formatTime(booking.hour)}
+                        <IonChip className="ion-margin-start">
+                          <IonLabel>{booking.day.toString()}</IonLabel>
                         </IonChip>
-                        <IonChip
-                          className="ion-margin-start"
-                          color={Colors.PRIMARY}
-                        >
-                          {booking.day.toString()}
+                        <IonChip>
+                          <IonLabel>
+                            {`${formatTime(booking.startHour)} - ${formatTime(booking.endHour)}`}
+                          </IonLabel>
                         </IonChip>
                       </div>
                     </IonLabel>

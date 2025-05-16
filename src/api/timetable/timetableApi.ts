@@ -12,10 +12,10 @@ import { buildQueryString } from "../../utils/functions";
 const API_BASE_URL = "/timetable";
 
 export const getTimetables = async (
-  filterTimetable: TFilterTimetable,
+  filterTimetable: TFilterTimetable | undefined,
 ): Promise<TResponse<TTimetable>> => {
   try {
-    const queryString = buildQueryString(filterTimetable);
+    const queryString = buildQueryString(filterTimetable ?? {});
 
     const response = await axiosInstance.get<TResponse<TTimetable>>(
       `${API_BASE_URL}${queryString}`,

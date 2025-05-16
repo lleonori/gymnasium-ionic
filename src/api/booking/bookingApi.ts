@@ -12,9 +12,9 @@ import { buildQueryString } from "../../utils/functions";
 const API_BASE_URL = `${import.meta.env.VITE_API_URL}/booking`;
 
 export const getBookings = async (
-  filterBooking: TFilterBooking,
+  filterBooking: TFilterBooking | undefined,
 ): Promise<TResponse<TBooking>> => {
-  const queryString = buildQueryString(filterBooking);
+  const queryString = buildQueryString(filterBooking ?? {});
 
   try {
     const response = await axiosInstance.get<TResponse<TBooking>>(

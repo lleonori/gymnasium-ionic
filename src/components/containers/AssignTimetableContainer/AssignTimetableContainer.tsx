@@ -1,4 +1,5 @@
 import {
+  IonAvatar,
   IonCard,
   IonCardContent,
   IonCardHeader,
@@ -138,9 +139,12 @@ const AssignTimetableContainer = () => {
               <IonCard>
                 <IonCardHeader>
                   <IonCardTitle>{weekdayTime.weekdayName}</IonCardTitle>
-                  <IonCardSubtitle>
-                    <IonIcon aria-hidden="true" icon={calendarNumberOutline} />
-                  </IonCardSubtitle>
+                  <IonAvatar>
+                    <img
+                      alt="Timetable's avatar"
+                      src="/assets/weekdayTimes/calendar.png"
+                    />
+                  </IonAvatar>
                 </IonCardHeader>
                 <IonCardContent>
                   {weekdayTime.hour.map((hh) => (
