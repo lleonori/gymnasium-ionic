@@ -51,6 +51,7 @@ import { Colors } from "../../../utils/enums";
 import { formatTime, getRandomImage } from "../../../utils/functions";
 import Error from "../../common/Error";
 import Spinner from "../../common/Spinner/Spinner";
+import { TSortBy } from "../../../models/sort/sortMOdel";
 
 const BookingContainer = () => {
   const { user } = useAuth0();
@@ -58,8 +59,13 @@ const BookingContainer = () => {
   const queryClient = useQueryClient();
 
   // booking filter
-  const [filterBooking, _] = useState<TFilterBooking | undefined>({
+  const [filterBooking] = useState<TFilterBooking | undefined>({
     mail: extendedUser!.email,
+  });
+  // timetable sorting
+  const [timetableSort] = useState<TSortBy<TTimetable>>({
+    sortBy: "startHour",
+    orderBy: "asc",
   });
   // timetable filter
   const [filterTimetable, setFilterTimetable] = useState<
@@ -112,7 +118,7 @@ const BookingContainer = () => {
     error: timetablesError,
     isFetching: isTimetablesFetching,
   } = useQuery({
-    queryFn: () => getTimetables(filterTimetable),
+    queryFn: () => getTimetables(filterTimetable, timetableSort),
     queryKey: ["timetables", filterTimetable],
     enabled: !!filterTimetable,
   });

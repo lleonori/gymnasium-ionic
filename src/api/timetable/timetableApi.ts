@@ -7,19 +7,30 @@ import {
   TFilterTimetable,
   TTimetable,
 } from "../../models/timetable/timetableModel";
-import { buildQueryString } from "../../utils/functions";
+import {
+  buildQueryStringFilters,
+  buildQueryStringSort,
+} from "../../utils/functions";
+import { TSortBy } from "../../models/sort/sortModel";
 
 const API_BASE_URL = "/timetable";
 
 export const getTimetables = async (
   filterTimetable: TFilterTimetable | undefined,
+  sort: TSortBy<TTimetable>,
 ): Promise<TResponse<TTimetable>> => {
   try {
-    const queryString = buildQueryString(filterTimetable ?? {});
+    const filters = buildQueryStringFilters(filterTimetable ?? {});
+    const sortString = buildQueryStringSort(sort);
+
+    // Unisci i parametri in modo sicuro
+    const params = [filters, sortString].filter(Boolean).join("&");
+    const queryString = params ? `?${params}` : "";
 
     const response = await axiosInstance.get<TResponse<TTimetable>>(
       `${API_BASE_URL}${queryString}`,
     );
+
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {

@@ -25,7 +25,10 @@ import {
 } from "../../../api/weekday-time/weekdayTimeApi";
 import { TModalRole } from "../../../models/modal/modalModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
-import { TFilterTimetable } from "../../../models/timetable/timetableModel";
+import {
+  TFilterTimetable,
+  TTimetable,
+} from "../../../models/timetable/timetableModel";
 import {
   TCreateWeekdayTimes,
   TWeekdayTime,
@@ -35,12 +38,18 @@ import { formatTime } from "../../../utils/functions";
 import Error from "../../common/Error";
 import Spinner from "../../common/Spinner/Spinner";
 import HandlerAssignTimetable from "./modal/HandlerAssignTimetable";
+import { TSortBy } from "../../../models/sort/sortMOdel";
 
 const AssignTimetableContainer = () => {
   const queryClient = useQueryClient();
 
   const [currentWeekdayTime, setCurrentWeekdayTime] =
     useState<TWeekdayTime | null>(null);
+  // timetable sorting
+  const [timetableSort] = useState<TSortBy<TTimetable>>({
+    sortBy: "startHour",
+    orderBy: "asc",
+  });
   // timetable filter
   const [filterTimetable, _] = useState<TFilterTimetable>({});
   // state for Toast
@@ -64,7 +73,7 @@ const AssignTimetableContainer = () => {
     isLoading: isTimetablesLoading,
     error: timetablesError,
   } = useQuery({
-    queryFn: () => getTimetables(filterTimetable),
+    queryFn: () => getTimetables(filterTimetable, timetableSort),
     queryKey: ["timetables"],
   });
 

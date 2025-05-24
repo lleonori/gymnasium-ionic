@@ -8,7 +8,6 @@ import {
   IonCardTitle,
   IonChip,
   IonIcon,
-  IonImg,
   IonItem,
   IonItemOption,
   IonItemOptions,
@@ -28,6 +27,7 @@ import {
 } from "../../../api/timetable/timetableApi";
 import { TModalRole } from "../../../models/modal/modalModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
+import { TSortBy } from "../../../models/sort/sortMOdel";
 import {
   TFilterTimetable,
   TTimetable,
@@ -41,8 +41,13 @@ import HandlerTimetable from "./modal/HandlerTimetable";
 const TimetableContainer = () => {
   const queryClient = useQueryClient();
 
+  // timetable sorting
+  const [timetableSort] = useState<TSortBy<TTimetable>>({
+    sortBy: "startHour",
+    orderBy: "asc",
+  });
   // timetable filter
-  const [filterTimetable, _] = useState<TFilterTimetable>({});
+  const [filterTimetable] = useState<TFilterTimetable>({});
   // state for ActionSheet
   const [isOpen, setIsOpen] = useState<boolean>(false);
   // state for Toast
@@ -62,7 +67,7 @@ const TimetableContainer = () => {
     error: timetablesError,
     isFetching: isTimetablesFetching,
   } = useQuery({
-    queryFn: () => getTimetables(filterTimetable),
+    queryFn: () => getTimetables(filterTimetable, timetableSort),
     queryKey: ["timetables"],
   });
 

@@ -34,16 +34,23 @@ export const formatTime = (time: string) => {
   return formattedTime;
 };
 
-export const buildQueryString = (
-  params: Record<string, string | number | boolean | undefined | null>,
-): string => {
-  const cleanedParams: Record<string, string> = {};
-  for (const [key, value] of Object.entries(params)) {
-    if (value !== undefined && value !== null) {
-      cleanedParams[key] = String(value);
-    }
-  }
-  return cleanedParams
-    ? `?${new URLSearchParams(cleanedParams).toString()}`
-    : "";
-};
+// Esempio: { weekdayId: 2 } => "weekdayId=2"
+export function buildQueryStringFilters(
+  filters: Record<string, string | number | boolean | undefined | null>,
+): string {
+  return Object.entries(filters)
+    .filter(([value]) => value !== undefined && value !== null && value !== "")
+    .map(
+      ([key, value]) =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`,
+    )
+    .join("&");
+}
+
+// Esempio: { sortBy: "weekdayId", orderBy: "asc" } => "weekdayId.asc"
+export function buildQueryStringSort<T>(sort: {
+  sortBy: keyof T;
+  orderBy: "asc" | "desc";
+}): string {
+  return `${encodeURIComponent(String(sort.sortBy))}.${sort.orderBy}`;
+}

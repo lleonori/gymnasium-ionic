@@ -7,19 +7,23 @@ import {
 } from "../../models/booking/bookingModel";
 import { TResponse } from "../../models/commos/responseModel";
 import { TResponseError } from "../../models/problems/responseErrorModel";
-import { buildQueryString } from "../../utils/functions";
+import { buildQueryStringFilters } from "../../utils/functions";
 
 const API_BASE_URL = `${import.meta.env.VITE_API_URL}/booking`;
 
 export const getBookings = async (
   filterBooking: TFilterBooking | undefined,
 ): Promise<TResponse<TBooking>> => {
-  const queryString = buildQueryString(filterBooking ?? {});
+  const filters = buildQueryStringFilters(filterBooking ?? {});
 
+  // Unisci i parametri in modo sicuro
+  const params = [filters].filter(Boolean).join("&");
+  const queryString = params ? `?${params}` : "";
   try {
     const response = await axiosInstance.get<TResponse<TBooking>>(
       `${API_BASE_URL}${queryString}`,
     );
+
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
