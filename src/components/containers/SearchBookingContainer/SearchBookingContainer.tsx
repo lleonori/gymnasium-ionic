@@ -22,7 +22,7 @@ import {
   searchOutline,
   timeOutline,
 } from "ionicons/icons";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { getBookings } from "../../../api/booking/bookingApi";
 import { getCalendar } from "../../../api/calendar/calendarApi";
 import { getTimetables } from "../../../api/timetable/timetableApi";

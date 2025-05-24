@@ -43,7 +43,11 @@ const AppAdmin = () => {
         </IonRouterOutlet>
 
         <IonTabBar slot="bottom">
-          <IonTabButton tab="SearchBooking" href="/SearchBooking">
+          <IonTabButton
+            tab="SearchBooking"
+            href="/SearchBooking"
+            data-testid="tab-search"
+          >
             <IonIcon icon={searchOutline} />
             <IonLabel>Prenotazioni</IonLabel>
           </IonTabButton>

@@ -94,6 +94,7 @@ const Coach = () => {
       </IonContent>
       {/* Toasts */}
       <IonToast
+        role="alert"
         isOpen={showToast}
         message={toastMessage}
         color={toastColor}

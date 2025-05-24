@@ -49,16 +49,21 @@ const AppUsers = () => {
         </IonRouterOutlet>
 
         <IonTabBar slot="bottom">
-          <IonTabButton tab="home" href="/home">
+          <IonTabButton tab="home" href="/home" data-testid="tab-home">
             <IonIcon icon={barbellOutline} />
             <IonLabel>Home</IonLabel>
           </IonTabButton>
 
-          <IonTabButton tab="booking" href="/booking">
+          <IonTabButton tab="booking" href="/booking" data-testid="tab-booking">
             <IonIcon icon={calendarNumberOutline} />
             <IonLabel>Prenotazioni</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="logout" onClick={handleLogout}>
+
+          <IonTabButton
+            tab="logout"
+            onClick={handleLogout}
+            data-testid="tab-logout"
+          >
             <IonIcon icon={logOutOutline} />
             <IonLabel>Logout</IonLabel>
           </IonTabButton>

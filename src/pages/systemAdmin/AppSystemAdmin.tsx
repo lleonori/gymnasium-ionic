@@ -52,19 +52,31 @@ const AppSystemAdmin = () => {
         </IonRouterOutlet>
 
         <IonTabBar slot="bottom">
-          <IonTabButton tab="coachs" href="/coachs">
+          <IonTabButton tab="coachs" href="/coachs" data-testid="tab-coachs">
             <IonIcon icon={barbellOutline} />
             <IonLabel>Coachs</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="timetables" href="/timetables">
+          <IonTabButton
+            tab="timetables"
+            href="/timetables"
+            data-testid="tab-timetables"
+          >
             <IonIcon icon={timeOutline} />
             <IonLabel>Orari</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="assign-timetables" href="/assign-timetables">
+          <IonTabButton
+            tab="assign-timetables"
+            href="/assign-timetables"
+            data-testid="tab-assign-timetables"
+          >
             <IonIcon icon={briefcaseOutline} />
             <IonLabel>Assegna Orari</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="logout" onClick={handleLogout}>
+          <IonTabButton
+            tab="logout"
+            onClick={handleLogout}
+            data-testid="tab-logout"
+          >
             <IonIcon icon={logOutOutline} />
             <IonLabel>Logout</IonLabel>
           </IonTabButton>

@@ -92,13 +92,21 @@ const Login = () => {
                 alt="Gymnasium logo"
               />
               {slide.showButton && (
-                <IonButton color={Colors.PRIMARY} shape="round" onClick={login}>
+                <IonButton
+                  color={Colors.PRIMARY}
+                  shape="round"
+                  onClick={login}
+                  data-testid="login-button"
+                >
                   Inizia ora
                 </IonButton>
               )}
             </SwiperSlide>
           ))}
         </Swiper>
+        <button data-testid="skip-button" onClick={handleSkip}>
+          Skip
+        </button>
       </IonContent>
     </IonPage>
   );

@@ -3,7 +3,6 @@ import {
   IonCard,
   IonCardContent,
   IonCardHeader,
-  IonCardSubtitle,
   IonCardTitle,
   IonChip,
   IonIcon,
@@ -17,11 +16,7 @@ import {
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  calendarNumberOutline,
-  createOutline,
-  timeOutline,
-} from "ionicons/icons";
+import { createOutline, timeOutline } from "ionicons/icons";
 import { useState } from "react";
 import { getTimetables } from "../../../api/timetable/timetableApi";
 import {
@@ -30,6 +25,7 @@ import {
 } from "../../../api/weekday-time/weekdayTimeApi";
 import { TModalRole } from "../../../models/modal/modalModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
+import { TFilterTimetable } from "../../../models/timetable/timetableModel";
 import {
   TCreateWeekdayTimes,
   TWeekdayTime,
@@ -39,7 +35,6 @@ import { formatTime } from "../../../utils/functions";
 import Error from "../../common/Error";
 import Spinner from "../../common/Spinner/Spinner";
 import HandlerAssignTimetable from "./modal/HandlerAssignTimetable";
-import { TFilterTimetable } from "../../../models/timetable/timetableModel";
 
 const AssignTimetableContainer = () => {
   const queryClient = useQueryClient();
