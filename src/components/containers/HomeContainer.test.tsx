@@ -1,12 +1,12 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { getCoachs } from "../../api/coach/coachApi";
+import { getCoaches } from "../../api/coach/coachApi";
 import HomeContainer from "./HomeContainer";
 
-// Mock della funzione `getCoachs`
+// Mock della funzione `getCoaches`
 vi.mock("../../api/coach/coachApi", () => ({
-  getCoachs: vi.fn(),
+  getCoaches: vi.fn(),
 }));
 
 // Configure QueryClient for testing
@@ -26,8 +26,8 @@ describe("HomeContainer", () => {
   });
 
   it("renders the spinner while loading", () => {
-    // Mock di `getCoachs` per simulare il caricamento
-    vi.mocked(getCoachs).mockImplementation(() => new Promise(() => {}));
+    // Mock di `getCoaches` per simulare il caricamento
+    vi.mocked(getCoaches).mockImplementation(() => new Promise(() => {}));
 
     renderWithQueryClient(<HomeContainer />);
 

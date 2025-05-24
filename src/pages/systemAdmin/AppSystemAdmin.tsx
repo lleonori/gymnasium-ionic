@@ -45,16 +45,16 @@ const AppSystemAdmin = () => {
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Redirect exact path="/" to="/coachs" />
-          <Route path="/coachs" component={Coach} />
+          <Redirect exact path="/" to="/coaches" />
+          <Route path="/coaches" component={Coach} />
           <Route path="/timetables" component={Timetable} />
           <Route path="/assign-timetables" component={AssignTimetable} />
         </IonRouterOutlet>
 
         <IonTabBar slot="bottom">
-          <IonTabButton tab="coachs" href="/coachs" data-testid="tab-coachs">
+          <IonTabButton tab="coaches" href="/coaches" data-testid="tab-coaches">
             <IonIcon icon={barbellOutline} />
-            <IonLabel>Coachs</IonLabel>
+            <IonLabel>Coaches</IonLabel>
           </IonTabButton>
           <IonTabButton
             tab="timetables"

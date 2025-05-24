@@ -29,7 +29,7 @@ describe("AppSystemAdmin", () => {
 
   it("renders all navigation tabs", () => {
     renderWithQueryClient(<AppSystemAdmin />);
-    expect(screen.getByTestId("tab-coachs")).toBeInTheDocument();
+    expect(screen.getByTestId("tab-coaches")).toBeInTheDocument();
     expect(screen.getByTestId("tab-timetables")).toBeInTheDocument();
     expect(screen.getByTestId("tab-assign-timetables")).toBeInTheDocument();
     expect(screen.getByTestId("tab-logout")).toBeInTheDocument();

@@ -6,7 +6,7 @@ import { TResponseError } from "../../models/problems/responseErrorModel";
 
 const API_BASE_URL = `${import.meta.env.VITE_API_URL}/coach`;
 
-export const getCoachs = async (): Promise<TResponse<TCoach>> => {
+export const getCoaches = async (): Promise<TResponse<TCoach>> => {
   try {
     const response = await axiosInstance.get<TResponse<TCoach>>(API_BASE_URL);
     return response.data;

@@ -36,7 +36,7 @@ describe("Coach Component", () => {
 
   it("renders the Coach page title", () => {
     renderWithQueryClient(<Coach />);
-    const titles = screen.getAllByText(/^Coach$/i);
+    const titles = screen.getAllByText(/^Coaches$/i);
     expect(titles).toHaveLength(2);
   });
 

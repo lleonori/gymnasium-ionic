@@ -55,8 +55,8 @@ const Coach = () => {
   const { mutate: saveCoachMutate } = useMutation({
     mutationFn: (newCoach: TCreateCoach) => saveCoach(newCoach),
     onSuccess: () => {
-      // Invalidate and refetch coachs
-      queryClient.invalidateQueries({ queryKey: ["coachs"] });
+      // Invalidate and refetch coaches
+      queryClient.invalidateQueries({ queryKey: ["coaches"] });
       showToastWithMessage("Coach inserito", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {
@@ -74,7 +74,7 @@ const Coach = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Coach</IonTitle>
+          <IonTitle>Coaches</IonTitle>
           <IonButtons collapse={true} slot="end">
             <IonButton onClick={() => openModal()}>Aggiungi</IonButton>
           </IonButtons>
@@ -83,7 +83,7 @@ const Coach = () => {
       <IonContent className="ion-padding" fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar class="ion-justify-content-center">
-            <IonTitle size="large">Coach</IonTitle>
+            <IonTitle size="large">Coaches</IonTitle>
             <IonChip color={Colors.PRIMARY} onClick={() => openModal()}>
               <IonLabel>Aggiungi Coach</IonLabel>
               <IonIcon icon={barbellOutline}></IonIcon>

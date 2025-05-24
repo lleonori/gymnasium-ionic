@@ -22,7 +22,7 @@ import { createOutline, trashBinOutline } from "ionicons/icons";
 import { useMemo, useState } from "react";
 import {
   deleteCoach,
-  getCoachs,
+  getCoaches,
   updateCoach,
 } from "../../../api/coach/coachApi";
 import { TCoach } from "../../../models/coach/coachModel";
@@ -49,12 +49,12 @@ const CoachContainer = () => {
   const [currentCoach, setCurrentCoach] = useState<TCoach | null>(null);
 
   const {
-    data: coachs,
-    isLoading: isCoachsLoading,
-    error: coachsError,
+    data: coaches,
+    isLoading: isCoachesLoading,
+    error: coachesError,
   } = useQuery({
-    queryFn: () => getCoachs(),
-    queryKey: ["coachs"],
+    queryFn: () => getCoaches(),
+    queryKey: ["coaches"],
   });
 
   const [present, dismissModal] = useIonModal(HandlerCoach, {
@@ -78,8 +78,8 @@ const CoachContainer = () => {
   const { mutate: updateCoachMutate } = useMutation({
     mutationFn: (currentCoach: TCoach) => updateCoach(currentCoach),
     onSuccess: () => {
-      // Invalidate and refetch coachs
-      queryClient.invalidateQueries({ queryKey: ["coachs"] });
+      // Invalidate and refetch coaches
+      queryClient.invalidateQueries({ queryKey: ["coaches"] });
       showToastWithMessage("Coach aggiornato", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {
@@ -94,8 +94,8 @@ const CoachContainer = () => {
   const { mutate: deleteCoachMutate } = useMutation({
     mutationFn: () => deleteCoach(currentCoach!.id),
     onSuccess: () => {
-      // Invalidate and refetch coachs
-      queryClient.invalidateQueries({ queryKey: ["coachs"] });
+      // Invalidate and refetch coaches
+      queryClient.invalidateQueries({ queryKey: ["coaches"] });
       showToastWithMessage("Coach eliminato", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {
@@ -112,26 +112,26 @@ const CoachContainer = () => {
   };
 
   const imagesMap = useMemo(() => {
-    if (!coachs) return {};
+    if (!coaches) return {};
 
     const map: { [key: string]: string } = {};
-    coachs.data.forEach((coach: TCoach) => {
+    coaches.data.forEach((coach: TCoach) => {
       map[coach.id] = getRandomImage();
     });
     return map;
-  }, [coachs]);
+  }, [coaches]);
 
-  if (isCoachsLoading) {
+  if (isCoachesLoading) {
     return <Spinner />;
   }
 
-  if (coachsError) {
+  if (coachesError) {
     return <Error />;
   }
 
   return (
     <>
-      {coachs?.data.map((coach: TCoach) => (
+      {coaches?.data.map((coach: TCoach) => (
         <IonItemSliding key={coach.id}>
           <IonItemOptions side="start">
             <IonItemOption

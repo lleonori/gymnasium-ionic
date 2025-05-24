@@ -11,7 +11,7 @@ import {
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
 import { barbellOutline } from "ionicons/icons";
-import { getCoachs } from "../../api/coach/coachApi";
+import { getCoaches } from "../../api/coach/coachApi";
 import { TCoach } from "../../models/coach/coachModel";
 import Error from "../common/Error";
 import Spinner from "../common/Spinner/Spinner";
@@ -20,29 +20,29 @@ import { getRandomImage } from "../../utils/functions";
 
 const HomeContainer = () => {
   const {
-    data: coachs,
-    isLoading: isCoachsLoading,
-    error: coachsError,
+    data: coaches,
+    isLoading: isCoachesLoading,
+    error: coachesError,
   } = useQuery({
-    queryFn: () => getCoachs(),
-    queryKey: ["coachs"],
+    queryFn: () => getCoaches(),
+    queryKey: ["coaches"],
   });
 
   const imagesMap = useMemo(() => {
-    if (!coachs) return {};
+    if (!coaches) return {};
 
     const map: { [key: string]: string } = {};
-    coachs.data.forEach((coach: TCoach) => {
+    coaches.data.forEach((coach: TCoach) => {
       map[coach.id] = getRandomImage();
     });
     return map;
-  }, [coachs]);
+  }, [coaches]);
 
-  if (isCoachsLoading) {
+  if (isCoachesLoading) {
     return <Spinner />;
   }
 
-  if (coachsError) {
+  if (coachesError) {
     return <Error />;
   }
 
@@ -66,7 +66,7 @@ const HomeContainer = () => {
       </IonCard>
 
       {/* Coach Card */}
-      {coachs?.data.map((coach: TCoach) => (
+      {coaches?.data.map((coach: TCoach) => (
         <IonCard key={coach.id}>
           <IonCardHeader>
             <IonCardTitle>
