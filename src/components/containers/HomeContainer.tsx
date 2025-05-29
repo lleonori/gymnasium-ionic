@@ -55,7 +55,7 @@ const HomeContainer = () => {
             Benvenuto <br />
           </IonCardTitle>
           <IonCardSubtitle>
-            <IonIcon aria-hidden="true" icon={barbellOutline} />
+            <IonIcon icon={barbellOutline} />
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>

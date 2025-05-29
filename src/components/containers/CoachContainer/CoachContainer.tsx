@@ -141,7 +141,7 @@ const CoachContainer = () => {
                 openModal();
               }}
             >
-              <IonIcon aria-hidden="true" icon={createOutline} />
+              <IonIcon icon={createOutline} />
             </IonItemOption>
           </IonItemOptions>
           <IonItem>
@@ -179,7 +179,7 @@ const CoachContainer = () => {
                 setCurrentCoach(coach);
               }}
             >
-              <IonIcon aria-hidden="true" icon={trashBinOutline} />
+              <IonIcon icon={trashBinOutline} />
             </IonItemOption>
           </IonItemOptions>
         </IonItemSliding>

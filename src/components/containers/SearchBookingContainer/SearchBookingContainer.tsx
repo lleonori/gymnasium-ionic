@@ -36,12 +36,18 @@ import { formatTime, getRandomImage } from "../../../utils/functions";
 import Error from "../../common/Error";
 import Spinner from "../../common/Spinner/Spinner";
 import "./SearchBookingContainer.css";
+import { TSortBy } from "../../../models/sort/sortModel";
 
 const SearchBookingContainer = () => {
   // booking filter
   const [filterBooking, setFilterBooking] = useState<
     TFilterBooking | undefined
   >();
+  // timetable sorting
+  const [timetableSort] = useState<TSortBy<TTimetable>>({
+    sortBy: "startHour",
+    orderBy: "asc",
+  });
   // timetable filter
   const [filterTimetable, setFilterTimetable] = useState<
     TFilterTimetable | undefined
@@ -81,7 +87,7 @@ const SearchBookingContainer = () => {
     error: timetablesError,
     isFetching: isTimetablesFetching,
   } = useQuery({
-    queryFn: () => getTimetables(filterTimetable),
+    queryFn: () => getTimetables(filterTimetable, timetableSort),
     queryKey: ["timetables", filterBooking?.day],
     enabled: !!filterBooking?.day,
   });
@@ -152,7 +158,7 @@ const SearchBookingContainer = () => {
             Benvenuto <br />
           </IonCardTitle>
           <IonCardSubtitle>
-            <IonIcon aria-hidden="true" icon={barbellOutline} />
+            <IonIcon icon={barbellOutline} />
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
@@ -168,7 +174,7 @@ const SearchBookingContainer = () => {
             Filtri <br />
           </IonCardTitle>
           <IonCardSubtitle>
-            <IonIcon aria-hidden="true" icon={filterOutline} />
+            <IonIcon icon={filterOutline} />
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
@@ -206,7 +212,12 @@ const SearchBookingContainer = () => {
             ))}
           </IonSelect>
           <div className="button-container">
-            <IonButton type="button" size="small" onClick={handleFetchBookings}>
+            <IonButton
+              data-testid="search-bookings"
+              type="button"
+              size="small"
+              onClick={handleFetchBookings}
+            >
               <IonIcon slot="icon-only" icon={searchOutline}></IonIcon>
             </IonButton>
           </div>

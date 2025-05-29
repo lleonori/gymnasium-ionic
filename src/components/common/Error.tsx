@@ -16,11 +16,7 @@ const Error = () => {
       <IonCardHeader>
         <IonCardTitle>Errore</IonCardTitle>
         <IonCardSubtitle>
-          <IonIcon
-            aria-hidden="true"
-            color={Colors.WARNING}
-            icon={warningOutline}
-          />
+          <IonIcon color={Colors.WARNING} icon={warningOutline} />
         </IonCardSubtitle>
       </IonCardHeader>
       <IonCardContent>

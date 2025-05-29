@@ -38,14 +38,14 @@ const AppAdmin = () => {
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Redirect exact path="/" to="/SearchBooking" />
-          <Route path="/SearchBooking" component={SearchBooking} />
+          <Redirect exact path="/" to="/search-bookings" />
+          <Route path="/search-bookings" component={SearchBooking} />
         </IonRouterOutlet>
 
         <IonTabBar slot="bottom">
           <IonTabButton
-            tab="SearchBooking"
-            href="/SearchBooking"
+            tab="search-bookings"
+            href="/search-bookings"
             data-testid="tab-search"
           >
             <IonIcon icon={searchOutline} />

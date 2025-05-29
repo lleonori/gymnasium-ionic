@@ -38,7 +38,7 @@ import { formatTime } from "../../../utils/functions";
 import Error from "../../common/Error";
 import Spinner from "../../common/Spinner/Spinner";
 import HandlerAssignTimetable from "./modal/HandlerAssignTimetable";
-import { TSortBy } from "../../../models/sort/sortMOdel";
+import { TSortBy } from "../../../models/sort/sortModel";
 
 const AssignTimetableContainer = () => {
   const queryClient = useQueryClient();
@@ -135,7 +135,7 @@ const AssignTimetableContainer = () => {
                 setCurrentWeekdayTime(weekdayTime);
               }}
             >
-              <IonIcon aria-hidden="true" icon={createOutline} />
+              <IonIcon icon={createOutline} />
             </IonItemOption>
           </IonItemOptions>
           <IonItem>

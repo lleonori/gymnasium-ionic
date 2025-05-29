@@ -27,7 +27,7 @@ import {
 } from "../../../api/timetable/timetableApi";
 import { TModalRole } from "../../../models/modal/modalModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
-import { TSortBy } from "../../../models/sort/sortMOdel";
+import { TSortBy } from "../../../models/sort/sortModel";
 import {
   TFilterTimetable,
   TTimetable,
@@ -147,7 +147,7 @@ const TimetableContainer = () => {
                 openModal();
               }}
             >
-              <IonIcon aria-hidden="true" icon={createOutline} />
+              <IonIcon icon={createOutline} />
             </IonItemOption>
           </IonItemOptions>
           <IonItem>
@@ -183,7 +183,7 @@ const TimetableContainer = () => {
                 setCurrentTimetable(timetable);
               }}
             >
-              <IonIcon aria-hidden="true" icon={trashBinOutline} />
+              <IonIcon icon={trashBinOutline} />
             </IonItemOption>
           </IonItemOptions>
         </IonItemSliding>

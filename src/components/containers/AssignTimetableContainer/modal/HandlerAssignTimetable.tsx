@@ -102,7 +102,7 @@ const HandlerAssignTimetable = ({
           <IonCardHeader>
             <IonCardTitle>Orari assegnati</IonCardTitle>
             <IonCardSubtitle>
-              <IonIcon aria-hidden="true" icon={timeOutline} />
+              <IonIcon icon={timeOutline} />
             </IonCardSubtitle>
           </IonCardHeader>
           <IonCardContent>
@@ -122,7 +122,7 @@ const HandlerAssignTimetable = ({
           <IonCardHeader>
             <IonCardTitle>Orari da assegnare</IonCardTitle>
             <IonCardSubtitle>
-              <IonIcon aria-hidden="true" icon={timeOutline} />
+              <IonIcon icon={timeOutline} />
             </IonCardSubtitle>
           </IonCardHeader>
           <IonCardContent>

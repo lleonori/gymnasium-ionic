@@ -51,7 +51,7 @@ import { Colors } from "../../../utils/enums";
 import { formatTime, getRandomImage } from "../../../utils/functions";
 import Error from "../../common/Error";
 import Spinner from "../../common/Spinner/Spinner";
-import { TSortBy } from "../../../models/sort/sortMOdel";
+import { TSortBy } from "../../../models/sort/sortModel";
 
 const BookingContainer = () => {
   const { user } = useAuth0();
@@ -204,7 +204,7 @@ const BookingContainer = () => {
         <IonCardHeader>
           <IonCardTitle>Regole</IonCardTitle>
           <IonCardSubtitle>
-            <IonIcon aria-hidden="true" icon={barbellOutline} />
+            <IonIcon icon={barbellOutline} />
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
@@ -320,7 +320,7 @@ const BookingContainer = () => {
                       }}
                       color={Colors.DANGER}
                     >
-                      <IonIcon aria-hidden="true" icon={trashBinOutline} />
+                      <IonIcon icon={trashBinOutline} />
                     </IonItemOption>
                   </IonItemOptions>
                 </IonItemSliding>
