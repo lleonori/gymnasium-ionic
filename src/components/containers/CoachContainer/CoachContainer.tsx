@@ -18,7 +18,7 @@ import {
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createOutline, trashBinOutline } from "ionicons/icons";
+import { barbellOutline, createOutline, trashBinOutline } from "ionicons/icons";
 import { useMemo, useState } from "react";
 import {
   deleteCoach,
@@ -131,10 +131,28 @@ const CoachContainer = () => {
 
   return (
     <>
+      {/* Presentational Card */}
+      <IonCard>
+        <IonCardHeader>
+          <IonCardTitle>
+            Benvenuto <br />
+          </IonCardTitle>
+          <IonCardSubtitle>
+            <IonIcon icon={barbellOutline} />
+          </IonCardSubtitle>
+        </IonCardHeader>
+        <IonCardContent>
+          Tramite questa app puoi amministrare coaches, orari e assegnazioni
+          giorni/orari. <br />
+          <br />
+          "I am. I can. I will. I do."
+        </IonCardContent>
+      </IonCard>
       {coaches?.data.map((coach: TCoach) => (
         <IonItemSliding key={coach.id}>
           <IonItemOptions side="start">
             <IonItemOption
+              data-testid={`update-coach-${coach.id}`}
               color={Colors.WARNING}
               onClick={() => {
                 setCurrentCoach(coach);
@@ -173,6 +191,7 @@ const CoachContainer = () => {
           </IonItem>
           <IonItemOptions side="end">
             <IonItemOption
+              data-testid={`delete-coach-${coach.id}`}
               color={Colors.DANGER}
               onClick={() => {
                 handleOpenActionSheet();
@@ -196,6 +215,7 @@ const CoachContainer = () => {
               action: "delete",
             },
             handler: () => {
+              console.log("Handler Elimina chiamato", currentCoach);
               deleteCoachMutate();
             },
           },

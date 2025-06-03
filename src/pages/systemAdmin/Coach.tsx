@@ -84,7 +84,11 @@ const Coach = () => {
         <IonHeader collapse="condense">
           <IonToolbar class="ion-justify-content-center">
             <IonTitle size="large">Coaches</IonTitle>
-            <IonChip color={Colors.PRIMARY} onClick={() => openModal()}>
+            <IonChip
+              data-testid="create-coach"
+              color={Colors.PRIMARY}
+              onClick={() => openModal()}
+            >
               <IonLabel>Aggiungi Coach</IonLabel>
               <IonIcon icon={barbellOutline}></IonIcon>
             </IonChip>

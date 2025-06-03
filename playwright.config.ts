@@ -31,11 +31,34 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
     baseURL: "http://localhost:8100",
-    storageState: ".auth/storageState.json",
   },
 
   /* Configure projects for major browsers */
   projects: [
+    {
+      name: "system-administrator-chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: ".auth/storageState.system-administrator.json",
+      },
+      testMatch: /.*\.system-administrator\.spec\.ts/, // ⬅️ Facoltativo: filtra i file specifici
+    },
+    {
+      name: "administrator-chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: ".auth/storageState.administrator.json",
+      },
+      testMatch: /.*\.administrator\.spec\.ts/, // ⬅️ Facoltativo: filtra i file specifici
+    },
+    {
+      name: "user-chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: ".auth/storageState.user.json",
+      },
+      testMatch: /.*\.user\.spec\.ts/, // ⬅️ Facoltativo: filtra i file specifici
+    },
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },

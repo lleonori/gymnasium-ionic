@@ -16,7 +16,6 @@ const test = base.extend<SearchBookingFixtures>({
       await dayAlert.locator("button", { hasText: date }).click();
       await dayAlert.locator("button", { hasText: "OK" }).click();
 
-      // Attendi la chiamata al backend
       await page.waitForResponse(
         (response) =>
           response
@@ -35,51 +34,42 @@ const test = base.extend<SearchBookingFixtures>({
   },
 });
 
-test.describe("SearchBookingContainer funzionalità principali", () => {
+test.describe("SearchBookingContainer main functionalities", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/search-bookings");
   });
 
-  test("verifica che i filtri siano visibili e funzionino", async ({
+  test("should display filters and allow selection", async ({
     page,
     selectDateTime,
   }) => {
     // I filtri sono visibili
     await expect(page.locator('ion-select[label="Giorno"]')).toBeVisible();
     await expect(page.locator('ion-select[label="Orario"]')).toBeVisible();
-
     // Seleziona data e ora
     await selectDateTime("2025-05-29", "9:00 - 10:30");
-
     // Verifica che i valori siano stati selezionati
     await expect(
       page.locator('ion-select[label="Giorno"] .select-text'),
     ).toHaveText("2025-05-29");
-
     await expect(
       page.locator('ion-select[label="Orario"] .select-text'),
     ).toHaveText("09:00 - 10:30");
   });
 
-  test("esegue la ricerca delle prenotazioni", async ({
-    page,
-    selectDateTime,
-  }) => {
+  test("should perform booking search", async ({ page, selectDateTime }) => {
     await selectDateTime("2025-05-29", "09:00 - 10:30");
-
     // Clicca sul pulsante di ricerca
     await page.getByTestId("search-bookings").click();
-
     // Verifica che i risultati siano visibili
     await expect(page.getByText(/nessuna prenotazione/i)).toBeVisible();
   });
 
-  test("mostra un messaggio di errore se i filtri non sono completi", async ({
+  test("should show an error message if filters are incomplete", async ({
     page,
   }) => {
     // Clicca sul pulsante di ricerca
     await page.getByTestId("search-bookings").click();
-
     // Verifica che il toast di errore sia visibile
     await expect(page.locator("ion-toast")).toBeVisible();
     await expect(page.locator("ion-toast")).toHaveText(

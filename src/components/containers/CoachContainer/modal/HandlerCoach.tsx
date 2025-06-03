@@ -80,7 +80,11 @@ const HandlerCoach = (props: HandlerCoachProps) => {
               {isUpdateMode ? "Modifica Coach" : "Nuovo Coach"}
             </IonTitle>
             <IonButtons slot="end">
-              <IonButton type="submit" strong={true}>
+              <IonButton
+                data-testid="insert-update-coach"
+                type="submit"
+                strong={true}
+              >
                 {isUpdateMode ? "Modifica" : "Crea"}
               </IonButton>
             </IonButtons>
