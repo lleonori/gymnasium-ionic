@@ -83,7 +83,11 @@ const Timetable = () => {
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">Orari</IonTitle>
-            <IonChip color={Colors.PRIMARY} onClick={() => openModal()}>
+            <IonChip
+              data-testid="create-timetable"
+              color={Colors.PRIMARY}
+              onClick={() => openModal()}
+            >
               Aggiungi Orario<IonIcon icon={timeOutline}></IonIcon>
             </IonChip>
           </IonToolbar>

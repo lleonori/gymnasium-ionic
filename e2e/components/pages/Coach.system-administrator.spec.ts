@@ -33,7 +33,7 @@ test.describe("Coach page - inserimento coach", () => {
     await page.goto("/coaches"); // Aggiorna la route se necessario
   });
 
-  test("aggiunge un coach tramite modale", async ({ page }) => {
+  test("should create coach via modal", async ({ page }) => {
     // Click sul bottone "Aggiungi"
     await page.getByTestId("create-coach").click();
 
@@ -52,6 +52,12 @@ test.describe("Coach page - inserimento coach", () => {
     await expect(
       page.locator('ion-toast[is-open="true"]:not(.overlay-hidden)'),
     ).toBeVisible();
+
+    // Attendi che la modale sia completamente chiusa
+    await expect(page.locator("ion-modal")).not.toBeVisible();
+
+    // Attendi che la pagina sia aggiornata (opzionale, ma aiuta)
+    await page.waitForTimeout(500);
 
     // Verifica che il nuovo coach sia visibile nella lista
     await expect(page.getByText("Anna Bianchi")).toBeVisible();

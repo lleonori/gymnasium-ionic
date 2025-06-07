@@ -49,7 +49,7 @@ test.describe(() => {
     await page.goto("/"); // Cambia se la route è diversa
   });
 
-  test("shows spinner while loading", async ({ page }) => {
+  test("should shows spinner while loading", async ({ page }) => {
     await page.route("**/api/v1/coach**", async (route) => {
       await new Promise((res) => setTimeout(res, 500));
       await route.continue();
@@ -58,7 +58,7 @@ test.describe(() => {
     await expect(page.locator("ion-spinner")).toBeVisible();
   });
 
-  test("shows error on API failure", async ({ page }) => {
+  test("should shows error on API failure", async ({ page }) => {
     await page.route("**/api/v1/coach**", async (route) => {
       await route.abort();
     });
@@ -66,7 +66,7 @@ test.describe(() => {
     await expect(page.locator("text=Errore")).toBeVisible();
   });
 
-  test("renders coaches with correct info", async ({ page }) => {
+  test("should renders coaches with correct info", async ({ page }) => {
     await expect(page.locator("text=Mario Rossi")).toBeVisible();
     await expect(page.locator("text=Luigi Verdi")).toBeVisible();
     await expect(page.locator('ion-chip:has-text("note1")')).toBeVisible();
@@ -74,7 +74,7 @@ test.describe(() => {
     await expect(page.locator('img[alt="Coach\'s avatar"]')).toHaveCount(2);
   });
 
-  test("update coach via dialog", async ({ page }) => {
+  test("should update coach via dialog", async ({ page }) => {
     // Verifica che il coach sia visibile
     await expect(page.getByText("Mario Rossi")).toBeVisible();
 
@@ -111,7 +111,7 @@ test.describe(() => {
     await expect(page.getByText("Giovanni Rossi")).toBeVisible();
   });
 
-  test("delete coach via ActionSheet", async ({ page }) => {
+  test("should delete coach via ActionSheet", async ({ page }) => {
     // Verifica che il coach sia visibile
     await expect(page.getByText("Mario Rossi")).toBeVisible();
 

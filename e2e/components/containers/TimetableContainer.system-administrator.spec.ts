@@ -1,0 +1,193 @@
+import { test, expect } from "@playwright/test";
+
+test.describe("TimetableContainer", () => {
+  let timetables = [
+    { id: 1, startHour: "08:00", endHour: "12:00" },
+    { id: 2, startHour: "14:00", endHour: "18:00" },
+  ];
+
+  test.beforeEach(async ({ page }) => {
+    // Mock GET lista orari
+    await page.route(/\/api\/v1\/timetable.*/, async (route, request) => {
+      if (request.method() === "GET") {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ data: timetables }),
+        });
+      } else {
+        await route.continue();
+      }
+    });
+
+    // Mock PATCH e DELETE
+    await page.route(/\/api\/v1\/timetable\/\d+$/, async (route, request) => {
+      if (request.method() === "PATCH") {
+        const body = await request.postDataJSON();
+        console.log("Body :", body);
+        timetables = timetables.map((t) =>
+          t.id === body.id
+            ? { id: t.id, startHour: body.startHour, endHour: body.endHour }
+            : t,
+        );
+        console.log("timetables :", timetables);
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ data: body }),
+        });
+      } else if (request.method() === "DELETE") {
+        const id = Number(route.request().url().split("/").pop());
+        timetables = timetables.filter((t) => t.id !== id);
+        await route.fulfill({ status: 200, body: "{}" });
+      } else {
+        await route.continue();
+      }
+    });
+
+    await page.goto("/timetables"); // Cambia la route se necessario
+  });
+
+  test("should show spinner while loading", async ({ page }) => {
+    await page.route("**/api/v1/timetable**", async (route) => {
+      await new Promise((res) => setTimeout(res, 500));
+      await route.continue();
+    });
+    await page.reload();
+    await expect(page.locator("ion-spinner")).toBeVisible();
+  });
+
+  test("should show error on API failure", async ({ page }) => {
+    await page.route("**/api/v1/timetable**", async (route) => {
+      await route.abort();
+    });
+    await page.reload();
+    await expect(page.locator("text=Errore")).toBeVisible();
+  });
+
+  test("should render timetables with correct info", async ({ page }) => {
+    await expect(
+      page.locator('ion-chip:has-text("08:00 - 12:00")'),
+    ).toBeVisible();
+    await expect(
+      page.locator('ion-chip:has-text("14:00 - 18:00")'),
+    ).toBeVisible();
+    await expect(page.locator('img[alt="Timetable\'s avatar"]')).toHaveCount(2);
+  });
+
+  test("should update timetable via dialog", async ({ page }) => {
+    await expect(
+      page.locator('ion-chip:has-text("08:00 - 12:00")'),
+    ).toBeVisible();
+
+    // Simula lo swipe per mostrare le opzioni di modifica
+    await page.evaluate(() => {
+      const sliding = document.querySelector("ion-item-sliding");
+      if (sliding) {
+        sliding.classList.add(
+          "ios",
+          "item-sliding-active-slide",
+          "item-sliding-active-options-start",
+        );
+      }
+    });
+
+    // Clicca sull’icona modifica (adatta il testid se lo usi)
+    await page.locator('ion-item-option[color="warning"]').first().click();
+
+    // Attendi che la modale sia visibile
+    await expect(page.locator("ion-modal")).toBeVisible();
+
+    // Ora Inizio
+    await page
+      .locator('ion-select:has(div[slot="label"]:has-text("Ora Inizio"))')
+      .click();
+    let alert = page.getByRole("alertdialog", { name: "Ora Inizio" });
+    await alert.waitFor();
+    await alert.locator("button", { hasText: "09" }).click();
+    await alert.locator("button", { hasText: "OK" }).click();
+
+    // Minuti Inizio
+    await page
+      .locator('ion-select:has(div[slot="label"]:has-text("Minuti Inizio"))')
+      .click();
+    alert = page.getByRole("alertdialog", { name: "Minuti Inizio" });
+    await alert.waitFor();
+    await alert.getByRole("radio", { name: "15" }).click();
+    await alert.locator("button", { hasText: "OK" }).click();
+
+    // Ora Fine
+    await page
+      .locator('ion-select:has(div[slot="label"]:has-text("Ora Fine"))')
+      .click();
+    alert = page.getByRole("alertdialog", { name: "Ora Fine" });
+    await alert.waitFor();
+    await alert.getByRole("radio", { name: "13" }).click();
+    await alert.locator("button", { hasText: "OK" }).click();
+
+    // Minuti Fine
+    await page
+      .locator('ion-select:has(div[slot="label"]:has-text("Minuti Fine"))')
+      .click();
+    alert = page.getByRole("alertdialog", { name: "Minuti Fine" });
+    await alert.waitFor();
+    await alert.getByRole("radio", { name: "00" }).click();
+    await alert.locator("button", { hasText: "OK" }).click();
+
+    // // Conferma la creazione
+    await page.getByTestId("create-update-timetable").click();
+
+    // // Attendi il toast di conferma
+    await expect(
+      page.locator('ion-toast[is-open="true"]:not(.overlay-hidden)'),
+    ).toBeVisible();
+
+    // // Attendi che la modale sia completamente chiusa
+    await expect(page.locator("ion-modal")).not.toBeVisible();
+
+    // // Attendi che la pagina sia aggiornata (opzionale, ma aiuta)
+    await page.waitForTimeout(500);
+
+    // // Verifica che il nuovo orario sia visibile nella lista
+    await expect(
+      page.locator('ion-chip:has-text("09:15 - 13:00")'),
+    ).toBeVisible();
+  });
+
+  test("should delete timetable via ActionSheet", async ({ page }) => {
+    await expect(
+      page.locator('ion-chip:has-text("08:00 - 12:00")'),
+    ).toBeVisible();
+
+    // Simula lo swipe per mostrare le opzioni di delete
+    await page.evaluate(() => {
+      const sliding = document.querySelector("ion-item-sliding");
+      if (sliding) {
+        sliding.classList.add(
+          "ios",
+          "item-sliding-active-slide",
+          "item-sliding-active-options-end",
+        );
+      }
+    });
+
+    // Clicca sull’icona elimina (adatta il testid se lo usi)
+    await page.locator('ion-item-option[color="danger"]').first().click();
+
+    // Attendi che l’ActionSheet sia visibile
+    await expect(page.locator("ion-action-sheet")).toBeVisible();
+
+    // Clicca su "Elimina"
+    await page.locator('ion-action-sheet button:has-text("Elimina")').click();
+
+    // Attendi che il toast di conferma sia visibile
+    await expect(
+      page.locator('ion-toast[is-open="true"]:not(.overlay-hidden)'),
+    ).toBeVisible();
+
+    // Verifica che l'orario sia stato rimosso dalla lista
+    await expect(
+      page.locator('ion-chip:has-text("08:00 - 12:00")'),
+    ).not.toBeVisible();
+  });
+});
