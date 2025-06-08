@@ -129,6 +129,7 @@ const AssignTimetableContainer = () => {
         <IonItemSliding key={weekdayTime.weekdayId}>
           <IonItemOptions side="start">
             <IonItemOption
+              data-testid={`update-weekday-times-${weekdayTime.weekdayId}`}
               color={Colors.WARNING}
               onClick={() => {
                 openModal();

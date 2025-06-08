@@ -90,7 +90,12 @@ const HandlerAssignTimetable = ({
           </IonButtons>
           <IonTitle>Modifica Assegnazione</IonTitle>
           <IonButtons slot="end">
-            <IonButton type="button" strong={true} onClick={onSubmit}>
+            <IonButton
+              data-testid={`update-weekday-times`}
+              type="button"
+              strong={true}
+              onClick={onSubmit}
+            >
               Modifica
             </IonButton>
           </IonButtons>
@@ -108,6 +113,7 @@ const HandlerAssignTimetable = ({
           <IonCardContent>
             {assignedTimes.map((assignedTime) => (
               <IonChip
+                data-testid={`assigned-time-${assignedTime.id}`}
                 key={assignedTime.id}
                 onClick={() => addToTimesToBeAssigned(assignedTime)}
               >

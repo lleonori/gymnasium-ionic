@@ -134,21 +134,21 @@ test.describe("TimetableContainer", () => {
     await alert.getByRole("radio", { name: "00" }).click();
     await alert.locator("button", { hasText: "OK" }).click();
 
-    // // Conferma la creazione
+    // Conferma la creazione
     await page.getByTestId("create-update-timetable").click();
 
-    // // Attendi il toast di conferma
+    // Attendi il toast di conferma
     await expect(
       page.locator('ion-toast[is-open="true"]:not(.overlay-hidden)'),
     ).toBeVisible();
 
-    // // Attendi che la modale sia completamente chiusa
+    // Attendi che la modale sia completamente chiusa
     await expect(page.locator("ion-modal")).not.toBeVisible();
 
-    // // Attendi che la pagina sia aggiornata (opzionale, ma aiuta)
+    // Attendi che la pagina sia aggiornata (opzionale, ma aiuta)
     await page.waitForTimeout(500);
 
-    // // Verifica che il nuovo orario sia visibile nella lista
+    // Verifica che il nuovo orario sia visibile nella lista
     await expect(
       page.locator('ion-chip:has-text("09:15 - 13:00")'),
     ).toBeVisible();
