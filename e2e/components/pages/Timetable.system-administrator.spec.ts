@@ -42,8 +42,16 @@ test.describe("Timetable page - inserimento orario", () => {
   });
 
   test("should create timetable via dialog", async ({ page }) => {
-    // Apri la modale tramite chip o bottone
-    await page.getByTestId("create-timetable").click();
+    const chip = page.getByTestId("create-timetable");
+    const headerBtn = page.getByTestId("create-timetable-header");
+
+    if (await chip.isVisible().catch(() => false)) {
+      await chip.click();
+    } else if (await headerBtn.isVisible().catch(() => false)) {
+      await headerBtn.click();
+    } else {
+      throw new Error("Nessun pulsante per creare l'orario trovato!");
+    }
 
     // Attendi che la modale sia visibile
     await expect(page.locator("ion-modal")).toBeVisible();

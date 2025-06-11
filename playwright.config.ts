@@ -41,7 +41,7 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         storageState: ".auth/storageState.system-administrator.json",
       },
-      testMatch: /.*\.system-administrator\.spec\.ts/, // ⬅️ Facoltativo: filtra i file specifici
+      testMatch: /.*\.system-administrator\.spec\.ts/, // filtra i file specifici per system-administrator
     },
     {
       name: "administrator-chromium",
@@ -49,7 +49,7 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         storageState: ".auth/storageState.administrator.json",
       },
-      testMatch: /.*\.administrator\.spec\.ts/, // ⬅️ Facoltativo: filtra i file specifici
+      testMatch: /.*\.administrator\.spec\.ts/, // filtra i file specifici per administrator
     },
     {
       name: "user-chromium",
@@ -57,7 +57,7 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         storageState: ".auth/storageState.user.json",
       },
-      testMatch: /.*\.user\.spec\.ts/, // ⬅️ Facoltativo: filtra i file specifici
+      testMatch: /.*\.user\.spec\.ts/, // filtra i file specifici per user
     },
     {
       name: "chromium",

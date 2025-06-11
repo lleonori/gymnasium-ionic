@@ -34,8 +34,16 @@ test.describe("Coach page - inserimento coach", () => {
   });
 
   test("should create coach via modal", async ({ page }) => {
-    // Click sul bottone "Aggiungi"
-    await page.getByTestId("create-coach").click();
+    const chip = page.getByTestId("create-coach");
+    const headerBtn = page.getByTestId("create-coach-header");
+
+    if (await chip.isVisible().catch(() => false)) {
+      await chip.click();
+    } else if (await headerBtn.isVisible().catch(() => false)) {
+      await headerBtn.click();
+    } else {
+      throw new Error("Nessun pulsante per creare il coach trovato!");
+    }
 
     // Attendi che la modale sia visibile
     await expect(page.locator("ion-modal")).toBeVisible();

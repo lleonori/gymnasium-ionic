@@ -76,7 +76,12 @@ const Coach = () => {
         <IonToolbar>
           <IonTitle>Coaches</IonTitle>
           <IonButtons collapse={true} slot="end">
-            <IonButton onClick={() => openModal()}>Aggiungi</IonButton>
+            <IonButton
+              data-testid="create-coach-header"
+              onClick={() => openModal()}
+            >
+              Aggiungi
+            </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>

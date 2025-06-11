@@ -75,7 +75,12 @@ const Timetable = () => {
         <IonToolbar>
           <IonTitle>Orari</IonTitle>
           <IonButtons collapse={true} slot="end">
-            <IonButton onClick={() => openModal()}>Aggiungi</IonButton>
+            <IonButton
+              data-testid="create-timetable-header"
+              onClick={() => openModal()}
+            >
+              Aggiungi
+            </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
