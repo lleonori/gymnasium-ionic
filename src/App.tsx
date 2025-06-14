@@ -25,9 +25,9 @@ import { useEffect } from "react";
 import { callbackUri } from "./Auth.config";
 import { useAuthInterceptor } from "./hooks/useAuthInterceptor";
 import { TUser } from "./models/user/userModel";
-import AppAdmin from "./pages/administrator/AppAdmin";
+import AppAdministrator from "./pages/administrator/AppAdministrator";
 import Login from "./pages/login/Login";
-import AppSystemAdmin from "./pages/systemAdministrator/AppSystemAdmin";
+import AppSystemAdministrator from "./pages/systemAdministrator/AppSystemAdministrator";
 import AppUsers from "./pages/user/AppUsers";
 import "./theme/variables.css";
 import { UserRoles } from "./utils/enums";
@@ -79,9 +79,9 @@ const App = () => {
               );
               const isAdmin = roles.includes(UserRoles.ADMINISTRATOR);
 
-              if (isSystemAdmin) return <AppSystemAdmin />;
+              if (isSystemAdmin) return <AppSystemAdministrator />;
 
-              if (isAdmin) return <AppAdmin />;
+              if (isAdmin) return <AppAdministrator />;
 
               return <AppUsers />;
             }}

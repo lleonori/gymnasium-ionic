@@ -9,13 +9,14 @@ import {
   IonTabs,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { logOutOutline, searchOutline } from "ionicons/icons";
+import { homeOutline, logOutOutline, searchOutline } from "ionicons/icons";
 import { Redirect, Route } from "react-router";
 import { callbackUri } from "../../Auth.config";
 import Spinner from "../../components/common/Spinner/Spinner";
 import SearchBooking from "./SearchBooking";
+import HomeAdministrator from "./HomeAdministrator";
 
-const AppAdmin = () => {
+const AppAdministrator = () => {
   const { logout, isLoading } = useAuth0();
 
   const handleLogout = async () => {
@@ -38,11 +39,16 @@ const AppAdmin = () => {
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Redirect exact path="/" to="/search-bookings" />
+          <Redirect exact path="/" to="/home" />
+          <Route path="/home" component={HomeAdministrator} />
           <Route path="/search-bookings" component={SearchBooking} />
         </IonRouterOutlet>
 
         <IonTabBar slot="bottom">
+          <IonTabButton tab="Home" href="/home" data-testid="tab-home">
+            <IonIcon icon={homeOutline} />
+            <IonLabel>Home</IonLabel>
+          </IonTabButton>
           <IonTabButton
             tab="search-bookings"
             href="/search-bookings"
@@ -62,4 +68,4 @@ const AppAdmin = () => {
   );
 };
 
-export default AppAdmin;
+export default AppAdministrator;

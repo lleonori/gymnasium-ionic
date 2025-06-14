@@ -13,7 +13,7 @@ vi.mock("@auth0/auth0-react", () => ({
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
-import AppAdmin from "./AppAdmin";
+import AppSystemAdministrator from "./AppSystemAdministrator";
 
 function renderWithQueryClient(ui: React.ReactElement) {
   const queryClient = new QueryClient();
@@ -22,14 +22,17 @@ function renderWithQueryClient(ui: React.ReactElement) {
   );
 }
 
-describe("AppAdmin", () => {
+describe("AppSystemAdministrator", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it("renders all navigation tabs", () => {
-    renderWithQueryClient(<AppAdmin />);
-    expect(screen.getByTestId("tab-search")).toBeInTheDocument();
+    renderWithQueryClient(<AppSystemAdministrator />);
+    expect(screen.getByTestId("tab-coaches")).toBeInTheDocument();
+    expect(screen.getByTestId("tab-timetables")).toBeInTheDocument();
+    expect(screen.getByTestId("tab-assign-timetables")).toBeInTheDocument();
+    expect(screen.getByTestId("tab-logout")).toBeInTheDocument();
   });
 
   it("shows spinner when loading", async () => {
@@ -45,8 +48,10 @@ describe("AppAdmin", () => {
     }));
 
     // Import dinamico con nuovo mock applicato
-    const { default: AppUsersLoading } = await import("./AppAdmin");
-    renderWithQueryClient(<AppUsersLoading />);
+    const { default: AppSystemAdministratorLoading } = await import(
+      "./AppSystemAdministrator"
+    );
+    renderWithQueryClient(<AppSystemAdministratorLoading />);
 
     expect(screen.getByRole("status")).toBeInTheDocument();
   });

@@ -18,7 +18,7 @@ import {
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { barbellOutline, createOutline, trashBinOutline } from "ionicons/icons";
+import { createOutline, trashBinOutline } from "ionicons/icons";
 import { useMemo, useState } from "react";
 import {
   deleteCoach,
@@ -29,10 +29,10 @@ import { TCoach } from "../../../models/coach/coachModel";
 import { TModalRole } from "../../../models/modal/modalModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
 import { Colors } from "../../../utils/enums";
+import { getRandomImage } from "../../../utils/functions";
 import Error from "../../common/Error";
 import Spinner from "../../common/Spinner/Spinner";
 import HandlerCoach from "./modal/HandlerCoach";
-import { getRandomImage } from "../../../utils/functions";
 
 const CoachContainer = () => {
   const queryClient = useQueryClient();
@@ -131,23 +131,6 @@ const CoachContainer = () => {
 
   return (
     <>
-      {/* Presentational Card */}
-      <IonCard>
-        <IonCardHeader>
-          <IonCardTitle>
-            Benvenuto <br />
-          </IonCardTitle>
-          <IonCardSubtitle>
-            <IonIcon icon={barbellOutline} />
-          </IonCardSubtitle>
-        </IonCardHeader>
-        <IonCardContent>
-          Tramite questa app puoi amministrare coaches, orari e assegnazioni
-          giorni/orari. <br />
-          <br />
-          "I am. I can. I will. I do."
-        </IonCardContent>
-      </IonCard>
       {coaches?.data.map((coach: TCoach) => (
         <IonItemSliding key={coach.id}>
           <IonItemOptions side="start">

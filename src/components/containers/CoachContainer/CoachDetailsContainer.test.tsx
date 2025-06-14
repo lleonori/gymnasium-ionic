@@ -1,8 +1,8 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { getCoaches } from "../../api/coach/coachApi";
-import HomeContainer from "./HomeContainer";
+import { getCoaches } from "../../../api/coach/coachApi";
+import CoachDetailsContainer from "./CoachDetailsContainer";
 
 // Mock della funzione `getCoaches`
 vi.mock("../../api/coach/coachApi", () => ({
@@ -20,7 +20,7 @@ function renderWithQueryClient(ui: React.ReactElement) {
   );
 }
 
-describe("HomeContainer", () => {
+describe("CoachDetailsContainer", () => {
   beforeEach(() => {
     vi.clearAllMocks(); // Resetta i mock prima di ogni test
   });
@@ -29,7 +29,7 @@ describe("HomeContainer", () => {
     // Mock di `getCoaches` per simulare il caricamento
     vi.mocked(getCoaches).mockImplementation(() => new Promise(() => {}));
 
-    renderWithQueryClient(<HomeContainer />);
+    renderWithQueryClient(<CoachDetailsContainer />);
 
     // Verifica che lo spinner sia visibile
     expect(screen.getByRole("status")).toBeInTheDocument();
