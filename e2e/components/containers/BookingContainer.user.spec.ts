@@ -82,7 +82,7 @@ test.describe("BookingContainer - prenotazione lezione", () => {
     await page.goto("/booking");
   });
 
-  test("l'utente può prenotare una lezione", async ({ page }) => {
+  test("the user can book a lesson", async ({ page }) => {
     // Seleziona il giorno
     await page
       .locator('ion-select:has(div[slot="label"]:has-text("Giorno"))')
@@ -115,7 +115,7 @@ test.describe("BookingContainer - prenotazione lezione", () => {
     await expect(page.locator('ion-chip:has-text("2025-06-13")')).toBeVisible();
   });
 
-  test("l'utente può cancellare una prenotazione", async ({ page }) => {
+  test("the user can delete a booking", async ({ page }) => {
     // Trova la prenotazione e swipe per mostrare il pulsante elimina
     const bookingItem = page.locator("ion-item-sliding").first();
     await bookingItem.evaluate((el) => {

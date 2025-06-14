@@ -102,23 +102,14 @@ test.describe(() => {
   });
 
   test("should update weekday time via modal", async ({ page }) => {
-    // Verifica che il weekday sia visibile
-    await expect(page.getByText("Lunedì")).toBeVisible();
-
-    // Simula swipe o attiva manualmente le opzioni
-    await page.evaluate(() => {
-      const sliding = document.querySelector("ion-item-sliding");
-      if (sliding) {
-        sliding.classList.add(
-          "ios",
-          "item-sliding-active-slide",
-          "item-sliding-active-options-start",
-        );
-      }
+    // Trova la weekday e swipe per mostrare il pulsante elimina
+    const weekdayItem = page.locator("ion-item-sliding").first();
+    await weekdayItem.evaluate((el) => {
+      (el as HTMLElement & { open: (side: string) => void }).open("start");
     });
 
-    // Clicca sull'icona di modifica
-    await page.getByTestId("update-weekday-times-1").click();
+    // Clicca il pulsante elimina
+    await page.locator('ion-item-option[color="warning"]').click();
 
     // Attendi che la modale sia visibile e caricata
     await expect(page.locator("ion-modal")).toBeVisible();

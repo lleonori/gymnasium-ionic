@@ -152,7 +152,6 @@ const CoachContainer = () => {
         <IonItemSliding key={coach.id}>
           <IonItemOptions side="start">
             <IonItemOption
-              data-testid={`update-coach-${coach.id}`}
               color={Colors.WARNING}
               onClick={() => {
                 setCurrentCoach(coach);
@@ -191,7 +190,6 @@ const CoachContainer = () => {
           </IonItem>
           <IonItemOptions side="end">
             <IonItemOption
-              data-testid={`delete-coach-${coach.id}`}
               color={Colors.DANGER}
               onClick={() => {
                 handleOpenActionSheet();
@@ -215,7 +213,6 @@ const CoachContainer = () => {
               action: "delete",
             },
             handler: () => {
-              console.log("Handler Elimina chiamato", currentCoach);
               deleteCoachMutate();
             },
           },

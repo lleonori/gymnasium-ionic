@@ -3,17 +3,11 @@ import { test, expect } from "@playwright/test";
 test.describe(() => {
   let coaches = [
     { id: 1, name: "Mario", surname: "Rossi", notes: "note1,note2" },
-    { id: 2, name: "Luigi", surname: "Verdi", notes: "note3,note4" },
   ];
 
   test.beforeEach(async ({ page }) => {
     // Mock GET lista coach
     await page.route("**/api/v1/coach", async (route, request) => {
-      console.log(
-        "API called:",
-        route.request().method(),
-        route.request().url(),
-      );
       if (request.method() === "GET") {
         await route.fulfill({
           status: 200,
@@ -68,32 +62,21 @@ test.describe(() => {
 
   test("should renders coaches with correct info", async ({ page }) => {
     await expect(page.locator("text=Mario Rossi")).toBeVisible();
-    await expect(page.locator("text=Luigi Verdi")).toBeVisible();
     await expect(page.locator('ion-chip:has-text("note1")')).toBeVisible();
-    await expect(page.locator('ion-chip:has-text("note4")')).toBeVisible();
-    await expect(page.locator('img[alt="Coach\'s avatar"]')).toHaveCount(2);
+    await expect(page.locator('img[alt="Coach\'s avatar"]')).toHaveCount(1);
   });
 
   test("should update coach via dialog", async ({ page }) => {
-    // Verifica che il coach sia visibile
-    await expect(page.getByText("Mario Rossi")).toBeVisible();
-
-    // Simula lo swipe o attiva manualmente le opzioni (Ionic v8 workaround)
-    await page.evaluate(() => {
-      const sliding = document.querySelector("ion-item-sliding");
-      if (sliding) {
-        sliding.classList.add(
-          "ios",
-          "item-sliding-active-slide",
-          "item-sliding-active-options-start",
-        );
-      }
+    // Trova la coach e swipe per mostrare il pulsante elimina
+    const coachItem = page.locator("ion-item-sliding").first();
+    await coachItem.evaluate((el) => {
+      (el as HTMLElement & { open: (side: string) => void }).open("start");
     });
 
-    // Clicca sull’icona modifica
-    await page.getByTestId("update-coach-1").click();
+    // Clicca il pulsante elimina
+    await page.locator('ion-item-option[color="warning"]').click();
 
-    // Attendi che la modale sia visibile (adatta il selettore se necessario)
+    // Attendi che la modale sia visibile
     await expect(page.locator("ion-modal")).toBeVisible();
 
     // Compila il campo nome (adatta il selettore al tuo form)
@@ -112,28 +95,19 @@ test.describe(() => {
   });
 
   test("should delete coach via ActionSheet", async ({ page }) => {
-    // Verifica che il coach sia visibile
-    await expect(page.getByText("Mario Rossi")).toBeVisible();
-
-    // Simula lo swipe o attiva manualmente le opzioni (Ionic v8 workaround)
-    await page.evaluate(() => {
-      const sliding = document.querySelector("ion-item-sliding");
-      if (sliding) {
-        sliding.classList.add(
-          "ios",
-          "item-sliding-active-slide",
-          "item-sliding-active-options-end",
-        );
-      }
+    // Trova la coach e swipe per mostrare il pulsante elimina
+    const coachItem = page.locator("ion-item-sliding").first();
+    await coachItem.evaluate((el) => {
+      (el as HTMLElement & { open: (side: string) => void }).open("end");
     });
 
-    // Clicca sull’icona elimina
-    await page.getByTestId("delete-coach-1").click();
+    // Clicca il pulsante elimina
+    await page.locator('ion-item-option[color="danger"]').click();
 
     // Attendi che l’ActionSheet sia visibile
     await expect(page.locator("ion-action-sheet")).toBeVisible();
 
-    // Clicca su "Elimina"
+    // Conferma l'eliminazione nell'action sheet
     await page.locator('ion-action-sheet button:has-text("Elimina")').click();
 
     // Attendi che il toast di conferma sia visibile

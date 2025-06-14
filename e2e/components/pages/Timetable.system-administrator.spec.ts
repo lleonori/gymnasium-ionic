@@ -8,15 +8,8 @@ test.describe("Timetable page - inserimento orario", () => {
   ];
 
   test.beforeEach(async ({ page }) => {
-    // Log all requests to debug the actual URL being called
-    page.on("request", (request) => {
-      console.log("Request URL:", request.url());
-    });
-
     // Mock GET and POST requests
     await page.route(/\/api\/v1\/timetable.*/, async (route, request) => {
-      console.log("Method:", request.method(), "URL:", request.url());
-
       if (request.method() === "GET") {
         await route.fulfill({
           status: 200,

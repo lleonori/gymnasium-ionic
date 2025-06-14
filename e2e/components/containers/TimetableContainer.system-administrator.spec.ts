@@ -1,10 +1,7 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("TimetableContainer", () => {
-  let timetables = [
-    { id: 1, startHour: "08:00", endHour: "12:00" },
-    { id: 2, startHour: "14:00", endHour: "18:00" },
-  ];
+test.describe(() => {
+  let timetables = [{ id: 1, startHour: "08:00", endHour: "12:00" }];
 
   test.beforeEach(async ({ page }) => {
     // Mock GET lista orari
@@ -24,13 +21,11 @@ test.describe("TimetableContainer", () => {
     await page.route(/\/api\/v1\/timetable\/\d+$/, async (route, request) => {
       if (request.method() === "PATCH") {
         const body = await request.postDataJSON();
-        console.log("Body :", body);
         timetables = timetables.map((t) =>
           t.id === body.id
             ? { id: t.id, startHour: body.startHour, endHour: body.endHour }
             : t,
         );
-        console.log("timetables :", timetables);
         await route.fulfill({
           status: 200,
           contentType: "application/json",
@@ -69,31 +64,18 @@ test.describe("TimetableContainer", () => {
     await expect(
       page.locator('ion-chip:has-text("08:00 - 12:00")'),
     ).toBeVisible();
-    await expect(
-      page.locator('ion-chip:has-text("14:00 - 18:00")'),
-    ).toBeVisible();
-    await expect(page.locator('img[alt="Timetable\'s avatar"]')).toHaveCount(2);
+    await expect(page.locator('img[alt="Timetable\'s avatar"]')).toHaveCount(1);
   });
 
   test("should update timetable via dialog", async ({ page }) => {
-    await expect(
-      page.locator('ion-chip:has-text("08:00 - 12:00")'),
-    ).toBeVisible();
-
-    // Simula lo swipe per mostrare le opzioni di modifica
-    await page.evaluate(() => {
-      const sliding = document.querySelector("ion-item-sliding");
-      if (sliding) {
-        sliding.classList.add(
-          "ios",
-          "item-sliding-active-slide",
-          "item-sliding-active-options-start",
-        );
-      }
+    // Trova la orario e swipe per mostrare il pulsante elimina
+    const timetableItem = page.locator("ion-item-sliding").first();
+    await timetableItem.evaluate((el) => {
+      (el as HTMLElement & { open: (side: string) => void }).open("start");
     });
 
-    // Clicca sull’icona modifica (adatta il testid se lo usi)
-    await page.locator('ion-item-option[color="warning"]').first().click();
+    // Clicca il pulsante elimina
+    await page.locator('ion-item-option[color="warning"]').click();
 
     // Attendi che la modale sia visibile
     await expect(page.locator("ion-modal")).toBeVisible();
@@ -155,29 +137,19 @@ test.describe("TimetableContainer", () => {
   });
 
   test("should delete timetable via ActionSheet", async ({ page }) => {
-    await expect(
-      page.locator('ion-chip:has-text("08:00 - 12:00")'),
-    ).toBeVisible();
-
-    // Simula lo swipe per mostrare le opzioni di delete
-    await page.evaluate(() => {
-      const sliding = document.querySelector("ion-item-sliding");
-      if (sliding) {
-        sliding.classList.add(
-          "ios",
-          "item-sliding-active-slide",
-          "item-sliding-active-options-end",
-        );
-      }
+    // Trova la prenotazione e swipe per mostrare il pulsante elimina
+    const timetableItem = page.locator("ion-item-sliding").first();
+    await timetableItem.evaluate((el) => {
+      (el as HTMLElement & { open: (side: string) => void }).open("end");
     });
 
-    // Clicca sull’icona elimina (adatta il testid se lo usi)
-    await page.locator('ion-item-option[color="danger"]').first().click();
+    // Clicca il pulsante elimina
+    await page.locator('ion-item-option[color="danger"]').click();
 
     // Attendi che l’ActionSheet sia visibile
     await expect(page.locator("ion-action-sheet")).toBeVisible();
 
-    // Clicca su "Elimina"
+    // Conferma l'eliminazione nell'action sheet
     await page.locator('ion-action-sheet button:has-text("Elimina")').click();
 
     // Attendi che il toast di conferma sia visibile

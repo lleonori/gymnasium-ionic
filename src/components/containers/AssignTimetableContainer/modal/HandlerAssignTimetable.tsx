@@ -20,16 +20,16 @@ import {
   closeCircleOutline,
   timeOutline,
 } from "ionicons/icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TModalRole } from "../../../../models/modal/modalModel";
 import { TTimetable } from "../../../../models/timetable/timetableModel";
-import { Colors } from "../../../../utils/enums";
-import { formatTime } from "../../../../utils/functions";
 import {
   TCreateWeekdayTimes,
   TWeekdayTime,
   TWeekdayTimesHour,
 } from "../../../../models/weekday-time/weekdayTimeModel";
+import { Colors } from "../../../../utils/enums";
+import { formatTime } from "../../../../utils/functions";
 
 interface ICreateWeekdayTimeProps {
   dismiss: (data: TCreateWeekdayTimes | null, role: TModalRole) => void;
@@ -71,10 +71,6 @@ const HandlerAssignTimetable = ({
 
     dismiss(createWeekdayTimes, "confirm");
   };
-
-  useEffect(() => {
-    console.log(assignedTimes);
-  }, [assignedTimes]);
 
   return (
     <IonPage>
