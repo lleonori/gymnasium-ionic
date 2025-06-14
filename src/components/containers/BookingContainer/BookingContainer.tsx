@@ -272,7 +272,11 @@ const BookingContainer = () => {
             </IonSelect>
             {/* Submit */}
             <div className="button-container">
-              <IonButton type="submit" size="small">
+              <IonButton
+                type="submit"
+                size="small"
+                data-testid="create-booking"
+              >
                 <IonIcon
                   slot="icon-only"
                   icon={arrowForwardCircleOutline}
