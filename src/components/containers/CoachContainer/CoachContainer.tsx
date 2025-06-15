@@ -13,12 +13,14 @@ import {
   IonItemOptions,
   IonItemSliding,
   IonLabel,
+  IonList,
+  IonText,
   IonToast,
   useIonModal,
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createOutline, trashBinOutline } from "ionicons/icons";
+import { barbellOutline, createOutline, trashBinOutline } from "ionicons/icons";
 import { useMemo, useState } from "react";
 import {
   deleteCoach,
@@ -131,6 +133,29 @@ const CoachContainer = () => {
 
   return (
     <>
+      {/* Presentational Card */}
+      <IonCard className="no-horizontal-margin">
+        <IonCardHeader>
+          <IonCardTitle>Pronti a partire!</IonCardTitle>
+          <IonCardSubtitle>
+            <IonIcon icon={barbellOutline} />
+          </IonCardSubtitle>
+        </IonCardHeader>
+        <IonCardContent>
+          <IonText>Gestisci il team dei coach in pochi gesti:</IonText>
+          <ul>
+            <li>
+              <IonText>Aggiungi un coach con un tap</IonText>
+            </li>
+            <li>
+              <IonText>Scorri verso destra per modificarlo</IonText>
+            </li>
+            <li>
+              <IonText>Scorri verso sinistra per eliminarlo</IonText>
+            </li>
+          </ul>
+        </IonCardContent>
+      </IonCard>
       {coaches?.data.map((coach: TCoach) => (
         <IonItemSliding key={coach.id}>
           <IonItemOptions side="start">
@@ -147,7 +172,7 @@ const CoachContainer = () => {
           <IonItem>
             <IonLabel>
               {/* Coach Card */}
-              <IonCard key={coach.id}>
+              <IonCard className="no-horizontal-margin" key={coach.id}>
                 <IonCardHeader>
                   <IonCardTitle>
                     Coach <br />

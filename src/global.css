@@ -1,0 +1,9 @@
+.no-horizontal-margin {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.no-vertical-margin {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}

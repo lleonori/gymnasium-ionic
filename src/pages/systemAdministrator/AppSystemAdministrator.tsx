@@ -12,7 +12,6 @@ import { IonReactRouter } from "@ionic/react-router";
 import {
   barbellOutline,
   briefcaseOutline,
-  homeOutline,
   logOutOutline,
   timeOutline,
 } from "ionicons/icons";
@@ -22,7 +21,6 @@ import Spinner from "../../components/common/Spinner/Spinner";
 import AssignTimetable from "./AssignTimetable";
 import Coach from "./Coach";
 import Timetable from "./Timetable";
-import HomeSystemAdministrator from "./HomeSystemAdministrator";
 
 const AppSystemAdministrator = () => {
   const { isLoading, logout } = useAuth0();
@@ -47,18 +45,13 @@ const AppSystemAdministrator = () => {
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Redirect exact path="/" to="/home" />
-          <Route path="/home" component={HomeSystemAdministrator} />
+          <Redirect exact path="/" to="/coaches" />
           <Route path="/coaches" component={Coach} />
           <Route path="/timetables" component={Timetable} />
           <Route path="/assign-timetables" component={AssignTimetable} />
         </IonRouterOutlet>
 
         <IonTabBar slot="bottom">
-          <IonTabButton tab="Home" href="/home" data-testid="tab-home">
-            <IonIcon icon={homeOutline} />
-            <IonLabel>Home</IonLabel>
-          </IonTabButton>
           <IonTabButton tab="coaches" href="/coaches" data-testid="tab-coaches">
             <IonIcon icon={barbellOutline} />
             <IonLabel>Coaches</IonLabel>

@@ -3,6 +3,7 @@ import {
   IonCard,
   IonCardContent,
   IonCardHeader,
+  IonCardSubtitle,
   IonCardTitle,
   IonChip,
   IonIcon,
@@ -11,12 +12,13 @@ import {
   IonItemOptions,
   IonItemSliding,
   IonLabel,
+  IonText,
   IonToast,
   useIonModal,
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createOutline, timeOutline } from "ionicons/icons";
+import { briefcaseOutline, createOutline, timeOutline } from "ionicons/icons";
 import { useState } from "react";
 import { getTimetables } from "../../../api/timetable/timetableApi";
 import {
@@ -25,6 +27,7 @@ import {
 } from "../../../api/weekday-time/weekdayTimeApi";
 import { TModalRole } from "../../../models/modal/modalModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
+import { TSortBy } from "../../../models/sort/sortModel";
 import {
   TFilterTimetable,
   TTimetable,
@@ -38,7 +41,6 @@ import { formatTime } from "../../../utils/functions";
 import Error from "../../common/Error";
 import Spinner from "../../common/Spinner/Spinner";
 import HandlerAssignTimetable from "./modal/HandlerAssignTimetable";
-import { TSortBy } from "../../../models/sort/sortModel";
 
 const AssignTimetableContainer = () => {
   const queryClient = useQueryClient();
@@ -125,6 +127,23 @@ const AssignTimetableContainer = () => {
 
   return (
     <>
+      {/* Presentational Card */}
+      <IonCard className="no-horizontal-margin">
+        <IonCardHeader>
+          <IonCardTitle>Benvenuto!</IonCardTitle>
+          <IonCardSubtitle>
+            <IonIcon icon={briefcaseOutline} />
+          </IonCardSubtitle>
+        </IonCardHeader>
+        <IonCardContent>
+          <IonText>Gestisci gli orari settimanali in pochi passaggi:</IonText>
+          <ul>
+            <li>
+              <IonText>Scorri un giorno verso destra per modificarlo</IonText>
+            </li>
+          </ul>
+        </IonCardContent>
+      </IonCard>
       {weekdayTimes?.data?.map((weekdayTime) => (
         <IonItemSliding key={weekdayTime.weekdayId}>
           <IonItemOptions side="start">
@@ -140,7 +159,7 @@ const AssignTimetableContainer = () => {
           </IonItemOptions>
           <IonItem>
             <IonLabel>
-              <IonCard>
+              <IonCard className="no-horizontal-margin">
                 <IonCardHeader>
                   <IonCardTitle>{weekdayTime.weekdayName}</IonCardTitle>
                   <IonAvatar>

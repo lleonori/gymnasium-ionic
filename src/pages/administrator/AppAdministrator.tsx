@@ -9,12 +9,11 @@ import {
   IonTabs,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { homeOutline, logOutOutline, searchOutline } from "ionicons/icons";
+import { calendarNumberOutline, logOutOutline } from "ionicons/icons";
 import { Redirect, Route } from "react-router";
 import { callbackUri } from "../../Auth.config";
 import Spinner from "../../components/common/Spinner/Spinner";
 import SearchBooking from "./SearchBooking";
-import HomeAdministrator from "./HomeAdministrator";
 
 const AppAdministrator = () => {
   const { logout, isLoading } = useAuth0();
@@ -39,25 +38,19 @@ const AppAdministrator = () => {
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Redirect exact path="/" to="/home" />
-          <Route path="/home" component={HomeAdministrator} />
+          <Redirect exact path="/" to="/search-bookings" />
           <Route path="/search-bookings" component={SearchBooking} />
         </IonRouterOutlet>
 
         <IonTabBar slot="bottom">
-          <IonTabButton tab="Home" href="/home" data-testid="tab-home">
-            <IonIcon icon={homeOutline} />
-            <IonLabel>Home</IonLabel>
-          </IonTabButton>
           <IonTabButton
-            tab="search-bookings"
+            tab="search"
             href="/search-bookings"
             data-testid="tab-search"
           >
-            <IonIcon icon={searchOutline} />
+            <IonIcon icon={calendarNumberOutline} />
             <IonLabel>Prenotazioni</IonLabel>
           </IonTabButton>
-
           <IonTabButton tab="logout" onClick={handleLogout}>
             <IonIcon icon={logOutOutline} />
             <IonLabel>Logout</IonLabel>

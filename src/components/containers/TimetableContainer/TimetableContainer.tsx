@@ -13,6 +13,7 @@ import {
   IonItemOptions,
   IonItemSliding,
   IonLabel,
+  IonText,
   IonToast,
   useIonModal,
 } from "@ionic/react";
@@ -137,6 +138,31 @@ const TimetableContainer = () => {
 
   return (
     <>
+      {/* Presentational Card */}
+      <IonCard className="no-horizontal-margin">
+        <IonCardHeader>
+          <IonCardTitle>Gestisci i tuoi orari!</IonCardTitle>
+          <IonCardSubtitle>
+            <IonIcon icon={timeOutline} />
+          </IonCardSubtitle>
+        </IonCardHeader>
+        <IonCardContent>
+          <IonText>
+            Tieni sotto controllo gli allenamenti in pochi gesti:
+          </IonText>
+          <ul>
+            <li>
+              <IonText>Aggiungi un orario con un tap</IonText>
+            </li>
+            <li>
+              <IonText>Scorri verso destra per modificarlo</IonText>
+            </li>
+            <li>
+              <IonText>Scorri verso sinistra per eliminarlo</IonText>
+            </li>
+          </ul>
+        </IonCardContent>
+      </IonCard>
       {timetables?.data?.map((timetable: TTimetable) => (
         <IonItemSliding key={timetable.id}>
           <IonItemOptions side="start">
@@ -152,7 +178,7 @@ const TimetableContainer = () => {
           </IonItemOptions>
           <IonItem>
             <IonLabel>
-              <IonCard>
+              <IonCard className="no-horizontal-margin">
                 <IonCardHeader>
                   <IonCardTitle>Orari disponibili</IonCardTitle>
                   <IonCardSubtitle>

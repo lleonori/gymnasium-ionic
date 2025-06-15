@@ -6,7 +6,9 @@ import {
   IonCardSubtitle,
   IonCardTitle,
   IonChip,
+  IonIcon,
   IonLabel,
+  IonText,
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
@@ -15,6 +17,7 @@ import { TCoach } from "../../../models/coach/coachModel";
 import { getRandomImage } from "../../../utils/functions";
 import Spinner from "../../common/Spinner/Spinner";
 import Error from "../../common/Spinner/Spinner";
+import { barbellOutline } from "ionicons/icons";
 
 const CoachDetailsContainer = () => {
   const {
@@ -47,8 +50,19 @@ const CoachDetailsContainer = () => {
   return (
     <>
       {/* Coach Card */}
+      <IonCard className="no-horizontal-margin">
+        <IonCardHeader>
+          <IonCardTitle>Scendi in campo con i coach!</IonCardTitle>
+          <IonCardSubtitle>
+            <IonIcon icon={barbellOutline} />
+          </IonCardSubtitle>
+        </IonCardHeader>
+        <IonCardContent>
+          <IonText>Scopri chi ti guiderà nell’allenamento di oggi.</IonText>
+        </IonCardContent>
+      </IonCard>
       {coaches?.data.map((coach: TCoach) => (
-        <IonCard key={coach.id}>
+        <IonCard className="no-horizontal-margin" key={coach.id}>
           <IonCardHeader>
             <IonCardTitle>
               Coach <br />

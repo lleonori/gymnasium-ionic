@@ -12,7 +12,7 @@ import { Colors } from "../../utils/enums";
 
 const Error = () => {
   return (
-    <IonCard>
+    <IonCard className="no-horizontal-margin">
       <IonCardHeader>
         <IonCardTitle>Errore</IonCardTitle>
         <IonCardSubtitle>

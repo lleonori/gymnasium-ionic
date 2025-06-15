@@ -11,12 +11,13 @@ import {
   IonLabel,
   IonSelect,
   IonSelectOption,
+  IonText,
   IonToast,
   SelectChangeEventDetail,
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  barbellOutline,
+  calendarNumberOutline,
   calendarOutline,
   filterOutline,
   searchOutline,
@@ -27,6 +28,7 @@ import { getBookings } from "../../../api/booking/bookingApi";
 import { getCalendar } from "../../../api/calendar/calendarApi";
 import { getTimetables } from "../../../api/timetable/timetableApi";
 import { TBooking, TFilterBooking } from "../../../models/booking/bookingModel";
+import { TSortBy } from "../../../models/sort/sortModel";
 import {
   TFilterTimetable,
   TTimetable,
@@ -36,7 +38,6 @@ import { formatTime, getRandomImage } from "../../../utils/functions";
 import Error from "../../common/Error";
 import Spinner from "../../common/Spinner/Spinner";
 import "./SearchBookingContainer.css";
-import { TSortBy } from "../../../models/sort/sortModel";
 
 const SearchBookingContainer = () => {
   // booking filter
@@ -152,27 +153,31 @@ const SearchBookingContainer = () => {
   return (
     <>
       {/* Presentational Card */}
-      <IonCard>
+      <IonCard className="no-horizontal-margin">
         <IonCardHeader>
-          <IonCardTitle>
-            Benvenuto <br />
-          </IonCardTitle>
+          <IonCardTitle>Scopri chi si allena oggi!</IonCardTitle>
           <IonCardSubtitle>
-            <IonIcon icon={barbellOutline} />
+            <IonIcon icon={calendarNumberOutline} />
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
-          Tramite questa app puoi verificare le prenotazioni effettuate. <br />
-          <br />
-          "I am. I can. I will. I do."
+          <IonText>
+            Tieni sotto controllo le prenotazioni dei tuoi allenamenti con
+            semplicità:
+          </IonText>
+          <ul>
+            <li>
+              <IonText>
+                Seleziona un giorno e un orario per visualizzare i partecipanti
+              </IonText>
+            </li>
+          </ul>
         </IonCardContent>
       </IonCard>
       {/* Filters Card */}
-      <IonCard>
+      <IonCard className="no-horizontal-margin">
         <IonCardHeader>
-          <IonCardTitle>
-            Filtri <br />
-          </IonCardTitle>
+          <IonCardTitle>Filtra le prenotazioni</IonCardTitle>
           <IonCardSubtitle>
             <IonIcon icon={filterOutline} />
           </IonCardSubtitle>
@@ -225,7 +230,7 @@ const SearchBookingContainer = () => {
       </IonCard>
       {/* Booking Card */}
       {bookings?.data.length === 0 ? (
-        <IonCard>
+        <IonCard className="no-horizontal-margin">
           <IonCardHeader>
             <IonCardTitle>Nessuna prenotazione</IonCardTitle>
           </IonCardHeader>
@@ -235,7 +240,7 @@ const SearchBookingContainer = () => {
         </IonCard>
       ) : (
         bookings?.data.map((booking: TBooking) => (
-          <IonCard key={booking.id}>
+          <IonCard className="no-horizontal-margin" key={booking.id}>
             <IonCardHeader>
               <IonCardTitle>
                 {booking.fullname ? booking.fullname : booking.mail}

@@ -24,7 +24,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   arrowForwardCircleOutline,
-  barbellOutline,
+  calendarNumberOutline,
   trashBinOutline,
 } from "ionicons/icons";
 import { useMemo, useState } from "react";
@@ -42,6 +42,7 @@ import {
   TFilterBooking,
 } from "../../../models/booking/bookingModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
+import { TSortBy } from "../../../models/sort/sortModel";
 import {
   TFilterTimetable,
   TTimetable,
@@ -51,7 +52,6 @@ import { Colors } from "../../../utils/enums";
 import { formatTime, getRandomImage } from "../../../utils/functions";
 import Error from "../../common/Error";
 import Spinner from "../../common/Spinner/Spinner";
-import { TSortBy } from "../../../models/sort/sortModel";
 
 const BookingContainer = () => {
   const { user } = useAuth0();
@@ -200,23 +200,27 @@ const BookingContainer = () => {
   return (
     <>
       {/* Presentational Card */}
-      <IonCard>
+      <IonCard className="no-horizontal-margin">
         <IonCardHeader>
-          <IonCardTitle>Regole</IonCardTitle>
+          <IonCardTitle>È il momento di prenotare!</IonCardTitle>
           <IonCardSubtitle>
-            <IonIcon icon={barbellOutline} />
+            <IonIcon icon={calendarNumberOutline} />
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
-          È possibile prenotare <em>una lezione al giorno.</em>
-          <br />
-          <br />
-          Per dare la possibilità a tutti di partecipare
-          <em> sono disponibili le date di oggi e domani.</em>
+          <IonText>Gestisci le tue lezioni in pochi tocchi:</IonText>
+          <ul>
+            <li>
+              <IonText>Prenota una lezione compilando il form</IonText>
+            </li>
+            <li>
+              <IonText>Scorri verso destra per cancellarla</IonText>
+            </li>
+          </ul>
         </IonCardContent>
       </IonCard>
       {/* Booking Card */}
-      <IonCard>
+      <IonCard className="no-horizontal-margin">
         <IonCardHeader>
           <IonCardTitle>Scegli data e orario</IonCardTitle>
         </IonCardHeader>
@@ -288,7 +292,7 @@ const BookingContainer = () => {
       </IonCard>
       {/* Your Booking Card */}
       {bookings && bookings.data.length > 0 && (
-        <IonCard>
+        <IonCard className="no-horizontal-margin">
           <IonCardHeader>
             <IonCardTitle>Le tue prenotazioni</IonCardTitle>
           </IonCardHeader>
