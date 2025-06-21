@@ -58,10 +58,6 @@ const BookingContainer = () => {
   const extendedUser = user as TUser;
   const queryClient = useQueryClient();
 
-  // booking filter
-  const [filterBooking] = useState<TFilterBooking | undefined>({
-    mail: extendedUser!.email,
-  });
   // timetable sorting
   const [timetableSort] = useState<TSortBy<TTimetable>>({
     sortBy: "startHour",
@@ -108,8 +104,19 @@ const BookingContainer = () => {
     error: bookingsError,
     isFetching: isBookingsFetching,
   } = useQuery({
-    queryFn: () => getBookings(filterBooking),
-    queryKey: ["bookings"],
+    queryFn: () =>
+      getBookings({
+        mail: extendedUser!.email,
+        dateFrom: calendar!.today,
+        dateTo: calendar!.tomorrow,
+      }),
+    queryKey: [
+      "bookings",
+      extendedUser?.email,
+      calendar?.today,
+      calendar?.tomorrow,
+    ],
+    enabled: !!extendedUser?.email && !!calendar?.today && !!calendar?.tomorrow,
   });
 
   const {
@@ -214,7 +221,7 @@ const BookingContainer = () => {
               <IonText>Prenota una lezione compilando il form</IonText>
             </li>
             <li>
-              <IonText>Scorri verso destra per cancellarla</IonText>
+              <IonText>Scorri verso sinistra per cancellarla</IonText>
             </li>
           </ul>
         </IonCardContent>

@@ -104,9 +104,6 @@ const Login = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-        <button data-testid="skip-button" onClick={handleSkip}>
-          Skip
-        </button>
       </IonContent>
     </IonPage>
   );

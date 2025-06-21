@@ -100,3 +100,8 @@
   height: auto; /* Altezza proporzionale */
   margin-bottom: 0.5rem;
 }
+
+.onboarding-swiper .swiper-pagination {
+  /* Allineati con safe area + margine extra per iPhone/Android nav bar */
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 40px);
+}
