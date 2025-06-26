@@ -13,7 +13,6 @@ import {
   IonItemOptions,
   IonItemSliding,
   IonLabel,
-  IonList,
   IonText,
   IonToast,
   useIonModal,
@@ -32,7 +31,7 @@ import { TModalRole } from "../../../models/modal/modalModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
 import { Colors } from "../../../utils/enums";
 import { getRandomImage } from "../../../utils/functions";
-import Error from "../../common/Error";
+import FallbackError from "../../common/FallbackError";
 import Spinner from "../../common/Spinner/Spinner";
 import HandlerCoach from "./modal/HandlerCoach";
 
@@ -128,7 +127,7 @@ const CoachContainer = () => {
   }
 
   if (coachesError) {
-    return <Error />;
+    return <FallbackError />;
   }
 
   return (

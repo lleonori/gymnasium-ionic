@@ -10,7 +10,7 @@ import {
 import { warningOutline } from "ionicons/icons";
 import { Colors } from "../../utils/enums";
 
-const Error = () => {
+const FallbackError = () => {
   return (
     <IonCard className="no-horizontal-margin">
       <IonCardHeader>
@@ -31,4 +31,4 @@ const Error = () => {
   );
 };
 
-export default Error;
+export default FallbackError;

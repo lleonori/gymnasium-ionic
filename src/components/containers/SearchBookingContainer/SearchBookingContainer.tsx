@@ -34,8 +34,12 @@ import {
   TTimetable,
 } from "../../../models/timetable/timetableModel";
 import { Colors } from "../../../utils/enums";
-import { formatTime, getRandomImage } from "../../../utils/functions";
-import Error from "../../common/Error";
+import {
+  formatDateToDDMMYYYY,
+  formatTime,
+  getRandomImage,
+} from "../../../utils/functions";
+import FallbackError from "../../common/FallbackError";
 import Spinner from "../../common/Spinner/Spinner";
 import "./SearchBookingContainer.css";
 
@@ -147,7 +151,7 @@ const SearchBookingContainer = () => {
   }
 
   if (calendarError || bookingsError || timetablesError) {
-    return <Error />;
+    return <FallbackError />;
   }
 
   return (
@@ -193,12 +197,12 @@ const SearchBookingContainer = () => {
           >
             {calendar?.today && (
               <IonSelectOption value={calendar.today}>
-                {calendar.today}
+                {formatDateToDDMMYYYY(calendar.today)}
               </IonSelectOption>
             )}
             {calendar?.tomorrow && (
               <IonSelectOption value={calendar.tomorrow}>
-                {calendar.tomorrow}
+                {formatDateToDDMMYYYY(calendar.tomorrow)}
               </IonSelectOption>
             )}
           </IonSelect>

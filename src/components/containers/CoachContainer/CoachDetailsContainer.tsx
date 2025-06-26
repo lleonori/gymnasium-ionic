@@ -11,13 +11,13 @@ import {
   IonText,
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
+import { barbellOutline } from "ionicons/icons";
 import { useMemo } from "react";
 import { getCoaches } from "../../../api/coach/coachApi";
 import { TCoach } from "../../../models/coach/coachModel";
 import { getRandomImage } from "../../../utils/functions";
+import FallbackError from "../../common/FallbackError";
 import Spinner from "../../common/Spinner/Spinner";
-import Error from "../../common/Spinner/Spinner";
-import { barbellOutline } from "ionicons/icons";
 
 const CoachDetailsContainer = () => {
   const {
@@ -44,7 +44,7 @@ const CoachDetailsContainer = () => {
   }
 
   if (coachesError) {
-    return <Error />;
+    return <FallbackError />;
   }
 
   return (

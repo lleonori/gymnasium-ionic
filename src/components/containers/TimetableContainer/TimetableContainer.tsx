@@ -35,7 +35,7 @@ import {
 } from "../../../models/timetable/timetableModel";
 import { Colors } from "../../../utils/enums";
 import { formatTime } from "../../../utils/functions";
-import Error from "../../common/Error";
+import FallbackError from "../../common/FallbackError";
 import Spinner from "../../common/Spinner/Spinner";
 import HandlerTimetable from "./modal/HandlerTimetable";
 
@@ -133,7 +133,7 @@ const TimetableContainer = () => {
   }
 
   if (timetablesError) {
-    return <Error />;
+    return <FallbackError />;
   }
 
   return (

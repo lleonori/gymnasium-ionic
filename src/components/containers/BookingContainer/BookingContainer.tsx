@@ -36,11 +36,7 @@ import {
 } from "../../../api/booking/bookingApi";
 import { getCalendar } from "../../../api/calendar/calendarApi";
 import { getTimetables } from "../../../api/timetable/timetableApi";
-import {
-  TBooking,
-  TCreateBooking,
-  TFilterBooking,
-} from "../../../models/booking/bookingModel";
+import { TBooking, TCreateBooking } from "../../../models/booking/bookingModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
 import { TSortBy } from "../../../models/sort/sortModel";
 import {
@@ -49,8 +45,12 @@ import {
 } from "../../../models/timetable/timetableModel";
 import { TUser } from "../../../models/user/userModel";
 import { Colors } from "../../../utils/enums";
-import { formatTime, getRandomImage } from "../../../utils/functions";
-import Error from "../../common/Error";
+import {
+  formatDateToDDMMYYYY,
+  formatTime,
+  getRandomImage,
+} from "../../../utils/functions";
+import FallbackError from "../../common/FallbackError";
 import Spinner from "../../common/Spinner/Spinner";
 
 const BookingContainer = () => {
@@ -201,7 +201,7 @@ const BookingContainer = () => {
   }
 
   if (calendarError || bookingsError || timetablesError) {
-    return <Error />;
+    return <FallbackError />;
   }
 
   return (
@@ -256,10 +256,10 @@ const BookingContainer = () => {
                 )}
               </div>
               <IonSelectOption value={calendar?.today}>
-                {calendar?.today}
+                {formatDateToDDMMYYYY(calendar?.today)}
               </IonSelectOption>
               <IonSelectOption value={calendar?.tomorrow}>
-                {calendar?.tomorrow}
+                {formatDateToDDMMYYYY(calendar?.tomorrow)}
               </IonSelectOption>
             </IonSelect>
             {/* Hour Field */}
@@ -317,7 +317,9 @@ const BookingContainer = () => {
                       </IonText>
                       <div className="ion-margin-start">
                         <IonChip className="ion-margin-start">
-                          <IonLabel>{booking.day.toString()}</IonLabel>
+                          <IonLabel>
+                            {formatDateToDDMMYYYY(booking.day)}
+                          </IonLabel>
                         </IonChip>
                         <IonChip>
                           <IonLabel>

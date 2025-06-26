@@ -38,7 +38,7 @@ import {
 } from "../../../models/weekday-time/weekdayTimeModel";
 import { Colors } from "../../../utils/enums";
 import { formatTime } from "../../../utils/functions";
-import Error from "../../common/Error";
+import FallbackError from "../../common/FallbackError";
 import Spinner from "../../common/Spinner/Spinner";
 import HandlerAssignTimetable from "./modal/HandlerAssignTimetable";
 
@@ -122,7 +122,7 @@ const AssignTimetableContainer = () => {
   }
 
   if (weekdayTimesError || timetablesError) {
-    return <Error />;
+    return <FallbackError />;
   }
 
   return (
