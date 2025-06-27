@@ -15,8 +15,9 @@ import { barbellOutline } from "ionicons/icons";
 import { useMemo } from "react";
 import { getCoaches } from "../../../api/coach/coachApi";
 import { TCoach } from "../../../models/coach/coachModel";
+import { TResponseError } from "../../../models/problems/responseErrorModel";
 import { getRandomImage } from "../../../utils/functions";
-import FallbackError from "../../common/FallbackError";
+import FallbackError from "../..//common/FallbackError/FallbackError";
 import Spinner from "../../common/Spinner/Spinner";
 
 const CoachDetailsContainer = () => {
@@ -24,6 +25,7 @@ const CoachDetailsContainer = () => {
     data: coaches,
     isLoading: isCoachesLoading,
     error: coachesError,
+    isFetching: isCoachesFetching,
   } = useQuery({
     queryFn: () => getCoaches(),
     queryKey: ["coaches"],
@@ -39,12 +41,13 @@ const CoachDetailsContainer = () => {
     return map;
   }, [coaches]);
 
-  if (isCoachesLoading) {
+  if (isCoachesFetching || isCoachesLoading) {
     return <Spinner />;
   }
 
   if (coachesError) {
-    return <FallbackError />;
+    const apiError = coachesError as unknown as TResponseError;
+    return <FallbackError statusCode={apiError.statusCode} />;
   }
 
   return (

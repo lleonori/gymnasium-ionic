@@ -35,7 +35,7 @@ import {
 } from "../../../models/timetable/timetableModel";
 import { Colors } from "../../../utils/enums";
 import { formatTime } from "../../../utils/functions";
-import FallbackError from "../../common/FallbackError";
+import FallbackError from "../..//common/FallbackError/FallbackError";
 import Spinner from "../../common/Spinner/Spinner";
 import HandlerTimetable from "./modal/HandlerTimetable";
 
@@ -128,12 +128,13 @@ const TimetableContainer = () => {
     setShowToast(true);
   };
 
-  if (isTimetablesLoading || isTimetablesFetching) {
+  if (isTimetablesFetching || isTimetablesLoading) {
     return <Spinner />;
   }
 
   if (timetablesError) {
-    return <FallbackError />;
+    const apiError = timetablesError as unknown as TResponseError;
+    return <FallbackError statusCode={apiError.statusCode} />;
   }
 
   return (

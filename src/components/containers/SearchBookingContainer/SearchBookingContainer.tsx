@@ -39,7 +39,7 @@ import {
   formatTime,
   getRandomImage,
 } from "../../../utils/functions";
-import FallbackError from "../../common/FallbackError";
+import FallbackError from "../..//common/FallbackError/FallbackError";
 import Spinner from "../../common/Spinner/Spinner";
 import "./SearchBookingContainer.css";
 

@@ -38,9 +38,9 @@ import {
 } from "../../../models/weekday-time/weekdayTimeModel";
 import { Colors } from "../../../utils/enums";
 import { formatTime } from "../../../utils/functions";
-import FallbackError from "../../common/FallbackError";
 import Spinner from "../../common/Spinner/Spinner";
 import HandlerAssignTimetable from "./modal/HandlerAssignTimetable";
+import FallbackError from "../../common/FallbackError/FallbackError";
 
 const AssignTimetableContainer = () => {
   const queryClient = useQueryClient();
@@ -65,6 +65,7 @@ const AssignTimetableContainer = () => {
     data: weekdayTimes,
     isLoading: isWeekdayTimesLoading,
     error: weekdayTimesError,
+    isFetching: isWeekdayTimesFetching,
   } = useQuery({
     queryFn: () => getWeekdayTimes(),
     queryKey: ["weekdayTimes"],
@@ -74,6 +75,7 @@ const AssignTimetableContainer = () => {
     data: timetables,
     isLoading: isTimetablesLoading,
     error: timetablesError,
+    isFetching: isTimetablesFetching,
   } = useQuery({
     queryFn: () => getTimetables(filterTimetable, timetableSort),
     queryKey: ["timetables"],
@@ -117,12 +119,23 @@ const AssignTimetableContainer = () => {
     setShowToast(true);
   };
 
-  if (isWeekdayTimesLoading || isTimetablesLoading) {
+  if (
+    isWeekdayTimesFetching ||
+    isTimetablesFetching ||
+    isWeekdayTimesLoading ||
+    isTimetablesLoading
+  ) {
     return <Spinner />;
   }
 
-  if (weekdayTimesError || timetablesError) {
-    return <FallbackError />;
+  if (weekdayTimesError) {
+    const apiError = weekdayTimesError as unknown as TResponseError;
+    return <FallbackError statusCode={apiError.statusCode} />;
+  }
+
+  if (timetablesError) {
+    const apiError = timetablesError as unknown as TResponseError;
+    return <FallbackError statusCode={apiError.statusCode} />;
   }
 
   return (

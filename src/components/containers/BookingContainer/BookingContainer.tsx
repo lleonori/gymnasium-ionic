@@ -50,7 +50,7 @@ import {
   formatTime,
   getRandomImage,
 } from "../../../utils/functions";
-import FallbackError from "../../common/FallbackError";
+import FallbackError from "../..//common/FallbackError/FallbackError";
 import Spinner from "../../common/Spinner/Spinner";
 
 const BookingContainer = () => {
@@ -192,16 +192,34 @@ const BookingContainer = () => {
     return map;
   }, [bookings]);
 
-  if (isCalendarLoading || isBookingsLoading || isTimetablesLoading) {
-    return <Spinner />;
-  }
-
-  if (isCalendarFetching || isBookingsFetching || isTimetablesFetching) {
+  if (
+    isCalendarFetching ||
+    isBookingsFetching ||
+    isTimetablesFetching ||
+    isCalendarLoading ||
+    isBookingsLoading ||
+    isTimetablesLoading
+  ) {
     return <Spinner />;
   }
 
   if (calendarError || bookingsError || timetablesError) {
     return <FallbackError />;
+  }
+
+  if (calendarError) {
+    const apiError = calendarError as unknown as TResponseError;
+    return <FallbackError statusCode={apiError.statusCode} />;
+  }
+
+  if (bookingsError) {
+    const apiError = bookingsError as unknown as TResponseError;
+    return <FallbackError statusCode={apiError.statusCode} />;
+  }
+
+  if (timetablesError) {
+    const apiError = timetablesError as unknown as TResponseError;
+    return <FallbackError statusCode={apiError.statusCode} />;
   }
 
   return (

@@ -31,7 +31,7 @@ import { TModalRole } from "../../../models/modal/modalModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
 import { Colors } from "../../../utils/enums";
 import { getRandomImage } from "../../../utils/functions";
-import FallbackError from "../../common/FallbackError";
+import FallbackError from "../..//common/FallbackError/FallbackError";
 import Spinner from "../../common/Spinner/Spinner";
 import HandlerCoach from "./modal/HandlerCoach";
 
@@ -53,6 +53,7 @@ const CoachContainer = () => {
     data: coaches,
     isLoading: isCoachesLoading,
     error: coachesError,
+    isFetching: isCoachesFetching,
   } = useQuery({
     queryFn: () => getCoaches(),
     queryKey: ["coaches"],
@@ -122,12 +123,13 @@ const CoachContainer = () => {
     return map;
   }, [coaches]);
 
-  if (isCoachesLoading) {
+  if (isCoachesFetching || isCoachesLoading) {
     return <Spinner />;
   }
 
   if (coachesError) {
-    return <FallbackError />;
+    const apiError = coachesError as unknown as TResponseError;
+    return <FallbackError statusCode={apiError.statusCode} />;
   }
 
   return (
