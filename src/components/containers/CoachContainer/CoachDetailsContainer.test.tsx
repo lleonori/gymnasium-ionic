@@ -5,7 +5,7 @@ import { getCoaches } from "../../../api/coach/coachApi";
 import CoachDetailsContainer from "./CoachDetailsContainer";
 
 // Mock della funzione `getCoaches`
-vi.mock("../../api/coach/coachApi", () => ({
+vi.mock("../../../api/coach/coachApi", () => ({
   getCoaches: vi.fn(),
 }));
 

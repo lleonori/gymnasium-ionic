@@ -63,9 +63,8 @@ describe("SearchBookingContainer", () => {
     renderWithQueryClient(<SearchBookingContainer />);
 
     await waitFor(() => {
-      expect(screen.getByText("Benvenuto")).toBeInTheDocument();
       expect(
-        screen.getByText(/I am\. I can\. I will\. I do\./)
+        screen.getByText("Scopri chi si allena oggi!")
       ).toBeInTheDocument();
     });
   });
@@ -74,7 +73,7 @@ describe("SearchBookingContainer", () => {
     renderWithQueryClient(<SearchBookingContainer />);
 
     await waitFor(() => {
-      expect(screen.getByText(/Filtri/i));
+      expect(screen.getByText(/Filtra le prenotazioni/i));
     });
   });
 });

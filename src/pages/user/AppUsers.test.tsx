@@ -29,7 +29,7 @@ describe("AppUsers", () => {
 
   it("renders all navigation tabs", () => {
     renderWithQueryClient(<AppUsers />);
-    expect(screen.getByTestId("tab-home")).toBeInTheDocument();
+    expect(screen.getByTestId("tab-coaches")).toBeInTheDocument();
     expect(screen.getByTestId("tab-booking")).toBeInTheDocument();
     expect(screen.getByTestId("tab-logout")).toBeInTheDocument();
   });

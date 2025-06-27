@@ -63,6 +63,7 @@ const Login = () => {
       <IonHeader>
         <IonToolbar>
           <IonButton
+            data-testid="skip-button"
             slot="end"
             fill="clear"
             color={Colors.MEDIUM}
