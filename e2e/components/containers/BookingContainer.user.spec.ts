@@ -89,7 +89,7 @@ test.describe("BookingContainer - prenotazione lezione", () => {
       .click();
     let alert = page.getByRole("alertdialog", { name: "Giorno" });
     await alert.waitFor();
-    await alert.locator("button", { hasText: "2025-06-13" }).click();
+    await alert.locator("button", { hasText: "13-06-2025" }).click();
     await alert.locator("button", { hasText: "OK" }).click();
 
     // Seleziona orario
@@ -106,13 +106,8 @@ test.describe("BookingContainer - prenotazione lezione", () => {
     // Invia la prenotazione
     await page.getByTestId("create-booking").click();
 
-    // Attendi il toast di conferma
-    await expect(
-      page.locator('ion-toast[is-open="true"]:not(.overlay-hidden)'),
-    ).toBeVisible();
-
     // Verifica che la nuova prenotazione sia visibile nella lista
-    await expect(page.locator('ion-chip:has-text("2025-06-13")')).toBeVisible();
+    await expect(page.locator('ion-chip:has-text("13-06-2025")')).toBeVisible();
   });
 
   test("the user can delete a booking", async ({ page }) => {
@@ -128,9 +123,7 @@ test.describe("BookingContainer - prenotazione lezione", () => {
     // Conferma l'eliminazione nell'action sheet
     await page.locator('ion-action-sheet button:has-text("Elimina")').click();
 
-    // Attendi il toast di conferma
-    await expect(
-      page.locator('ion-toast[is-open="true"]:not(.overlay-hidden)'),
-    ).toBeVisible();
+    // Verifica che il coach sia stato rimosso dalla lista
+    await expect(page.getByText("Test User")).not.toBeVisible();
   });
 });

@@ -43,3 +43,47 @@ For running the application on real device use (Iphone 7):
 ```bash
 npx vite build --mode production && npx cap copy ios && npx cap run ios --target=2a2bf6075987ccc23d490f2b4f93eaad1bf83e99
 ```
+
+## Run e2e tests
+
+Runs the end-to-end tests.
+
+```bash
+  npx playwright test
+```
+
+Starts the interactive UI mode.
+
+```bash
+  npx playwright test --ui
+```
+
+Runs the tests only on Desktop Chrome.
+
+```bash
+  npx playwright test --project=chromium
+```
+
+Runs the tests in a specific file.
+
+```bash
+  npx playwright test example
+```
+
+Runs the tests in debug mode.
+
+```bash
+  npx playwright test --debug
+```
+
+Auto generate tests with Codegen.
+
+```bash
+  npx playwright codegen
+```
+
+Runs the tests with specific project
+
+```bash
+npx playwright test --ui --project=system-administrator-chromium
+```

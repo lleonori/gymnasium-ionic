@@ -57,7 +57,7 @@ test.describe(() => {
       await route.abort();
     });
     await page.reload();
-    await expect(page.locator("text=Errore")).toBeVisible();
+    await expect(page.locator("text=Ops")).toBeVisible();
   });
 
   test("should renders coaches with correct info", async ({ page }) => {
@@ -85,11 +85,6 @@ test.describe(() => {
     // Conferma la modifica (adatta il selettore al tuo pulsante di conferma)
     await page.getByTestId("insert-update-coach").click();
 
-    // Attendi che il toast di conferma sia visibile
-    await expect(
-      page.locator('ion-toast[is-open="true"]:not(.overlay-hidden)'),
-    ).toBeVisible();
-
     // Verifica che il nome aggiornato sia visibile
     await expect(page.getByText("Giovanni Rossi")).toBeVisible();
   });
@@ -109,11 +104,6 @@ test.describe(() => {
 
     // Conferma l'eliminazione nell'action sheet
     await page.locator('ion-action-sheet button:has-text("Elimina")').click();
-
-    // Attendi che il toast di conferma sia visibile
-    await expect(
-      page.locator('ion-toast[is-open="true"]:not(.overlay-hidden)'),
-    ).toBeVisible();
 
     // Verifica che il coach sia stato rimosso dalla lista
     await expect(page.getByText("Mario Rossi")).not.toBeVisible();

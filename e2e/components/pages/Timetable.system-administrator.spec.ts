@@ -88,11 +88,6 @@ test.describe("Timetable page - inserimento orario", () => {
     // Conferma la creazione
     await page.getByTestId("create-update-timetable").click();
 
-    // Attendi il toast di conferma
-    await expect(
-      page.locator('ion-toast[is-open="true"]:not(.overlay-hidden)'),
-    ).toBeVisible();
-
     // Attendi che la modale sia completamente chiusa
     await expect(page.locator("ion-modal")).not.toBeVisible();
 

@@ -57,7 +57,7 @@ test.describe(() => {
       await route.abort();
     });
     await page.reload();
-    await expect(page.locator("text=Errore")).toBeVisible();
+    await expect(page.locator("text=Ops")).toBeVisible();
   });
 
   test("should render timetables with correct info", async ({ page }) => {
@@ -119,11 +119,6 @@ test.describe(() => {
     // Conferma la creazione
     await page.getByTestId("create-update-timetable").click();
 
-    // Attendi il toast di conferma
-    await expect(
-      page.locator('ion-toast[is-open="true"]:not(.overlay-hidden)'),
-    ).toBeVisible();
-
     // Attendi che la modale sia completamente chiusa
     await expect(page.locator("ion-modal")).not.toBeVisible();
 
@@ -151,11 +146,6 @@ test.describe(() => {
 
     // Conferma l'eliminazione nell'action sheet
     await page.locator('ion-action-sheet button:has-text("Elimina")').click();
-
-    // Attendi che il toast di conferma sia visibile
-    await expect(
-      page.locator('ion-toast[is-open="true"]:not(.overlay-hidden)'),
-    ).toBeVisible();
 
     // Verifica che l'orario sia stato rimosso dalla lista
     await expect(

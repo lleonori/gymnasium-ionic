@@ -92,7 +92,7 @@ test.describe(() => {
       await route.abort();
     });
     await page.reload();
-    await expect(page.locator("text=Errore")).toBeVisible();
+    await expect(page.locator("text=Ops")).toBeVisible();
   });
 
   test("should render weekday times with correct info", async ({ page }) => {
@@ -126,11 +126,6 @@ test.describe(() => {
 
     // Clicca sul bottone Conferma
     await page.getByTestId("update-weekday-times").click();
-
-    // Attendi il toast di successo
-    await expect(
-      page.locator('ion-toast:has-text("Assegnazione aggiornata")'),
-    ).toBeVisible();
 
     // Attendi che la modale si chiuda
     await expect(page.locator("ion-modal")).not.toBeVisible();

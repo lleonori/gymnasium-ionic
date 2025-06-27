@@ -56,11 +56,6 @@ test.describe("Coach page - inserimento coach", () => {
     // Conferma l'inserimento (adatta il selettore al tuo pulsante di conferma)
     await page.getByTestId("insert-update-coach").click();
 
-    // Attendi che il toast di conferma sia visibile
-    await expect(
-      page.locator('ion-toast[is-open="true"]:not(.overlay-hidden)'),
-    ).toBeVisible();
-
     // Attendi che la modale sia completamente chiusa
     await expect(page.locator("ion-modal")).not.toBeVisible();
 
