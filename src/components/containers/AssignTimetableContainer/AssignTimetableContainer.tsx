@@ -90,11 +90,12 @@ const AssignTimetableContainer = () => {
 
   const openModal = () => {
     present({
-      onWillDismiss: (event: CustomEvent<OverlayEventDetail>) => {
+      onWillDismiss: (
+        event: CustomEvent<OverlayEventDetail<TCreateWeekdayTimes>>
+      ) => {
         console.log("event.detail.data", event.detail.data);
         if ((event.detail.role as TModalRole) === "confirm") {
-          if (event.detail.data as TCreateWeekdayTimes)
-            saveWeekdayTimeMutate(event.detail.data);
+          if (event.detail.data) saveWeekdayTimeMutate(event.detail.data);
         }
       },
     });

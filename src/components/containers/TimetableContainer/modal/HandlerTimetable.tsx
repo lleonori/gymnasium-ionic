@@ -173,7 +173,7 @@ const HandlerTimetable = (props: HandlerTimetableProps) => {
               >
                 <div slot="label">
                   Ora Fine
-                  {errors.startHour && (
+                  {errors.endHour && (
                     <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
                   )}
                 </div>
@@ -200,7 +200,7 @@ const HandlerTimetable = (props: HandlerTimetableProps) => {
               >
                 <div slot="label">
                   Minuti Fine
-                  {errors.startMinute && (
+                  {errors.endMinute && (
                     <IonText color={Colors.DANGER}>(Obbligatorio)</IonText>
                   )}
                 </div>

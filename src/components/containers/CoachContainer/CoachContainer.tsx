@@ -24,9 +24,10 @@ import { useMemo, useState } from "react";
 import {
   deleteCoach,
   getCoaches,
+  saveCoach,
   updateCoach,
 } from "../../../api/coach/coachApi";
-import { TCoach } from "../../../models/coach/coachModel";
+import { TCoach, TCreateCoach } from "../../../models/coach/coachModel";
 import { TModalRole } from "../../../models/modal/modalModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
 import { Colors } from "../../../utils/enums";
@@ -59,23 +60,58 @@ const CoachContainer = () => {
     queryKey: ["coaches"],
   });
 
-  const [present, dismissModal] = useIonModal(HandlerCoach, {
-    dismiss: (data: TCoach | null, role: TModalRole) =>
-      dismissModal(data, role),
-    currentCoach: currentCoach,
-    mode: "update",
-  });
+  const [presentCreateCoach, dismissModalCreateCoach] = useIonModal(
+    HandlerCoach,
+    {
+      dismiss: (data: TCoach | null, role: TModalRole) =>
+        dismissModalCreateCoach(data, role),
+      mode: "create",
+    }
+  );
 
-  const openModal = () => {
-    present({
-      onWillDismiss: (event: CustomEvent<OverlayEventDetail>) => {
+  const [presentUpdateCoach, dismissModalUpdateCoach] = useIonModal(
+    HandlerCoach,
+    {
+      dismiss: (data: TCoach | null, role: TModalRole) =>
+        dismissModalUpdateCoach(data, role),
+      currentCoach: currentCoach,
+      mode: "update",
+    }
+  );
+
+  const openModalCreateCoach = () => {
+    presentCreateCoach({
+      onWillDismiss: (event: CustomEvent<OverlayEventDetail<TCreateCoach>>) => {
         console.log("event.detail.data", event.detail.data);
         if ((event.detail.role as TModalRole) === "confirm") {
-          if (event.detail.data as TCoach) updateCoachMutate(event.detail.data);
+          if (event.detail.data) saveCoachMutate(event.detail.data);
         }
       },
     });
   };
+
+  const openModalUpdateCoach = () => {
+    presentUpdateCoach({
+      onWillDismiss: (event: CustomEvent<OverlayEventDetail<TCoach>>) => {
+        console.log("event.detail.data", event.detail.data);
+        if ((event.detail.role as TModalRole) === "confirm") {
+          if (event.detail.data) updateCoachMutate(event.detail.data);
+        }
+      },
+    });
+  };
+
+  const { mutate: saveCoachMutate } = useMutation({
+    mutationFn: (newCoach: TCreateCoach) => saveCoach(newCoach),
+    onSuccess: () => {
+      // Invalidate and refetch coaches
+      queryClient.invalidateQueries({ queryKey: ["coaches"] });
+      showToastWithMessage("Coach inserito", Colors.SUCCESS);
+    },
+    onError: (error: TResponseError) => {
+      showToastWithMessage(error.message, Colors.DANGER);
+    },
+  });
 
   const { mutate: updateCoachMutate } = useMutation({
     mutationFn: (currentCoach: TCoach) => updateCoach(currentCoach),
@@ -89,23 +125,24 @@ const CoachContainer = () => {
     },
   });
 
-  const handleOpenActionSheet = () => {
-    setIsOpen(true);
-  };
-
   const { mutate: deleteCoachMutate } = useMutation({
     mutationFn: () => deleteCoach(currentCoach!.id),
     onSuccess: () => {
+      setIsOpen(false);
       // Invalidate and refetch coaches
       queryClient.invalidateQueries({ queryKey: ["coaches"] });
       showToastWithMessage("Coach eliminato", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {
-      setCurrentCoach(null);
       setIsOpen(false);
+      setCurrentCoach(null);
       showToastWithMessage(error.message, Colors.DANGER);
     },
   });
+
+  const handleOpenActionSheet = () => {
+    setIsOpen(true);
+  };
 
   const showToastWithMessage = (message: string, color: string) => {
     setToastColor(color);
@@ -155,6 +192,14 @@ const CoachContainer = () => {
               <IonText>Scorri verso sinistra per eliminarlo</IonText>
             </li>
           </ul>
+          <IonChip
+            data-testid="create-coach"
+            color={Colors.PRIMARY}
+            onClick={() => openModalCreateCoach()}
+          >
+            <IonLabel>Aggiungi Coach</IonLabel>
+            <IonIcon icon={barbellOutline}></IonIcon>
+          </IonChip>
         </IonCardContent>
       </IonCard>
       {coaches?.data.map((coach: TCoach) => (
@@ -164,7 +209,7 @@ const CoachContainer = () => {
               color={Colors.WARNING}
               onClick={() => {
                 setCurrentCoach(coach);
-                openModal();
+                openModalUpdateCoach();
               }}
             >
               <IonIcon icon={createOutline} />

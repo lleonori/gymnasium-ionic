@@ -15,6 +15,7 @@ import {
   IonLabel,
   IonText,
   IonToast,
+  isPlatform,
   useIonModal,
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
@@ -24,12 +25,14 @@ import { useState } from "react";
 import {
   deleteTimetable,
   getTimetables,
+  saveTimetable,
   updateTimetable,
 } from "../../../api/timetable/timetableApi";
 import { TModalRole } from "../../../models/modal/modalModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
 import { TSortBy } from "../../../models/sort/sortModel";
 import {
+  TCreateTimetable,
   TFilterTimetable,
   TTimetable,
 } from "../../../models/timetable/timetableModel";
@@ -72,24 +75,60 @@ const TimetableContainer = () => {
     queryKey: ["timetables"],
   });
 
-  const [present, dismissModal] = useIonModal(HandlerTimetable, {
-    dismiss: (data: TTimetable | null, role: TModalRole) =>
-      dismissModal(data, role),
-    currentTimetable: currentTimetable,
-    mode: "update",
-  });
+  const [presentCreateTimetable, dismissModalCreateTimetable] = useIonModal(
+    HandlerTimetable,
+    {
+      dismiss: (data: TCreateTimetable | null, role: TModalRole) =>
+        dismissModalCreateTimetable(data, role),
+      mode: "create",
+    }
+  );
 
-  const openModal = () => {
-    present({
-      onWillDismiss: (event: CustomEvent<OverlayEventDetail>) => {
+  const openModalCreateTimetable = () => {
+    presentCreateTimetable({
+      onWillDismiss: (
+        event: CustomEvent<OverlayEventDetail<TCreateTimetable>>
+      ) => {
         console.log("event.detail.data", event.detail.data);
         if ((event.detail.role as TModalRole) === "confirm") {
-          if (event.detail.data as TTimetable)
-            updateTimetableMutate(event.detail.data);
+          if (event.detail.data) saveTimetableMutate(event.detail.data);
         }
       },
     });
   };
+
+  const [presentUpdateTimetable, dismissModalUpdateTimetable] = useIonModal(
+    HandlerTimetable,
+    {
+      dismiss: (data: TTimetable | null, role: TModalRole) =>
+        dismissModalUpdateTimetable(data, role),
+      currentTimetable: currentTimetable,
+      mode: "update",
+    }
+  );
+
+  const openModalUpdateTimetable = () => {
+    presentUpdateTimetable({
+      onWillDismiss: (event: CustomEvent<OverlayEventDetail<TTimetable>>) => {
+        console.log("event.detail.data", event.detail.data);
+        if ((event.detail.role as TModalRole) === "confirm") {
+          if (event.detail.data) updateTimetableMutate(event.detail.data);
+        }
+      },
+    });
+  };
+
+  const { mutate: saveTimetableMutate } = useMutation({
+    mutationFn: (newTimetable: TCreateTimetable) => saveTimetable(newTimetable),
+    onSuccess: () => {
+      // Invalidate and refetch Timetables
+      queryClient.invalidateQueries({ queryKey: ["timetables"] });
+      showToastWithMessage("Orario inserito", Colors.SUCCESS);
+    },
+    onError: (error: TResponseError) => {
+      showToastWithMessage(error.message, Colors.DANGER);
+    },
+  });
 
   const { mutate: updateTimetableMutate } = useMutation({
     mutationFn: (currentTimetable: TTimetable) =>
@@ -97,6 +136,7 @@ const TimetableContainer = () => {
     onSuccess: () => {
       // Invalidate and refetch timetables
       queryClient.invalidateQueries({ queryKey: ["timetables"] });
+      queryClient.invalidateQueries({ queryKey: ["weekdayTimes"] });
       showToastWithMessage("Orario aggiornato", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {
@@ -104,23 +144,25 @@ const TimetableContainer = () => {
     },
   });
 
-  const handleOpenActionSheet = () => {
-    setIsOpen(true);
-  };
-
   const { mutate: deleteTimetableMutate } = useMutation({
     mutationFn: () => deleteTimetable(currentTimetable!.id),
     onSuccess: () => {
+      setIsOpen(false);
       // Invalidate and refetch timetables
       queryClient.invalidateQueries({ queryKey: ["timetables"] });
+      queryClient.invalidateQueries({ queryKey: ["weekdayTimes"] });
       showToastWithMessage("Orario eliminato", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {
-      setCurrentTimetable(null);
       setIsOpen(false);
+      setCurrentTimetable(null);
       showToastWithMessage(error.message, Colors.DANGER);
     },
   });
+
+  const handleOpenActionSheet = () => {
+    setIsOpen(true);
+  };
 
   const showToastWithMessage = (message: string, color: string) => {
     setToastColor(color);
@@ -162,6 +204,13 @@ const TimetableContainer = () => {
               <IonText>Scorri verso sinistra per eliminarlo</IonText>
             </li>
           </ul>
+          <IonChip
+            data-testid="create-timetable"
+            color={Colors.PRIMARY}
+            onClick={() => openModalCreateTimetable()}
+          >
+            Aggiungi Orario<IonIcon icon={timeOutline}></IonIcon>
+          </IonChip>
         </IonCardContent>
       </IonCard>
       {timetables?.data?.map((timetable: TTimetable) => (
@@ -171,7 +220,7 @@ const TimetableContainer = () => {
               color={Colors.WARNING}
               onClick={() => {
                 setCurrentTimetable(timetable);
-                openModal();
+                openModalUpdateTimetable();
               }}
             >
               <IonIcon icon={createOutline} />
@@ -179,7 +228,7 @@ const TimetableContainer = () => {
           </IonItemOptions>
           <IonItem>
             <IonLabel>
-              <IonCard className="no-horizontal-margin">
+              <IonCard>
                 <IonCardHeader>
                   <IonCardTitle>Orari disponibili</IonCardTitle>
                   <IonCardSubtitle>

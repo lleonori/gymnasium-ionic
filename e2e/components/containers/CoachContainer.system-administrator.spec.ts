@@ -16,6 +16,15 @@ test.describe(() => {
             data: coaches,
           }),
         });
+      } else if (request.method() === "POST") {
+        const body = await request.postDataJSON();
+        const newCoach = { id: 3, ...body };
+        coaches.push(newCoach);
+        await route.fulfill({
+          status: 201,
+          contentType: "application/json",
+          body: JSON.stringify({ data: newCoach }),
+        });
       } else {
         await route.continue();
       }
@@ -64,6 +73,30 @@ test.describe(() => {
     await expect(page.locator("text=Mario Rossi")).toBeVisible();
     await expect(page.locator('ion-chip:has-text("note1")')).toBeVisible();
     await expect(page.locator('img[alt="Coach\'s avatar"]')).toHaveCount(1);
+  });
+
+  test("should create coach via modal", async ({ page }) => {
+    await page.getByTestId("create-coach").click();
+
+    // Attendi che la modale sia visibile
+    await expect(page.locator("ion-modal")).toBeVisible();
+
+    // Compila i campi del form (adatta i selettori ai tuoi input)
+    await page.fill('input[name="name"]', "Anna");
+    await page.fill('input[name="surname"]', "Bianchi");
+    await page.locator("ion-textarea textarea").fill("note");
+
+    // Conferma l'inserimento (adatta il selettore al tuo pulsante di conferma)
+    await page.getByTestId("insert-update-coach").click();
+
+    // Attendi che la modale sia completamente chiusa
+    await expect(page.locator("ion-modal")).not.toBeVisible();
+
+    // Attendi che la pagina sia aggiornata (opzionale, ma aiuta)
+    await page.waitForTimeout(500);
+
+    // Verifica che il nuovo coach sia visibile nella lista
+    await expect(page.getByText("Anna Bianchi")).toBeVisible();
   });
 
   test("should update coach via dialog", async ({ page }) => {

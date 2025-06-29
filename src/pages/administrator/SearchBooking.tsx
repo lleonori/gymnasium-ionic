@@ -17,7 +17,7 @@ const SearchBooking = () => {
       </IonHeader>
       <IonContent className="ion-padding" fullscreen>
         <IonHeader collapse="condense">
-          <IonToolbar class="ion-justify-content-center">
+          <IonToolbar>
             <IonTitle size="large">Prenotazioni</IonTitle>
           </IonToolbar>
         </IonHeader>

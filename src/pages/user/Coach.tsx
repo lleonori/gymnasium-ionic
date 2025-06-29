@@ -17,7 +17,7 @@ const Coach = () => {
       </IonHeader>
       <IonContent className="ion-padding" fullscreen>
         <IonHeader collapse="condense">
-          <IonToolbar class="ion-justify-content-center">
+          <IonToolbar>
             <IonTitle size="large">Coaches</IonTitle>
           </IonToolbar>
         </IonHeader>
