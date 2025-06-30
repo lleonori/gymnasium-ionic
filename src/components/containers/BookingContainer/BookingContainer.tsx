@@ -225,7 +225,7 @@ const BookingContainer = () => {
   return (
     <>
       {/* Presentational Card */}
-      <IonCard className="no-horizontal-margin">
+      <IonCard>
         <IonCardHeader>
           <IonCardTitle>È il momento di prenotare!</IonCardTitle>
           <IonCardSubtitle>
@@ -245,7 +245,7 @@ const BookingContainer = () => {
         </IonCardContent>
       </IonCard>
       {/* Booking Card */}
-      <IonCard className="no-horizontal-margin">
+      <IonCard>
         <IonCardHeader>
           <IonCardTitle>Scegli data e orario</IonCardTitle>
         </IonCardHeader>
@@ -317,7 +317,7 @@ const BookingContainer = () => {
       </IonCard>
       {/* Your Booking Card */}
       {bookings && bookings.data.length > 0 && (
-        <IonCard className="no-horizontal-margin">
+        <IonCard>
           <IonCardHeader>
             <IonCardTitle>Le tue prenotazioni</IonCardTitle>
           </IonCardHeader>
@@ -334,7 +334,7 @@ const BookingContainer = () => {
                         {booking.fullname ?? booking.mail}
                       </IonText>
                       <div className="ion-margin-start">
-                        <IonChip className="ion-margin-start">
+                        <IonChip>
                           <IonLabel>
                             {formatDateToDDMMYYYY(booking.day)}
                           </IonLabel>

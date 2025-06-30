@@ -142,7 +142,7 @@ const AssignTimetableContainer = () => {
   return (
     <>
       {/* Presentational Card */}
-      <IonCard className="no-horizontal-margin">
+      <IonCard>
         <IonCardHeader>
           <IonCardTitle>Benvenuto!</IonCardTitle>
           <IonCardSubtitle>
@@ -173,7 +173,7 @@ const AssignTimetableContainer = () => {
           </IonItemOptions>
           <IonItem>
             <IonLabel>
-              <IonCard className="no-horizontal-margin">
+              <IonCard>
                 <IonCardHeader>
                   <IonCardTitle>{weekdayTime.weekdayName}</IonCardTitle>
                   <IonAvatar>

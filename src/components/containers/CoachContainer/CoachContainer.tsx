@@ -172,7 +172,7 @@ const CoachContainer = () => {
   return (
     <>
       {/* Presentational Card */}
-      <IonCard className="no-horizontal-margin">
+      <IonCard>
         <IonCardHeader>
           <IonCardTitle>Pronti a partire!</IonCardTitle>
           <IonCardSubtitle>
@@ -218,7 +218,7 @@ const CoachContainer = () => {
           <IonItem>
             <IonLabel>
               {/* Coach Card */}
-              <IonCard className="no-horizontal-margin" key={coach.id}>
+              <IonCard key={coach.id}>
                 <IonCardHeader>
                   <IonCardTitle>
                     Coach <br />

@@ -53,7 +53,7 @@ const CoachDetailsContainer = () => {
   return (
     <>
       {/* Coach Card */}
-      <IonCard className="no-horizontal-margin">
+      <IonCard>
         <IonCardHeader>
           <IonCardTitle>Scendi in campo con i coach!</IonCardTitle>
           <IonCardSubtitle>
@@ -65,7 +65,7 @@ const CoachDetailsContainer = () => {
         </IonCardContent>
       </IonCard>
       {coaches?.data.map((coach: TCoach) => (
-        <IonCard className="no-horizontal-margin" key={coach.id}>
+        <IonCard key={coach.id}>
           <IonCardHeader>
             <IonCardTitle>
               Coach <br />

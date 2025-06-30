@@ -182,7 +182,7 @@ const TimetableContainer = () => {
   return (
     <>
       {/* Presentational Card */}
-      <IonCard className="no-horizontal-margin">
+      <IonCard>
         <IonCardHeader>
           <IonCardTitle>Gestisci i tuoi orari!</IonCardTitle>
           <IonCardSubtitle>

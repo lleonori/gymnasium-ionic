@@ -157,7 +157,7 @@ const SearchBookingContainer = () => {
   return (
     <>
       {/* Presentational Card */}
-      <IonCard className="no-horizontal-margin">
+      <IonCard>
         <IonCardHeader>
           <IonCardTitle>Scopri chi si allena oggi!</IonCardTitle>
           <IonCardSubtitle>
@@ -179,7 +179,7 @@ const SearchBookingContainer = () => {
         </IonCardContent>
       </IonCard>
       {/* Filters Card */}
-      <IonCard className="no-horizontal-margin">
+      <IonCard>
         <IonCardHeader>
           <IonCardTitle>Filtra le prenotazioni</IonCardTitle>
           <IonCardSubtitle>
@@ -234,7 +234,7 @@ const SearchBookingContainer = () => {
       </IonCard>
       {/* Booking Card */}
       {bookings?.data.length === 0 ? (
-        <IonCard className="no-horizontal-margin">
+        <IonCard>
           <IonCardHeader>
             <IonCardTitle>Nessuna prenotazione</IonCardTitle>
           </IonCardHeader>
@@ -244,7 +244,7 @@ const SearchBookingContainer = () => {
         </IonCard>
       ) : (
         bookings?.data.map((booking: TBooking) => (
-          <IonCard className="no-horizontal-margin" key={booking.id}>
+          <IonCard key={booking.id}>
             <IonCardHeader>
               <IonCardTitle>
                 {booking.fullname ? booking.fullname : booking.mail}
