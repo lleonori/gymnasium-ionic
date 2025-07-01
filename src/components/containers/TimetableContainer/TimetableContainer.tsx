@@ -13,6 +13,7 @@ import {
   IonItemOptions,
   IonItemSliding,
   IonLabel,
+  IonList,
   IonText,
   IonToast,
   isPlatform,
@@ -190,9 +191,7 @@ const TimetableContainer = () => {
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
-          <IonText>
-            Tieni sotto controllo gli allenamenti in pochi gesti:
-          </IonText>
+          <IonText>Tieni sotto controllo gli orari:</IonText>
           <ul>
             <li>
               <IonText>Aggiungi un orario con un tap</IonText>
@@ -213,57 +212,42 @@ const TimetableContainer = () => {
           </IonChip>
         </IonCardContent>
       </IonCard>
-      {timetables?.data?.map((timetable: TTimetable) => (
-        <IonItemSliding key={timetable.id}>
-          <IonItemOptions side="start">
-            <IonItemOption
-              color={Colors.WARNING}
-              onClick={() => {
-                setCurrentTimetable(timetable);
-                openModalUpdateTimetable();
-              }}
-            >
-              <IonIcon icon={createOutline} />
-            </IonItemOption>
-          </IonItemOptions>
-          <IonItem>
-            <IonLabel>
-              <IonCard>
-                <IonCardHeader>
-                  <IonCardTitle>Orari disponibili</IonCardTitle>
-                  <IonCardSubtitle>
-                    <IonAvatar>
-                      <img
-                        alt="Timetable's avatar"
-                        src="/assets/timetables/watch.png"
-                      />
-                    </IonAvatar>
-                  </IonCardSubtitle>
-                </IonCardHeader>
-                <IonCardContent>
+      <IonCard>
+        <IonList inset={true}>
+          {timetables?.data?.map((timetable: TTimetable) => (
+            <IonItemSliding>
+              <IonItemOptions side="start">
+                <IonItemOption color={Colors.PRIMARY}>
+                  <IonIcon slot="icon-only" icon={createOutline}></IonIcon>
+                </IonItemOption>
+              </IonItemOptions>
+              <IonItem button={true}>
+                <IonAvatar aria-hidden="true" slot="start">
+                  <img
+                    alt="Timetable's avatar"
+                    src="/assets/timetables/watch.png"
+                  />
+                </IonAvatar>
+                <IonLabel>
+                  <h1>Fascia oraria</h1>
                   <IonChip>
                     <IonLabel>
-                      {`${formatTime(timetable.startHour)} - ${formatTime(timetable.endHour)}`}
+                      {formatTime(timetable.startHour)} -
+                      {formatTime(timetable.endHour)}
                     </IonLabel>
-                    <IonIcon icon={timeOutline} />
+                    <IonIcon icon={timeOutline}></IonIcon>
                   </IonChip>
-                </IonCardContent>
-              </IonCard>
-            </IonLabel>
-          </IonItem>
-          <IonItemOptions side="end">
-            <IonItemOption
-              color={Colors.DANGER}
-              onClick={() => {
-                handleOpenActionSheet();
-                setCurrentTimetable(timetable);
-              }}
-            >
-              <IonIcon icon={trashBinOutline} />
-            </IonItemOption>
-          </IonItemOptions>
-        </IonItemSliding>
-      ))}
+                </IonLabel>
+              </IonItem>
+              <IonItemOptions side="end">
+                <IonItemOption color={Colors.DANGER}>
+                  <IonIcon slot="icon-only" icon={trashBinOutline}></IonIcon>
+                </IonItemOption>
+              </IonItemOptions>
+            </IonItemSliding>
+          ))}
+        </IonList>
+      </IonCard>
       {/* Action Sheet */}
       <IonActionSheet
         isOpen={isOpen}

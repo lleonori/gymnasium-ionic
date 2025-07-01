@@ -13,13 +13,21 @@ import {
   IonItemOptions,
   IonItemSliding,
   IonLabel,
+  IonList,
   IonText,
   IonToast,
   useIonModal,
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { barbellOutline, createOutline, trashBinOutline } from "ionicons/icons";
+import {
+  barbellOutline,
+  createOutline,
+  pin,
+  share,
+  trash,
+  trashBinOutline,
+} from "ionicons/icons";
 import { useMemo, useState } from "react";
 import {
   deleteCoach,
@@ -180,7 +188,7 @@ const CoachContainer = () => {
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
-          <IonText>Gestisci il team dei coach in pochi gesti:</IonText>
+          <IonText>Gestisci il team dei coach:</IonText>
           <ul>
             <li>
               <IonText>Aggiungi un coach con un tap</IonText>
@@ -202,59 +210,42 @@ const CoachContainer = () => {
           </IonChip>
         </IonCardContent>
       </IonCard>
-      {coaches?.data.map((coach: TCoach) => (
-        <IonItemSliding key={coach.id}>
-          <IonItemOptions side="start">
-            <IonItemOption
-              color={Colors.WARNING}
-              onClick={() => {
-                setCurrentCoach(coach);
-                openModalUpdateCoach();
-              }}
-            >
-              <IonIcon icon={createOutline} />
-            </IonItemOption>
-          </IonItemOptions>
-          <IonItem>
-            <IonLabel>
-              {/* Coach Card */}
-              <IonCard key={coach.id}>
-                <IonCardHeader>
-                  <IonCardTitle>
-                    Coach <br />
+      <IonCard>
+        <IonList inset={true}>
+          {coaches?.data.map((coach: TCoach) => (
+            <IonItemSliding>
+              <IonItemOptions side="start">
+                <IonItemOption color={Colors.PRIMARY}>
+                  <IonIcon slot="icon-only" icon={createOutline}></IonIcon>
+                </IonItemOption>
+              </IonItemOptions>
+              <IonItem button={true}>
+                <IonAvatar aria-hidden="true" slot="start">
+                  <img alt="Coach's avatar" src={imagesMap[coach.id]} />
+                </IonAvatar>
+                <IonLabel>
+                  <h1>
                     {coach.name} {coach.surname}
-                  </IonCardTitle>
-                  <IonCardSubtitle>
-                    <IonAvatar>
-                      <img alt="Coach's avatar" src={imagesMap[coach.id]} />
-                    </IonAvatar>
-                  </IonCardSubtitle>
-                </IonCardHeader>
-                <IonCardContent>
+                  </h1>
                   {coach?.notes
                     .split(",")
                     .map((note: string, index: number) => (
                       <IonChip key={index}>
                         <IonLabel>{note}</IonLabel>
+                        <IonIcon icon={barbellOutline}></IonIcon>
                       </IonChip>
                     ))}
-                </IonCardContent>
-              </IonCard>
-            </IonLabel>
-          </IonItem>
-          <IonItemOptions side="end">
-            <IonItemOption
-              color={Colors.DANGER}
-              onClick={() => {
-                handleOpenActionSheet();
-                setCurrentCoach(coach);
-              }}
-            >
-              <IonIcon icon={trashBinOutline} />
-            </IonItemOption>
-          </IonItemOptions>
-        </IonItemSliding>
-      ))}
+                </IonLabel>
+              </IonItem>
+              <IonItemOptions side="end">
+                <IonItemOption color={Colors.DANGER}>
+                  <IonIcon slot="icon-only" icon={trashBinOutline}></IonIcon>
+                </IonItemOption>
+              </IonItemOptions>
+            </IonItemSliding>
+          ))}
+        </IonList>
+      </IonCard>
       {/* Action Sheet */}
       <IonActionSheet
         isOpen={isOpen}

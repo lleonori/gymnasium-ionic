@@ -12,6 +12,7 @@ import {
   IonItemOptions,
   IonItemSliding,
   IonLabel,
+  IonList,
   IonText,
   IonToast,
   useIonModal,
@@ -144,13 +145,13 @@ const AssignTimetableContainer = () => {
       {/* Presentational Card */}
       <IonCard>
         <IonCardHeader>
-          <IonCardTitle>Benvenuto!</IonCardTitle>
+          <IonCardTitle>Organizzati al meglio!</IonCardTitle>
           <IonCardSubtitle>
             <IonIcon icon={briefcaseOutline} />
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
-          <IonText>Gestisci gli orari settimanali in pochi passaggi:</IonText>
+          <IonText>Gestisci gli orari settimanali:</IonText>
           <ul>
             <li>
               <IonText>Scorri un giorno verso destra per modificarlo</IonText>
@@ -158,44 +159,36 @@ const AssignTimetableContainer = () => {
           </ul>
         </IonCardContent>
       </IonCard>
-      {weekdayTimes?.data?.map((weekdayTime) => (
-        <IonItemSliding key={weekdayTime.weekdayId}>
-          <IonItemOptions side="start">
-            <IonItemOption
-              color={Colors.WARNING}
-              onClick={() => {
-                openModal();
-                setCurrentWeekdayTime(weekdayTime);
-              }}
-            >
-              <IonIcon icon={createOutline} />
-            </IonItemOption>
-          </IonItemOptions>
-          <IonItem>
-            <IonLabel>
-              <IonCard>
-                <IonCardHeader>
-                  <IonCardTitle>{weekdayTime.weekdayName}</IonCardTitle>
-                  <IonAvatar>
-                    <img
-                      alt="Timetable's avatar"
-                      src="/assets/weekdayTimes/calendar.png"
-                    />
-                  </IonAvatar>
-                </IonCardHeader>
-                <IonCardContent>
+      <IonCard>
+        <IonList inset={true}>
+          {weekdayTimes?.data?.map((weekdayTime) => (
+            <IonItemSliding>
+              <IonItemOptions side="start">
+                <IonItemOption color={Colors.PRIMARY}>
+                  <IonIcon slot="icon-only" icon={createOutline}></IonIcon>
+                </IonItemOption>
+              </IonItemOptions>
+              <IonItem button={true}>
+                <IonAvatar aria-hidden="true" slot="start">
+                  <img
+                    alt="Timetable's avatar"
+                    src="/assets/weekdayTimes/calendar.png"
+                  />
+                </IonAvatar>
+                <IonLabel>
+                  <h1>{weekdayTime.weekdayName}</h1>
                   {weekdayTime.hour.map((hh) => (
                     <IonChip key={hh.id}>
                       <IonLabel>{formatTime(hh.hour)}</IonLabel>
                       <IonIcon icon={timeOutline}></IonIcon>
                     </IonChip>
                   ))}
-                </IonCardContent>
-              </IonCard>
-            </IonLabel>
-          </IonItem>
-        </IonItemSliding>
-      ))}
+                </IonLabel>
+              </IonItem>
+            </IonItemSliding>
+          ))}
+        </IonList>
+      </IonCard>
       {/* Toasts */}
       <IonToast
         isOpen={showToast}

@@ -24,7 +24,9 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   arrowForwardCircleOutline,
+  calendarClearOutline,
   calendarNumberOutline,
+  timeOutline,
   trashBinOutline,
 } from "ionicons/icons";
 import { useMemo, useState } from "react";
@@ -233,7 +235,7 @@ const BookingContainer = () => {
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
-          <IonText>Gestisci le tue lezioni in pochi tocchi:</IonText>
+          <IonText>Gestisci le tue lezioni:</IonText>
           <ul>
             <li>
               <IonText>Prenota una lezione compilando il form</IonText>
@@ -318,50 +320,42 @@ const BookingContainer = () => {
       {/* Your Booking Card */}
       {bookings && bookings.data.length > 0 && (
         <IonCard>
-          <IonCardHeader>
-            <IonCardTitle>Le tue prenotazioni</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <IonList>
-              {bookings.data.map((booking: TBooking) => (
-                <IonItemSliding key={booking.id}>
-                  <IonItem>
-                    <IonAvatar>
-                      <img alt="User's avatar" src={imagesMap[booking.id]} />
-                    </IonAvatar>
-                    <IonLabel>
-                      <IonText className="ion-margin-start">
-                        {booking.fullname ?? booking.mail}
-                      </IonText>
-                      <div className="ion-margin-start">
-                        <IonChip>
-                          <IonLabel>
-                            {formatDateToDDMMYYYY(booking.day)}
-                          </IonLabel>
-                        </IonChip>
-                        <IonChip>
-                          <IonLabel>
-                            {`${formatTime(booking.startHour)} - ${formatTime(booking.endHour)}`}
-                          </IonLabel>
-                        </IonChip>
-                      </div>
-                    </IonLabel>
-                  </IonItem>
-                  <IonItemOptions>
-                    <IonItemOption
-                      onClick={() => {
-                        handleOpenActionSheet();
-                        setCurrentBooking(booking);
-                      }}
-                      color={Colors.DANGER}
-                    >
-                      <IonIcon icon={trashBinOutline} />
-                    </IonItemOption>
-                  </IonItemOptions>
-                </IonItemSliding>
-              ))}
-            </IonList>
-          </IonCardContent>
+          <IonList inset={true}>
+            {bookings.data.map((booking: TBooking) => (
+              <IonItemSliding key={booking.id}>
+                <IonItem button={true}>
+                  <IonAvatar aria-hidden="true" slot="start">
+                    <img alt="User's avatar" src={imagesMap[booking.id]} />
+                  </IonAvatar>
+                  <IonLabel>
+                    <h1>{booking.fullname ?? booking.mail}</h1>
+                    <IonChip>
+                      <IonLabel>{formatDateToDDMMYYYY(booking.day)}</IonLabel>
+                      <IonIcon icon={calendarNumberOutline}></IonIcon>
+                    </IonChip>
+                    <IonChip>
+                      <IonLabel>
+                        {formatTime(booking.startHour)} -
+                        {formatTime(booking.endHour)}
+                      </IonLabel>
+                      <IonIcon icon={timeOutline}></IonIcon>
+                    </IonChip>
+                  </IonLabel>
+                </IonItem>
+                <IonItemOptions side="end">
+                  <IonItemOption
+                    onClick={() => {
+                      handleOpenActionSheet();
+                      setCurrentBooking(booking);
+                    }}
+                    color={Colors.DANGER}
+                  >
+                    <IonIcon slot="icon-only" icon={trashBinOutline}></IonIcon>
+                  </IonItemOption>
+                </IonItemOptions>
+              </IonItemSliding>
+            ))}
+          </IonList>
         </IonCard>
       )}
       {/* Action Sheet */}

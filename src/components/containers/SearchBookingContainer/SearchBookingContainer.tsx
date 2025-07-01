@@ -18,7 +18,6 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import {
   calendarNumberOutline,
-  calendarOutline,
   filterOutline,
   searchOutline,
   timeOutline,
@@ -258,7 +257,7 @@ const SearchBookingContainer = () => {
             <IonCardContent>
               <IonChip>
                 <IonLabel>{booking.day.toString()}</IonLabel>
-                <IonIcon icon={calendarOutline}></IonIcon>
+                <IonIcon icon={calendarNumberOutline}></IonIcon>
               </IonChip>
               <IonChip>
                 <IonLabel>
