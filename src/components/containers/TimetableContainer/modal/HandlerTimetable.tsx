@@ -51,7 +51,6 @@ const HandlerTimetable = (props: HandlerTimetableProps) => {
 
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors },
     clearErrors,

@@ -1,9 +1,9 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { getTimetables } from "../../../api/timetable/timetableApi";
-import { getCalendar } from "../../../api/calendar/calendarApi";
 import { getBookings } from "../../../api/booking/bookingApi";
+import { getCalendar } from "../../../api/calendar/calendarApi";
+import { getTimetables } from "../../../api/timetable/timetableApi";
 import SearchBookingContainer from "./SearchBookingContainer";
 
 // Mock delle API
