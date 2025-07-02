@@ -75,16 +75,6 @@ const CoachContainer = () => {
     }
   );
 
-  const [presentUpdateCoach, dismissModalUpdateCoach] = useIonModal(
-    HandlerCoach,
-    {
-      dismiss: (data: TCoach | null, role: TModalRole) =>
-        dismissModalUpdateCoach(data, role),
-      currentCoach: currentCoach,
-      mode: "update",
-    }
-  );
-
   const openModalCreateCoach = () => {
     presentCreateCoach({
       onWillDismiss: (event: CustomEvent<OverlayEventDetail<TCreateCoach>>) => {
@@ -95,6 +85,16 @@ const CoachContainer = () => {
       },
     });
   };
+
+  const [presentUpdateCoach, dismissModalUpdateCoach] = useIonModal(
+    HandlerCoach,
+    {
+      dismiss: (data: TCoach | null, role: TModalRole) =>
+        dismissModalUpdateCoach(data, role),
+      currentCoach: currentCoach,
+      mode: "update",
+    }
+  );
 
   const openModalUpdateCoach = () => {
     presentUpdateCoach({
@@ -213,7 +213,13 @@ const CoachContainer = () => {
           {coaches?.data.map((coach: TCoach) => (
             <IonItemSliding key={coach.id}>
               <IonItemOptions side="start">
-                <IonItemOption color={Colors.PRIMARY}>
+                <IonItemOption
+                  color={Colors.WARNING}
+                  onClick={() => {
+                    setCurrentCoach(coach);
+                    openModalUpdateCoach();
+                  }}
+                >
                   <IonIcon slot="icon-only" icon={createOutline}></IonIcon>
                 </IonItemOption>
               </IonItemOptions>
@@ -236,7 +242,13 @@ const CoachContainer = () => {
                 </IonLabel>
               </IonItem>
               <IonItemOptions side="end">
-                <IonItemOption color={Colors.DANGER}>
+                <IonItemOption
+                  color={Colors.DANGER}
+                  onClick={() => {
+                    setCurrentCoach(coach);
+                    handleOpenActionSheet();
+                  }}
+                >
                   <IonIcon slot="icon-only" icon={trashBinOutline}></IonIcon>
                 </IonItemOption>
               </IonItemOptions>

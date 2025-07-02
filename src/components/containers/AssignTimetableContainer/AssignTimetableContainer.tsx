@@ -82,15 +82,16 @@ const AssignTimetableContainer = () => {
     queryKey: ["timetables"],
   });
 
-  const [present, dismissModal] = useIonModal(HandlerAssignTimetable, {
-    dismiss: (data: TCreateWeekdayTimes | null, role: TModalRole) =>
-      dismissModal(data, role),
-    currentWeekdayTime: currentWeekdayTime,
-    timetables: timetables?.data,
-  });
+  const [presentUpdateAssignTimetables, dismissModalUpdateAssignTimetables] =
+    useIonModal(HandlerAssignTimetable, {
+      dismiss: (data: TCreateWeekdayTimes | null, role: TModalRole) =>
+        dismissModalUpdateAssignTimetables(data, role),
+      currentWeekdayTime: currentWeekdayTime,
+      timetables: timetables?.data,
+    });
 
-  const openModal = () => {
-    present({
+  const openModalUpdateAssignTimetables = () => {
+    presentUpdateAssignTimetables({
       onWillDismiss: (
         event: CustomEvent<OverlayEventDetail<TCreateWeekdayTimes>>
       ) => {
@@ -164,7 +165,13 @@ const AssignTimetableContainer = () => {
           {weekdayTimes?.data?.map((weekdayTime) => (
             <IonItemSliding key={weekdayTime.weekdayId}>
               <IonItemOptions side="start">
-                <IonItemOption color={Colors.PRIMARY}>
+                <IonItemOption
+                  color={Colors.WARNING}
+                  onClick={() => {
+                    setCurrentWeekdayTime(weekdayTime);
+                    openModalUpdateAssignTimetables();
+                  }}
+                >
                   <IonIcon slot="icon-only" icon={createOutline}></IonIcon>
                 </IonItemOption>
               </IonItemOptions>

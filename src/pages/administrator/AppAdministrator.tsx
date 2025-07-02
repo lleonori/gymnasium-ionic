@@ -8,7 +8,6 @@ import {
   IonTabButton,
   IonTabs,
 } from "@ionic/react";
-import { IonReactRouter } from "@ionic/react-router";
 import { calendarNumberOutline, logOutOutline } from "ionicons/icons";
 import { Redirect, Route } from "react-router";
 import { callbackUri } from "../../Auth.config";

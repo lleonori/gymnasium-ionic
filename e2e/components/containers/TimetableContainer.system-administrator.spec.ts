@@ -71,22 +71,17 @@ test.describe(() => {
 
   test("should render timetables with correct info", async ({ page }) => {
     await expect(
-      page.locator('ion-chip:has-text("08:00 - 12:00")'),
+      page.locator("ion-chip:has-text('08:00-12:00')"),
     ).toBeVisible();
+
+    await page.waitForTimeout(1000); // attesa extra per debug
+    console.log(await page.content());
+
     await expect(page.locator('img[alt="Timetable\'s avatar"]')).toHaveCount(1);
   });
 
   test("should create timetable via dialog", async ({ page }) => {
-    const chip = page.getByTestId("create-timetable");
-    const headerBtn = page.getByTestId("create-timetable-header");
-
-    if (await chip.isVisible().catch(() => false)) {
-      await chip.click();
-    } else if (await headerBtn.isVisible().catch(() => false)) {
-      await headerBtn.click();
-    } else {
-      throw new Error("Nessun pulsante per creare l'orario trovato!");
-    }
+    await page.getByTestId("create-timetable").click();
 
     // Attendi che la modale sia visibile
     await expect(page.locator("ion-modal")).toBeVisible();
@@ -138,7 +133,7 @@ test.describe(() => {
 
     // Verifica che il nuovo orario sia visibile nella lista
     await expect(
-      page.locator('ion-chip:has-text("09:15 - 13:45")'),
+      page.locator('ion-chip:has-text("09:15-13:45")'),
     ).toBeVisible();
   });
 
@@ -202,7 +197,7 @@ test.describe(() => {
 
     // Verifica che il nuovo orario sia visibile nella lista
     await expect(
-      page.locator('ion-chip:has-text("09:15 - 13:00")'),
+      page.locator('ion-chip:has-text("09:15-13:00")'),
     ).toBeVisible();
   });
 

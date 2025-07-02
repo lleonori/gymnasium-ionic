@@ -14,11 +14,14 @@ vi.mock("@auth0/auth0-react", () => ({
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
 import AppUsers from "./AppUsers";
+import { MemoryRouter } from "react-router";
 
 function renderWithQueryClient(ui: React.ReactElement) {
   const queryClient = new QueryClient();
   return render(
-    <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter>{ui}</MemoryRouter>
+    </QueryClientProvider>
   );
 }
 

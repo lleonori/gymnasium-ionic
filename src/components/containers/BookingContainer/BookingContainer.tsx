@@ -336,7 +336,7 @@ const BookingContainer = () => {
                     </IonChip>
                     <IonChip>
                       <IonLabel>
-                        {formatTime(booking.startHour)} -
+                        {formatTime(booking.startHour)}-
                         {formatTime(booking.endHour)}
                       </IonLabel>
                       <IonIcon icon={timeOutline}></IonIcon>
@@ -346,8 +346,8 @@ const BookingContainer = () => {
                 <IonItemOptions side="end">
                   <IonItemOption
                     onClick={() => {
-                      handleOpenActionSheet();
                       setCurrentBooking(booking);
+                      handleOpenActionSheet();
                     }}
                     color={Colors.DANGER}
                   >

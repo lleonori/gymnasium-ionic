@@ -216,7 +216,13 @@ const TimetableContainer = () => {
           {timetables?.data?.map((timetable: TTimetable) => (
             <IonItemSliding key={timetable.id}>
               <IonItemOptions side="start">
-                <IonItemOption color={Colors.PRIMARY}>
+                <IonItemOption
+                  color={Colors.WARNING}
+                  onClick={() => {
+                    setCurrentTimetable(timetable);
+                    openModalUpdateTimetable();
+                  }}
+                >
                   <IonIcon slot="icon-only" icon={createOutline}></IonIcon>
                 </IonItemOption>
               </IonItemOptions>
@@ -231,7 +237,7 @@ const TimetableContainer = () => {
                   <IonCardTitle>Fascia oraria</IonCardTitle>
                   <IonChip>
                     <IonLabel>
-                      {formatTime(timetable.startHour)} -
+                      {formatTime(timetable.startHour)}-
                       {formatTime(timetable.endHour)}
                     </IonLabel>
                     <IonIcon icon={timeOutline}></IonIcon>
@@ -239,7 +245,13 @@ const TimetableContainer = () => {
                 </IonLabel>
               </IonItem>
               <IonItemOptions side="end">
-                <IonItemOption color={Colors.DANGER}>
+                <IonItemOption
+                  color={Colors.DANGER}
+                  onClick={() => {
+                    setCurrentTimetable(timetable);
+                    handleOpenActionSheet();
+                  }}
+                >
                   <IonIcon slot="icon-only" icon={trashBinOutline}></IonIcon>
                 </IonItemOption>
               </IonItemOptions>
