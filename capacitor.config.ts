@@ -7,8 +7,8 @@ dotenv.config();
 const isProduction = process.env.NODE_ENV === "production";
 
 const config: CapacitorConfig = {
-  appId: "gymnasium.ionic",
-  appName: "gymnasium-ionic",
+  appId: "com.gymnasium",
+  appName: "Gymnasium",
   webDir: "dist",
   server: {
     url: process.env.VITE_API_URL,

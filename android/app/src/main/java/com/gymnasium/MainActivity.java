@@ -1,4 +1,4 @@
-package gymnasium.ionic;
+package com.gymnasium;
 
 import com.getcapacitor.BridgeActivity;
 

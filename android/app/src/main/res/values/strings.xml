@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">gymnasium-ionic</string>
-    <string name="title_activity_main">gymnasium-ionic</string>
-    <string name="package_name">gymnasium.ionic</string>
-    <string name="custom_url_scheme">gymnasium.ionic</string>
+    <string name="app_name">Gymnasium</string>
+    <string name="title_activity_main">Gymnasium</string>
+    <string name="package_name">com.gymnasium</string>
+    <string name="custom_url_scheme">com.gymnasium</string>
 </resources>
