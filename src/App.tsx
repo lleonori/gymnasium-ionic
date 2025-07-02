@@ -23,6 +23,7 @@ import { App as CapApp } from "@capacitor/app";
 import { Browser } from "@capacitor/browser";
 import { useEffect } from "react";
 import { callbackUri } from "./Auth.config";
+import Spinner from "./components/common/Spinner/Spinner";
 import { useAuthInterceptor } from "./hooks/useAuthInterceptor";
 import { TUser } from "./models/user/userModel";
 import AppAdministrator from "./pages/administrator/AppAdministrator";
@@ -31,11 +32,8 @@ import AppSystemAdministrator from "./pages/systemAdministrator/AppSystemAdminis
 import AppUsers from "./pages/user/AppUsers";
 import "./theme/variables.css";
 import { UserRoles } from "./utils/enums";
-import Spinner from "./components/common/Spinner/Spinner";
 
-setupIonicReact({
-  mode: "md",
-});
+setupIonicReact();
 
 const App = () => {
   useAuthInterceptor();

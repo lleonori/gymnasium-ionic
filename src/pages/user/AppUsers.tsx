@@ -8,13 +8,12 @@ import {
   IonTabButton,
   IonTabs,
 } from "@ionic/react";
-import { IonReactRouter } from "@ionic/react-router";
 import {
   barbellOutline,
   calendarNumberOutline,
   logOutOutline,
 } from "ionicons/icons";
-import { Redirect, Route } from "react-router";
+import { Redirect, Route, useLocation } from "react-router";
 import { callbackUri } from "../../Auth.config";
 import Spinner from "../../components/common/Spinner/Spinner";
 import Booking from "./Booking";
@@ -22,6 +21,7 @@ import Coach from "./Coach";
 
 const AppUsers = () => {
   const { isLoading, logout } = useAuth0();
+  const location = useLocation();
 
   const handleLogout = async () => {
     await logout({
@@ -40,34 +40,42 @@ const AppUsers = () => {
   if (isLoading) return <Spinner />;
 
   return (
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Redirect exact path="/" to="/coaches" />
-          <Route path="/coaches" component={Coach} />
-          <Route path="/booking" component={Booking} />
-        </IonRouterOutlet>
+    <IonTabs>
+      <IonRouterOutlet>
+        <Redirect exact path="/" to="/coaches" />
+        <Route exact={true} path="/coaches" render={() => <Coach />} />
+        <Route exact={true} path="/booking" render={() => <Booking />} />
+      </IonRouterOutlet>
 
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="coaches" href="/coaches" data-testid="tab-coaches">
-            <IonIcon icon={barbellOutline} />
-            <IonLabel>Coaches</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="booking" href="/booking" data-testid="tab-booking">
-            <IonIcon icon={calendarNumberOutline} />
-            <IonLabel>Prenotazioni</IonLabel>
-          </IonTabButton>
-          <IonTabButton
-            tab="logout"
-            onClick={handleLogout}
-            data-testid="tab-logout"
-          >
-            <IonIcon icon={logOutOutline} />
-            <IonLabel>Logout</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
+      <IonTabBar slot="bottom">
+        <IonTabButton
+          tab="coaches"
+          href="/coaches"
+          data-testid="tab-coaches"
+          selected={location.pathname === "/coaches"}
+        >
+          <IonIcon icon={barbellOutline} />
+          <IonLabel>Coaches</IonLabel>
+        </IonTabButton>
+        <IonTabButton
+          tab="booking"
+          href="/booking"
+          data-testid="tab-booking"
+          selected={location.pathname === "/booking"}
+        >
+          <IonIcon icon={calendarNumberOutline} />
+          <IonLabel>Prenotazioni</IonLabel>
+        </IonTabButton>
+        <IonTabButton
+          tab="logout"
+          onClick={handleLogout}
+          data-testid="tab-logout"
+        >
+          <IonIcon icon={logOutOutline} />
+          <IonLabel>Logout</IonLabel>
+        </IonTabButton>
+      </IonTabBar>
+    </IonTabs>
   );
 };
 

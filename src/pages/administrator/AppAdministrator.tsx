@@ -35,29 +35,28 @@ const AppAdministrator = () => {
   if (isLoading) return <Spinner />;
 
   return (
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Redirect exact path="/" to="/search-bookings" />
-          <Route path="/search-bookings" component={SearchBooking} />
-        </IonRouterOutlet>
+    <IonTabs>
+      <IonRouterOutlet>
+        <Redirect exact path="/" to="/search-bookings" />
+        <Route path="/search-bookings" component={SearchBooking} />
+      </IonRouterOutlet>
 
-        <IonTabBar slot="bottom">
-          <IonTabButton
-            tab="search"
-            href="/search-bookings"
-            data-testid="tab-search"
-          >
-            <IonIcon icon={calendarNumberOutline} />
-            <IonLabel>Prenotazioni</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="logout" onClick={handleLogout}>
-            <IonIcon icon={logOutOutline} />
-            <IonLabel>Logout</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
+      <IonTabBar slot="bottom">
+        <IonTabButton
+          tab="search-bookings"
+          href="/search-bookings"
+          data-testid="tab-search-bookings"
+          selected={location.pathname === "/search-bookings"}
+        >
+          <IonIcon icon={calendarNumberOutline} />
+          <IonLabel>Prenotazioni</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="logout" onClick={handleLogout}>
+          <IonIcon icon={logOutOutline} />
+          <IonLabel>Logout</IonLabel>
+        </IonTabButton>
+      </IonTabBar>
+    </IonTabs>
   );
 };
 

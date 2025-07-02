@@ -4,7 +4,6 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import { domain, callbackUri, clientId, audience } from "./Auth.config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import "./global.css";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);

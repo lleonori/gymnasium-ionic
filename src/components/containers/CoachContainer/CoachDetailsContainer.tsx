@@ -11,7 +11,7 @@ import {
   IonText,
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
-import { barbellOutline } from "ionicons/icons";
+import { barbellOutline, rocketOutline } from "ionicons/icons";
 import { useMemo } from "react";
 import { getCoaches } from "../../../api/coach/coachApi";
 import { TCoach } from "../../../models/coach/coachModel";
@@ -81,6 +81,7 @@ const CoachDetailsContainer = () => {
             {coach?.notes.split(",").map((note: string, index: number) => (
               <IonChip key={index}>
                 <IonLabel>{note}</IonLabel>
+                <IonIcon icon={rocketOutline}></IonIcon>
               </IonChip>
             ))}
           </IonCardContent>

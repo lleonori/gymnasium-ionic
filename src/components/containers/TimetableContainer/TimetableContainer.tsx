@@ -16,7 +16,6 @@ import {
   IonList,
   IonText,
   IonToast,
-  isPlatform,
   useIonModal,
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
@@ -215,7 +214,7 @@ const TimetableContainer = () => {
       <IonCard>
         <IonList inset={true}>
           {timetables?.data?.map((timetable: TTimetable) => (
-            <IonItemSliding>
+            <IonItemSliding key={timetable.id}>
               <IonItemOptions side="start">
                 <IonItemOption color={Colors.PRIMARY}>
                   <IonIcon slot="icon-only" icon={createOutline}></IonIcon>
@@ -229,7 +228,7 @@ const TimetableContainer = () => {
                   />
                 </IonAvatar>
                 <IonLabel>
-                  <h1>Fascia oraria</h1>
+                  <IonCardTitle>Fascia oraria</IonCardTitle>
                   <IonChip>
                     <IonLabel>
                       {formatTime(timetable.startHour)} -

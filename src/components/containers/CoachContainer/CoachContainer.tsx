@@ -23,9 +23,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   barbellOutline,
   createOutline,
-  pin,
-  share,
-  trash,
+  rocketOutline,
   trashBinOutline,
 } from "ionicons/icons";
 import { useMemo, useState } from "react";
@@ -213,7 +211,7 @@ const CoachContainer = () => {
       <IonCard>
         <IonList inset={true}>
           {coaches?.data.map((coach: TCoach) => (
-            <IonItemSliding>
+            <IonItemSliding key={coach.id}>
               <IonItemOptions side="start">
                 <IonItemOption color={Colors.PRIMARY}>
                   <IonIcon slot="icon-only" icon={createOutline}></IonIcon>
@@ -224,15 +222,15 @@ const CoachContainer = () => {
                   <img alt="Coach's avatar" src={imagesMap[coach.id]} />
                 </IonAvatar>
                 <IonLabel>
-                  <h1>
+                  <IonCardTitle>
                     {coach.name} {coach.surname}
-                  </h1>
+                  </IonCardTitle>
                   {coach?.notes
                     .split(",")
                     .map((note: string, index: number) => (
                       <IonChip key={index}>
                         <IonLabel>{note}</IonLabel>
-                        <IonIcon icon={barbellOutline}></IonIcon>
+                        <IonIcon icon={rocketOutline}></IonIcon>
                       </IonChip>
                     ))}
                 </IonLabel>

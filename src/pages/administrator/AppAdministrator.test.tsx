@@ -29,7 +29,7 @@ describe("AppAdministrator", () => {
 
   it("renders all navigation tabs", () => {
     renderWithQueryClient(<AppAdministrator />);
-    expect(screen.getByTestId("tab-search")).toBeInTheDocument();
+    expect(screen.getByTestId("tab-search-bookings")).toBeInTheDocument();
   });
 
   it("shows spinner when loading", async () => {

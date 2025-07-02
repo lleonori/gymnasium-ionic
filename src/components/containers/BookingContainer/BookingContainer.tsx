@@ -24,7 +24,6 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   arrowForwardCircleOutline,
-  calendarClearOutline,
   calendarNumberOutline,
   timeOutline,
   trashBinOutline,
@@ -328,7 +327,9 @@ const BookingContainer = () => {
                     <img alt="User's avatar" src={imagesMap[booking.id]} />
                   </IonAvatar>
                   <IonLabel>
-                    <h1>{booking.fullname ?? booking.mail}</h1>
+                    <IonCardTitle>
+                      {booking.fullname ?? booking.mail}
+                    </IonCardTitle>
                     <IonChip>
                       <IonLabel>{formatDateToDDMMYYYY(booking.day)}</IonLabel>
                       <IonIcon icon={calendarNumberOutline}></IonIcon>

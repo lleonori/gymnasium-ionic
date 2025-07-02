@@ -162,7 +162,7 @@ const AssignTimetableContainer = () => {
       <IonCard>
         <IonList inset={true}>
           {weekdayTimes?.data?.map((weekdayTime) => (
-            <IonItemSliding>
+            <IonItemSliding key={weekdayTime.weekdayId}>
               <IonItemOptions side="start">
                 <IonItemOption color={Colors.PRIMARY}>
                   <IonIcon slot="icon-only" icon={createOutline}></IonIcon>
@@ -176,7 +176,7 @@ const AssignTimetableContainer = () => {
                   />
                 </IonAvatar>
                 <IonLabel>
-                  <h1>{weekdayTime.weekdayName}</h1>
+                  <IonCardTitle>{weekdayTime.weekdayName}</IonCardTitle>
                   {weekdayTime.hour.map((hh) => (
                     <IonChip key={hh.id}>
                       <IonLabel>{formatTime(hh.hour)}</IonLabel>
