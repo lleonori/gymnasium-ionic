@@ -23,8 +23,8 @@ import {
 } from "@ionic/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  arrowForwardCircleOutline,
   calendarNumberOutline,
+  checkmarkCircleOutline,
   timeOutline,
   trashBinOutline,
 } from "ionicons/icons";
@@ -301,18 +301,15 @@ const BookingContainer = () => {
               ))}
             </IonSelect>
             {/* Submit */}
-            <div className="button-container">
-              <IonButton
-                type="submit"
-                size="small"
-                data-testid="create-booking"
-              >
-                <IonIcon
-                  slot="icon-only"
-                  icon={arrowForwardCircleOutline}
-                ></IonIcon>
-              </IonButton>
-            </div>
+            <IonButton
+              type="submit"
+              size="small"
+              shape="round"
+              data-testid="create-booking"
+            >
+              <IonIcon slot="start" icon={checkmarkCircleOutline}></IonIcon>
+              Prenotati
+            </IonButton>
           </form>
         </IonCardContent>
       </IonCard>

@@ -1,21 +1,36 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "allowJs": false,
-    "skipLibCheck": true,
-    "esModuleInterop": false,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
+    /* Language and Environment */
+    "target": "ES2022", // Usa un target moderno
+    "lib": ["DOM", "DOM.Iterable", "ES2022"], // Supporto a browser moderni
+    "module": "ESNext", // ESM per migliore tree-shaking
+    "moduleResolution": "bundler", // Ottimale per bundler moderni (Vite, Webpack 5+)
     "noEmit": true,
-    "jsx": "react-jsx"
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true, // Importa JSON
+    "esModuleInterop": true, // Compatibilità con moduli CommonJS
+    "isolatedModules": true, // Necessario per compilazione JSX
+
+    /* Strictness */
+    "strict": true, // Attiva tutte le opzioni di tipo "strict"
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false, // Può essere utile disattivarlo in dev
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+
+    /* JSX */
+    "jsx": "react-jsx", // React 17+ JSX runtime
+
+    /* Output */
+    "outDir": "./build",
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true // Migliora i tempi di build, disattiva i check nei .d.ts
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": ["node_modules", "build", "dist"]
 }

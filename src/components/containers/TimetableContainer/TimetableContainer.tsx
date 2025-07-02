@@ -1,6 +1,7 @@
 import {
   IonActionSheet,
   IonAvatar,
+  IonButton,
   IonCard,
   IonCardContent,
   IonCardHeader,
@@ -20,7 +21,12 @@ import {
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createOutline, timeOutline, trashBinOutline } from "ionicons/icons";
+import {
+  add,
+  createOutline,
+  timeOutline,
+  trashBinOutline,
+} from "ionicons/icons";
 import { useState } from "react";
 import {
   deleteTimetable,
@@ -202,13 +208,15 @@ const TimetableContainer = () => {
               <IonText>Scorri verso sinistra per eliminarlo</IonText>
             </li>
           </ul>
-          <IonChip
+          <IonButton
+            size="small"
+            shape="round"
             data-testid="create-timetable"
-            color={Colors.PRIMARY}
             onClick={() => openModalCreateTimetable()}
           >
-            Aggiungi Orario<IonIcon icon={timeOutline}></IonIcon>
-          </IonChip>
+            <IonIcon slot="start" icon={add}></IonIcon>
+            Orario
+          </IonButton>
         </IonCardContent>
       </IonCard>
       <IonCard>

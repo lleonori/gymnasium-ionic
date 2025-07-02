@@ -219,16 +219,15 @@ const SearchBookingContainer = () => {
               </IonSelectOption>
             ))}
           </IonSelect>
-          <div className="button-container">
-            <IonButton
-              data-testid="search-bookings"
-              type="button"
-              size="small"
-              onClick={handleFetchBookings}
-            >
-              <IonIcon slot="icon-only" icon={searchOutline}></IonIcon>
-            </IonButton>
-          </div>
+          <IonButton
+            size="small"
+            shape="round"
+            data-testid="search-bookings"
+            onClick={handleFetchBookings}
+          >
+            <IonIcon slot="start" icon={searchOutline}></IonIcon>
+            Cerca
+          </IonButton>
         </IonCardContent>
       </IonCard>
       {/* Booking Card */}

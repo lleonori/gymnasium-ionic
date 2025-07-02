@@ -1,6 +1,7 @@
 import {
   IonActionSheet,
   IonAvatar,
+  IonButton,
   IonCard,
   IonCardContent,
   IonCardHeader,
@@ -21,6 +22,7 @@ import {
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  add,
   barbellOutline,
   createOutline,
   rocketOutline,
@@ -198,14 +200,15 @@ const CoachContainer = () => {
               <IonText>Scorri verso sinistra per eliminarlo</IonText>
             </li>
           </ul>
-          <IonChip
+          <IonButton
+            size="small"
+            shape="round"
             data-testid="create-coach"
-            color={Colors.PRIMARY}
             onClick={() => openModalCreateCoach()}
           >
-            <IonLabel>Aggiungi Coach</IonLabel>
-            <IonIcon icon={barbellOutline}></IonIcon>
-          </IonChip>
+            <IonIcon slot="start" icon={add}></IonIcon>
+            Coach
+          </IonButton>
         </IonCardContent>
       </IonCard>
       <IonCard>
