@@ -324,9 +324,7 @@ const BookingContainer = () => {
                     <img alt="User's avatar" src={imagesMap[booking.id]} />
                   </IonAvatar>
                   <IonLabel>
-                    <IonCardTitle>
-                      {booking.fullname ?? booking.mail}
-                    </IonCardTitle>
+                    <h1>{booking.fullname ?? booking.mail}</h1>
                     <IonChip>
                       <IonLabel>{formatDateToDDMMYYYY(booking.day)}</IonLabel>
                       <IonIcon icon={calendarNumberOutline}></IonIcon>

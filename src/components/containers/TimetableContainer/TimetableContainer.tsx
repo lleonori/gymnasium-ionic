@@ -242,7 +242,7 @@ const TimetableContainer = () => {
                   />
                 </IonAvatar>
                 <IonLabel>
-                  <IonCardTitle>Fascia oraria</IonCardTitle>
+                  <h1>Fascia oraria</h1>
                   <IonChip>
                     <IonLabel>
                       {formatTime(timetable.startHour)}-

@@ -39,9 +39,9 @@ import {
 } from "../../../models/weekday-time/weekdayTimeModel";
 import { Colors } from "../../../utils/enums";
 import { formatTime } from "../../../utils/functions";
+import FallbackError from "../../common/FallbackError/FallbackError";
 import Spinner from "../../common/Spinner/Spinner";
 import HandlerAssignTimetable from "./modal/HandlerAssignTimetable";
-import FallbackError from "../../common/FallbackError/FallbackError";
 
 const AssignTimetableContainer = () => {
   const queryClient = useQueryClient();
@@ -183,7 +183,7 @@ const AssignTimetableContainer = () => {
                   />
                 </IonAvatar>
                 <IonLabel>
-                  <IonCardTitle>{weekdayTime.weekdayName}</IonCardTitle>
+                  <h1>{weekdayTime.weekdayName}</h1>
                   {weekdayTime.hour.map((hh) => (
                     <IonChip key={hh.id}>
                       <IonLabel>{formatTime(hh.hour)}</IonLabel>

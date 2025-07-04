@@ -231,9 +231,9 @@ const CoachContainer = () => {
                   <img alt="Coach's avatar" src={imagesMap[coach.id]} />
                 </IonAvatar>
                 <IonLabel>
-                  <IonCardTitle>
+                  <h1>
                     {coach.name} {coach.surname}
-                  </IonCardTitle>
+                  </h1>
                   {coach?.notes
                     .split(",")
                     .map((note: string, index: number) => (
