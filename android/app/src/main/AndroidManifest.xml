@@ -23,7 +23,7 @@
                 <data
                     android:scheme="gymnasium.ionic"
                     android:host="dev-inq5ss1f2mdz2dzq.eu.auth0.com"
-                    android:pathPrefix="/capacitor/gymnasium.ionic" 
+                    android:pathPrefix="/capacitor/gymnasium.ionic"
                 />
             </intent-filter>
         </activity>
