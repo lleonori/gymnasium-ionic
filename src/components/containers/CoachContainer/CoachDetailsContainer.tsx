@@ -55,7 +55,7 @@ const CoachDetailsContainer = () => {
       {/* Coach Card */}
       <IonCard>
         <IonCardHeader>
-          <IonCardTitle>Scendi in campo con i coach!</IonCardTitle>
+          <IonCardTitle>Scendi in campo con i coaches!</IonCardTitle>
           <IonCardSubtitle>
             <IonIcon icon={barbellOutline} />
           </IonCardSubtitle>
