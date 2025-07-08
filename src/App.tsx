@@ -57,8 +57,12 @@ const App = () => {
     });
   }, [handleRedirectCallback]);
 
-  if (isLoading || (isAuthenticated && !extendedUser)) {
+  if (isLoading) {
     return <Spinner />;
+  }
+
+  if (!isAuthenticated) {
+    return <Login />;
   }
 
   return (
@@ -68,8 +72,6 @@ const App = () => {
           <Route
             path="/"
             render={() => {
-              if (!isAuthenticated) return <Login />;
-
               const roles = extendedUser?.app_metadata?.roles || [];
 
               const isSystemAdmin = roles.includes(
