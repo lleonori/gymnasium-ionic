@@ -40,20 +40,21 @@ const Login = () => {
     {
       image: "/assets/onboarding/treadmill.png",
       alt: "Plank exercise",
-      title: "Attività motoria preventiva",
-      description: "Adatta al post riabilitazione per il tuo benessere",
+      title: "Attività motoria preventiva e adattata",
+      description: "Mantieni, migliora e recupera la funzionalità motoria",
     },
     {
       image: "/assets/onboarding/dumbbell.png",
       alt: "Squats exercise",
       title: "Ricomposizione corporea",
-      description: "Monitora e migliora la tua composizione",
+      description:
+        "Migliora e monitora la tua forma con un allenamento personalizzato",
     },
     {
       image: "/assets/onboarding/bench-press.png",
       alt: "Bench press exercise",
       title: "Strength coaching",
-      description: "Prima squadra di Powerlifting sul territorio",
+      description: "La prima squadra di Powerlifting sul territorio",
       showButton: true,
     },
   ];
@@ -87,11 +88,7 @@ const Login = () => {
               </div>
               <IonText className="slide-title">{slide.title}</IonText>
               <IonText className="slide-desc">{slide.description}</IonText>
-              <IonImg
-                className="logo"
-                src="/assets/Gymnasium_completo.svg"
-                alt="Gymnasium logo"
-              />
+              <IonImg className="logo" alt="Gymnasium logo" />
               {slide.showButton && (
                 <IonButton
                   color={Colors.PRIMARY}
