@@ -1,16 +1,23 @@
 .container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  padding: 1rem;
 }
 
 .fallback-image {
-  max-width: 100%;
+  content: url("/assets/gymnasium-logo-black.png");
+  width: 100%;
+  max-width: 150px;
   height: auto;
-  width: 60px; /* o qualsiasi valore adatto */
-  display: block;
-  margin: 1rem auto; /* per centrarla */
+  margin-top: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .fallback-image {
+    content: url("/assets/gymnasium-logo-white.png");
+  }
 }
