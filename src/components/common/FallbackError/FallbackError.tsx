@@ -18,11 +18,7 @@ const FallbackError = ({ statusCode }: FallbackErrorProps) => {
       <IonText color={Colors.MEDIUM}>
         <em>Error code: {statusCode ? statusCode : 500}</em>
       </IonText>
-      <img
-        className="fallback-image"
-        alt="Logo's avatar"
-        src="/assets/Gymnasium_completo.svg"
-      />
+      <img className="fallback-image" alt="Logo's avatar" />
     </div>
   );
 };
