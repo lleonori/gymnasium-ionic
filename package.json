@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "7.4.2",
-    "@playwright/test": "1.54.1",
+    "@playwright/test": "1.54.2",
     "@tanstack/eslint-plugin-query": "5.81.2",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
