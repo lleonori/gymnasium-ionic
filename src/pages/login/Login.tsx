@@ -4,6 +4,7 @@ import {
   IonButton,
   IonContent,
   IonHeader,
+  IonIcon,
   IonImg,
   IonPage,
   IonText,
@@ -16,6 +17,7 @@ import { Pagination } from "swiper/modules";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { Colors } from "../../utils/enums";
 import "./Login.css";
+import { logIn, logInOutline } from "ionicons/icons";
 
 const Login = () => {
   const { loginWithRedirect } = useAuth0();
@@ -96,6 +98,7 @@ const Login = () => {
                   onClick={login}
                   data-testid="login-button"
                 >
+                  <IonIcon slot="start" icon={logInOutline}></IonIcon>
                   Inizia ora
                 </IonButton>
               )}

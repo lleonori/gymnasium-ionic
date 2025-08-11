@@ -28,7 +28,7 @@ import {
   timeOutline,
   trashBinOutline,
 } from "ionicons/icons";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
   deleteBooking,
@@ -183,16 +183,6 @@ const BookingContainer = () => {
     setShowToast(true);
   };
 
-  const imagesMap = useMemo(() => {
-    if (!bookings) return {};
-
-    const map: { [key: string]: string } = {};
-    bookings.data.forEach((booking: TBooking) => {
-      map[booking.id] = getRandomImage();
-    });
-    return map;
-  }, [bookings]);
-
   if (
     isCalendarFetching ||
     isBookingsFetching ||
@@ -321,7 +311,7 @@ const BookingContainer = () => {
               <IonItemSliding key={booking.id}>
                 <IonItem button={true}>
                   <IonAvatar aria-hidden="true" slot="start">
-                    <img alt="User's avatar" src={imagesMap[booking.id]} />
+                    <img alt="User's avatar" src={getRandomImage()} />
                   </IonAvatar>
                   <IonLabel>
                     <h1>{booking.fullname ?? booking.mail}</h1>
@@ -379,7 +369,6 @@ const BookingContainer = () => {
         ]}
         onDidDismiss={() => setIsOpen(false)}
       ></IonActionSheet>
-
       {/* Toasts */}
       <IonToast
         isOpen={showToast}

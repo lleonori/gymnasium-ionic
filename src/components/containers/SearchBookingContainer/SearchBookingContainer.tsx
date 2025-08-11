@@ -22,7 +22,7 @@ import {
   searchOutline,
   timeOutline,
 } from "ionicons/icons";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { getBookings } from "../../../api/booking/bookingApi";
 import { getCalendar } from "../../../api/calendar/calendarApi";
 import { getTimetables } from "../../../api/timetable/timetableApi";
@@ -127,16 +127,6 @@ const SearchBookingContainer = () => {
     setToastMessage(message);
     setShowToast(true);
   };
-
-  const imagesMap = useMemo(() => {
-    if (!bookings) return {};
-
-    const map: { [key: string]: string } = {};
-    bookings.data.forEach((booking: TBooking) => {
-      map[booking.id] = getRandomImage();
-    });
-    return map;
-  }, [bookings]);
 
   if (
     isCalendarLoading ||
@@ -249,7 +239,7 @@ const SearchBookingContainer = () => {
               </IonCardTitle>
               <IonCardSubtitle>
                 <IonAvatar>
-                  <img alt="User's avatar" src={imagesMap[booking.id]} />
+                  <img alt="User's avatar" src={getRandomImage()} />
                 </IonAvatar>
               </IonCardSubtitle>
             </IonCardHeader>

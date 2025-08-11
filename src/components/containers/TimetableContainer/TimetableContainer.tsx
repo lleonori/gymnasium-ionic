@@ -292,7 +292,6 @@ const TimetableContainer = () => {
         ]}
         onDidDismiss={() => setIsOpen(false)}
       ></IonActionSheet>
-
       {/* Toasts */}
       <IonToast
         isOpen={showToast}

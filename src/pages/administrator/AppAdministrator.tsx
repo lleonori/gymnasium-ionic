@@ -1,5 +1,4 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Browser } from "@capacitor/browser";
 import {
   IonIcon,
   IonLabel,
@@ -8,28 +7,14 @@ import {
   IonTabButton,
   IonTabs,
 } from "@ionic/react";
-import { calendarNumberOutline, logOutOutline } from "ionicons/icons";
+import { calendarNumberOutline, personCircleOutline } from "ionicons/icons";
 import { Redirect, Route } from "react-router";
-import { callbackUri } from "../../Auth.config";
 import Spinner from "../../components/common/Spinner/Spinner";
 import SearchBooking from "./SearchBooking";
+import Profile from "../common/Profile";
 
 const AppAdministrator = () => {
-  const { logout, isLoading } = useAuth0();
-
-  const handleLogout = async () => {
-    await logout({
-      async openUrl(url) {
-        await Browser.open({
-          url,
-          windowName: "_self",
-        });
-      },
-      logoutParams: {
-        returnTo: callbackUri,
-      },
-    });
-  };
+  const { isLoading } = useAuth0();
 
   if (isLoading) return <Spinner />;
 
@@ -38,6 +23,7 @@ const AppAdministrator = () => {
       <IonRouterOutlet>
         <Redirect exact path="/" to="/search-bookings" />
         <Route path="/search-bookings" component={SearchBooking} />
+        <Route exact={true} path="/profile" render={() => <Profile />} />
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom">
@@ -50,9 +36,9 @@ const AppAdministrator = () => {
           <IonIcon icon={calendarNumberOutline} />
           <IonLabel>Prenotazioni</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="logout" onClick={handleLogout}>
-          <IonIcon icon={logOutOutline} />
-          <IonLabel>Logout</IonLabel>
+        <IonTabButton tab="profile" href="/profile" data-testid="tab-profile">
+          <IonIcon icon={personCircleOutline} />
+          <IonLabel>Profilo</IonLabel>
         </IonTabButton>
       </IonTabBar>
     </IonTabs>

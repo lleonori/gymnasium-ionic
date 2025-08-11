@@ -28,7 +28,7 @@ import {
   rocketOutline,
   trashBinOutline,
 } from "ionicons/icons";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import {
   deleteCoach,
   getCoaches,
@@ -39,10 +39,10 @@ import { TCoach, TCreateCoach } from "../../../models/coach/coachModel";
 import { TModalRole } from "../../../models/modal/modalModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
 import { Colors } from "../../../utils/enums";
-import { getRandomImage } from "../../../utils/functions";
 import FallbackError from "../..//common/FallbackError/FallbackError";
 import Spinner from "../../common/Spinner/Spinner";
 import HandlerCoach from "./modal/HandlerCoach";
+import { getRandomImage } from "../../../utils/functions";
 
 const CoachContainer = () => {
   const queryClient = useQueryClient();
@@ -158,16 +158,6 @@ const CoachContainer = () => {
     setShowToast(true);
   };
 
-  const imagesMap = useMemo(() => {
-    if (!coaches) return {};
-
-    const map: { [key: string]: string } = {};
-    coaches.data.forEach((coach: TCoach) => {
-      map[coach.id] = getRandomImage();
-    });
-    return map;
-  }, [coaches]);
-
   if (isCoachesFetching || isCoachesLoading) {
     return <Spinner />;
   }
@@ -228,7 +218,7 @@ const CoachContainer = () => {
               </IonItemOptions>
               <IonItem button={true}>
                 <IonAvatar aria-hidden="true" slot="start">
-                  <img alt="Coach's avatar" src={imagesMap[coach.id]} />
+                  <img alt="Coach's avatar" src={getRandomImage()} />
                 </IonAvatar>
                 <IonLabel>
                   <h1>
@@ -284,7 +274,6 @@ const CoachContainer = () => {
         ]}
         onDidDismiss={() => setIsOpen(false)}
       ></IonActionSheet>
-
       {/* Toasts */}
       <IonToast
         isOpen={showToast}

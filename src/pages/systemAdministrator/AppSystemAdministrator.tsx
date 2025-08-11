@@ -1,5 +1,4 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Browser } from "@capacitor/browser";
 import {
   IonIcon,
   IonLabel,
@@ -12,32 +11,19 @@ import {
   barbellOutline,
   briefcaseOutline,
   logOutOutline,
+  personCircleOutline,
   timeOutline,
 } from "ionicons/icons";
 import { Redirect, Route, useLocation } from "react-router";
-import { callbackUri } from "../../Auth.config";
 import Spinner from "../../components/common/Spinner/Spinner";
 import AssignTimetable from "./AssignTimetable";
 import Coach from "./Coach";
 import Timetable from "./Timetable";
+import Profile from "../common/Profile";
 
 const AppSystemAdministrator = () => {
-  const { isLoading, logout } = useAuth0();
+  const { isLoading } = useAuth0();
   const location = useLocation();
-
-  const handleLogout = async () => {
-    await logout({
-      async openUrl(url) {
-        await Browser.open({
-          url,
-          windowName: "_self",
-        });
-      },
-      logoutParams: {
-        returnTo: callbackUri,
-      },
-    });
-  };
 
   if (isLoading) return <Spinner />;
 
@@ -48,6 +34,7 @@ const AppSystemAdministrator = () => {
         <Route path="/coaches" component={Coach} />
         <Route path="/timetables" component={Timetable} />
         <Route path="/assign-timetables" component={AssignTimetable} />
+        <Route exact={true} path="/profile" render={() => <Profile />} />
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom">
@@ -78,13 +65,9 @@ const AppSystemAdministrator = () => {
           <IonIcon icon={briefcaseOutline} />
           <IonLabel>Assegna Orari</IonLabel>
         </IonTabButton>
-        <IonTabButton
-          tab="logout"
-          onClick={handleLogout}
-          data-testid="tab-logout"
-        >
-          <IonIcon icon={logOutOutline} />
-          <IonLabel>Logout</IonLabel>
+        <IonTabButton tab="profile" href="/profile" data-testid="tab-profile">
+          <IonIcon icon={personCircleOutline} />
+          <IonLabel>Profilo</IonLabel>
         </IonTabButton>
       </IonTabBar>
     </IonTabs>

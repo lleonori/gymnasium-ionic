@@ -12,7 +12,6 @@ import {
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
 import { barbellOutline, rocketOutline } from "ionicons/icons";
-import { useMemo } from "react";
 import { getCoaches } from "../../../api/coach/coachApi";
 import { TCoach } from "../../../models/coach/coachModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
@@ -30,16 +29,6 @@ const CoachDetailsContainer = () => {
     queryFn: () => getCoaches(),
     queryKey: ["coaches"],
   });
-
-  const imagesMap = useMemo(() => {
-    if (!coaches) return {};
-
-    const map: { [key: string]: string } = {};
-    coaches.data.forEach((coach: TCoach) => {
-      map[coach.id] = getRandomImage();
-    });
-    return map;
-  }, [coaches]);
 
   if (isCoachesFetching || isCoachesLoading) {
     return <Spinner />;
@@ -73,7 +62,7 @@ const CoachDetailsContainer = () => {
             </IonCardTitle>
             <IonCardSubtitle>
               <IonAvatar>
-                <img alt="Coach's avatar" src={imagesMap[coach.id]} />
+                <img alt="Coach's avatar" src={getRandomImage()} />
               </IonAvatar>
             </IonCardSubtitle>
           </IonCardHeader>
