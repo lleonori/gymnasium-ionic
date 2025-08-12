@@ -52,6 +52,16 @@ export const getRandomImage = (): string => {
   return imagePaths[randomIndex];
 };
 
+export const generateImages = <T extends { id: number }>(
+  data: T[],
+): Record<string, string> => {
+  const map: Record<string, string> = {};
+  data.forEach((d) => {
+    map[d.id] = getRandomImage();
+  });
+  return map;
+};
+
 export const formatDateToDDMMYYYY = (date: string | undefined): string => {
   if (!date) return "";
   const [year, month, day] = date.split("-");

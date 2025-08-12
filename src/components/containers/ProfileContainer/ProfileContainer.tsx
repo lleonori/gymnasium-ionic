@@ -12,21 +12,22 @@ import {
   IonIcon,
   IonToast,
 } from "@ionic/react";
+import { useMutation } from "@tanstack/react-query";
 import {
   logOutOutline,
   personCircleOutline,
   trashBinOutline,
 } from "ionicons/icons";
+import { useState } from "react";
+import { deleteProfile } from "../../../api/profile/profileApi";
 import { callbackUri } from "../../../Auth.config";
 import { TUser } from "../../../models/user/userModel";
 import { Colors } from "../../../utils/enums";
-import { getRandomImage } from "../../../utils/functions";
 import "./ProfileContainer.css";
-import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
-import { deleteProfile } from "../../../api/profile/profileApi";
+import { useHistory } from "react-router";
 
 const ProfileContainer = () => {
+  const history = useHistory();
   const { user, logout } = useAuth0();
   const extendedUser = user as TUser;
   // state for ActionSheet
@@ -50,6 +51,7 @@ const ProfileContainer = () => {
         returnTo: callbackUri,
       },
     });
+    history.replace("/"); // Redirect to home after logout
   };
 
   const handleOpenActionSheet = () => {
@@ -61,9 +63,7 @@ const ProfileContainer = () => {
     onSuccess: () => {
       setIsOpen(false);
       showToastWithMessage("Profilo eliminato", Colors.SUCCESS);
-      setTimeout(() => {
-        handleLogout();
-      }, 2000);
+      handleLogout();
     },
     onError: (error) => {
       setIsOpen(false);
@@ -97,7 +97,7 @@ const ProfileContainer = () => {
           <IonCardTitle>Logout</IonCardTitle>
           <IonCardSubtitle>
             <IonAvatar>
-              <img alt="Logout's avatar" src={getRandomImage()} />
+              <img alt="Logout's avatar" src="/assets/profile/logout.png" />
             </IonAvatar>
           </IonCardSubtitle>
         </IonCardHeader>
@@ -121,7 +121,10 @@ const ProfileContainer = () => {
           <IonCardTitle>Elimina Account</IonCardTitle>
           <IonCardSubtitle>
             <IonAvatar>
-              <img alt="Logout's avatar" src={getRandomImage()} />
+              <img
+                alt="Delete Profile's avatar"
+                src="/assets/profile/trash-bin.png"
+              />
             </IonAvatar>
           </IonCardSubtitle>
         </IonCardHeader>

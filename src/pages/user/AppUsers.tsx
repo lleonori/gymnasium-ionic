@@ -52,7 +52,12 @@ const AppUsers = () => {
           <IonIcon icon={calendarNumberOutline} />
           <IonLabel>Prenotazioni</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="profile" href="/profile" data-testid="tab-profile">
+        <IonTabButton
+          tab="profile"
+          href="/profile"
+          data-testid="tab-profile"
+          selected={location.pathname === "/profile"}
+        >
           <IonIcon icon={personCircleOutline} />
           <IonLabel>Profilo</IonLabel>
         </IonTabButton>

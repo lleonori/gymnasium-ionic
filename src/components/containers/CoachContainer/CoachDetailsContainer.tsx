@@ -15,9 +15,10 @@ import { barbellOutline, rocketOutline } from "ionicons/icons";
 import { getCoaches } from "../../../api/coach/coachApi";
 import { TCoach } from "../../../models/coach/coachModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
-import { getRandomImage } from "../../../utils/functions";
 import FallbackError from "../..//common/FallbackError/FallbackError";
 import Spinner from "../../common/Spinner/Spinner";
+import { useMemo } from "react";
+import { generateImages } from "../../../utils/functions";
 
 const CoachDetailsContainer = () => {
   const {
@@ -29,6 +30,11 @@ const CoachDetailsContainer = () => {
     queryFn: () => getCoaches(),
     queryKey: ["coaches"],
   });
+
+  const coachImages = useMemo(
+    () => (coaches ? generateImages(coaches.data) : {}),
+    [coaches]
+  );
 
   if (isCoachesFetching || isCoachesLoading) {
     return <Spinner />;
@@ -62,7 +68,7 @@ const CoachDetailsContainer = () => {
             </IonCardTitle>
             <IonCardSubtitle>
               <IonAvatar>
-                <img alt="Coach's avatar" src={getRandomImage()} />
+                <img alt="Coach's avatar" src={coachImages[coach.id]} />
               </IonAvatar>
             </IonCardSubtitle>
           </IonCardHeader>

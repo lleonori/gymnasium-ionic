@@ -10,16 +10,15 @@ import {
 import {
   barbellOutline,
   briefcaseOutline,
-  logOutOutline,
   personCircleOutline,
   timeOutline,
 } from "ionicons/icons";
 import { Redirect, Route, useLocation } from "react-router";
 import Spinner from "../../components/common/Spinner/Spinner";
+import Profile from "../common/Profile";
 import AssignTimetable from "./AssignTimetable";
 import Coach from "./Coach";
 import Timetable from "./Timetable";
-import Profile from "../common/Profile";
 
 const AppSystemAdministrator = () => {
   const { isLoading } = useAuth0();
@@ -65,7 +64,12 @@ const AppSystemAdministrator = () => {
           <IonIcon icon={briefcaseOutline} />
           <IonLabel>Assegna Orari</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="profile" href="/profile" data-testid="tab-profile">
+        <IonTabButton
+          tab="profile"
+          href="/profile"
+          data-testid="tab-profile"
+          selected={location.pathname === "/profile"}
+        >
           <IonIcon icon={personCircleOutline} />
           <IonLabel>Profilo</IonLabel>
         </IonTabButton>

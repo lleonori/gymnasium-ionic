@@ -28,7 +28,7 @@ import {
   timeOutline,
   trashBinOutline,
 } from "ionicons/icons";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
   deleteBooking,
@@ -49,7 +49,7 @@ import { Colors } from "../../../utils/enums";
 import {
   formatDateToDDMMYYYY,
   formatTime,
-  getRandomImage,
+  generateImages,
 } from "../../../utils/functions";
 import FallbackError from "../..//common/FallbackError/FallbackError";
 import Spinner from "../../common/Spinner/Spinner";
@@ -183,6 +183,11 @@ const BookingContainer = () => {
     setShowToast(true);
   };
 
+  const userImages = useMemo(
+    () => (bookings ? generateImages(bookings.data) : {}),
+    [bookings]
+  );
+
   if (
     isCalendarFetching ||
     isBookingsFetching ||
@@ -311,7 +316,7 @@ const BookingContainer = () => {
               <IonItemSliding key={booking.id}>
                 <IonItem button={true}>
                   <IonAvatar aria-hidden="true" slot="start">
-                    <img alt="User's avatar" src={getRandomImage()} />
+                    <img alt="User's avatar" src={userImages[booking.id]} />
                   </IonAvatar>
                   <IonLabel>
                     <h1>{booking.fullname ?? booking.mail}</h1>
