@@ -15,7 +15,9 @@ describe("Login", () => {
     render(<Login />);
 
     expect(screen.getByAltText("Plank exercise")).toBeInTheDocument();
-    expect(screen.getByText("Attività motoria preventiva")).toBeInTheDocument();
+    expect(
+      screen.getByText("Attività motoria preventiva e adattata")
+    ).toBeInTheDocument();
 
     expect(screen.getByAltText("Squats exercise")).toBeInTheDocument();
     expect(screen.getByText("Ricomposizione corporea")).toBeInTheDocument();
