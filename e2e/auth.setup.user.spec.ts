@@ -47,7 +47,9 @@ for (const user of users) {
     }
 
     await page.waitForURL("**/coaches");
-    await expect(page.getByText(/Scendi in campo con i coach!/i)).toBeVisible();
+    await expect(
+      page.getByText(/Scendi in campo con i coaches!/i),
+    ).toBeVisible();
 
     await page.context().storageState({ path: user.storagePath });
   });
