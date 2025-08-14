@@ -19,106 +19,98 @@ import { useEffect } from "react";
 import type { TUser } from "../../models/user/userModel";
 import { UserRoles } from "../../utils/enums";
 
+const ROLE_CONFIG = {
+  [UserRoles.SYSTEM_ADMINISTRATOR]: {
+    label: "Amministratore di sistema",
+    chips: [
+      "Può gestire i coaches",
+      "Può gestire gli orari",
+      "Può gestire l'assegnazione di giorni e orari",
+    ],
+    route: "/systemAdministrator",
+  },
+  [UserRoles.ADMINISTRATOR]: {
+    label: "Amministratore",
+    chips: ["Può verificare le prenotazioni"],
+    route: "/administrator",
+  },
+  [UserRoles.USER]: {
+    label: "Utente",
+    chips: ["Può prenotare una lezione"],
+    route: "/user",
+  },
+};
+
 const SelectRoleContainer = () => {
   const { user } = useAuth0();
   const router = useIonRouter();
 
   const extendedUser = user as TUser;
+  const roles: UserRoles[] = extendedUser?.app_metadata?.roles || [];
 
   const handleSelectRole = (role: UserRoles) => {
-    if (role === UserRoles.SYSTEM_ADMINISTRATOR) {
-      router.push("/systemAdministrator", "root");
-    } else if (role === UserRoles.ADMINISTRATOR) {
-      router.push("/administrator", "root");
-    } else {
-      router.push("/user", "root");
-    }
+    const config = ROLE_CONFIG[role] || ROLE_CONFIG[UserRoles.USER];
+    router.push(config.route, "root");
   };
 
   useEffect(() => {
-    // Se c'è un solo ruolo, naviga automaticamente
-    if (extendedUser?.app_metadata?.roles?.length === 1) {
-      const [role] = extendedUser.app_metadata.roles;
-      if (role === UserRoles.SYSTEM_ADMINISTRATOR) {
-        router.push("/systemAdministrator", "root");
-      } else if (role === UserRoles.ADMINISTRATOR) {
-        router.push("/administrator", "root");
-      } else {
-        router.push("/user", "root");
-      }
+    if (roles.length === 1) {
+      const [role] = roles;
+      handleSelectRole(role);
     }
-  }, [extendedUser.app_metadata.roles, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roles]);
 
   return (
     <>
-      {/* Role Card */}
       <IonCard>
         <IonCardHeader>
-          <IonCardTitle>Con quale ruolo vuoi continuare?</IonCardTitle>
+          <IonCardTitle>Con quale ruolo vuoi accedere?</IonCardTitle>
           <IonCardSubtitle>
             <IonIcon icon={clipboardOutline} />
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
-          <IonText>Scegli il ruolo.</IonText>
+          <IonText>
+            Seleziona il ruolo con cui vuoi continuare e… pronti a partire!
+          </IonText>
         </IonCardContent>
       </IonCard>
-      {extendedUser?.app_metadata?.roles?.map((role, index) => (
-        <IonCard key={index}>
-          <IonCardHeader>
-            <IonCardTitle>
-              {role === UserRoles.SYSTEM_ADMINISTRATOR
-                ? "Amministratore di sistema"
-                : role === UserRoles.ADMINISTRATOR
-                  ? "Amministratore"
-                  : "Utente"}
-            </IonCardTitle>
-            <IonCardSubtitle>
-              <IonAvatar>
-                <img alt="Role's avatar" src="/assets/roles/id-card.png" />
-              </IonAvatar>
-            </IonCardSubtitle>
-          </IonCardHeader>
-          <IonCardContent>
-            {role === UserRoles.SYSTEM_ADMINISTRATOR ? (
-              <>
-                <IonChip>
-                  <IonLabel>Gestione coaches</IonLabel>
+      {roles.map((role, index) => {
+        const { label, chips } =
+          ROLE_CONFIG[role] || ROLE_CONFIG[UserRoles.USER];
+        return (
+          <IonCard key={index}>
+            <IonCardHeader>
+              <IonCardTitle>{label}</IonCardTitle>
+              <IonCardSubtitle>
+                <IonAvatar>
+                  <img alt="Role's avatar" src="/assets/roles/id-card.png" />
+                </IonAvatar>
+              </IonCardSubtitle>
+            </IonCardHeader>
+            <IonCardContent>
+              {chips.map((chip, i) => (
+                <IonChip key={i}>
+                  <IonLabel>{chip}</IonLabel>
                   <IonIcon icon={clipboardOutline} />
                 </IonChip>
-                <IonChip>
-                  <IonLabel>Gestione orari</IonLabel>
-                  <IonIcon icon={clipboardOutline} />
-                </IonChip>
-                <IonChip>
-                  <IonLabel>Gestione assegnazione giorni/orari</IonLabel>
-                  <IonIcon icon={clipboardOutline} />
-                </IonChip>
-              </>
-            ) : role === UserRoles.ADMINISTRATOR ? (
-              <IonChip>
-                <IonLabel>Verifica prenotazioni</IonLabel>
-                <IonIcon icon={clipboardOutline} />
-              </IonChip>
-            ) : (
-              <IonChip>
-                <IonLabel>Prenotata lezione</IonLabel>
-                <IonIcon icon={clipboardOutline} />
-              </IonChip>
-            )}
-            <IonButton
-              className="ion-margin-top"
-              size="small"
-              shape="round"
-              data-testid="select-role"
-              onClick={() => handleSelectRole(role)}
-            >
-              <IonIcon slot="start" icon={arrowForwardCircleOutline} />
-              Continua
-            </IonButton>
-          </IonCardContent>
-        </IonCard>
-      ))}
+              ))}
+              <br />
+              <IonButton
+                className="ion-margin-top"
+                size="small"
+                shape="round"
+                data-testid="select-role"
+                onClick={() => handleSelectRole(role)}
+              >
+                <IonIcon slot="start" icon={arrowForwardCircleOutline} />
+                Continua
+              </IonButton>
+            </IonCardContent>
+          </IonCard>
+        );
+      })}
     </>
   );
 };
