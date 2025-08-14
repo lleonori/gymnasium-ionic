@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import Coach from "./Coach";
 
 // Mock delle dipendenze
@@ -13,8 +14,8 @@ const presentMock = vi.fn();
 const dismissMock = vi.fn();
 
 // Mock di `useIonModal`
-vi.mock("@ionic/react", async (importOriginal) => {
-  const actual = (await importOriginal()) as Record<string, unknown>; // Cast esplicito
+vi.mock("@ionic/react", async () => {
+  const actual = await import("@ionic/react");
   return {
     ...actual,
     useIonModal: () => [presentMock, dismissMock],

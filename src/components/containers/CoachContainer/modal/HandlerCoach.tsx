@@ -13,6 +13,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { SubmitHandler, useForm } from "react-hook-form";
+
 import { TCoach, TCreateCoach } from "../../../../models/coach/coachModel";
 import { TModalRole } from "../../../../models/modal/modalModel";
 import { Colors } from "../../../../utils/enums";
@@ -64,7 +65,7 @@ const HandlerCoach = (props: HandlerCoachProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={void handleSubmit(onSubmit)}>
       <IonPage>
         <IonHeader>
           <IonToolbar>

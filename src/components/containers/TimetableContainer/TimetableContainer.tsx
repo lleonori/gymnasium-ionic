@@ -28,6 +28,7 @@ import {
   trashBinOutline,
 } from "ionicons/icons";
 import { useState } from "react";
+
 import {
   deleteTimetable,
   getTimetables,
@@ -95,7 +96,6 @@ const TimetableContainer = () => {
       onWillDismiss: (
         event: CustomEvent<OverlayEventDetail<TCreateTimetable>>
       ) => {
-        console.log("event.detail.data", event.detail.data);
         if ((event.detail.role as TModalRole) === "confirm") {
           if (event.detail.data) saveTimetableMutate(event.detail.data);
         }
@@ -116,7 +116,6 @@ const TimetableContainer = () => {
   const openModalUpdateTimetable = () => {
     presentUpdateTimetable({
       onWillDismiss: (event: CustomEvent<OverlayEventDetail<TTimetable>>) => {
-        console.log("event.detail.data", event.detail.data);
         if ((event.detail.role as TModalRole) === "confirm") {
           if (event.detail.data) updateTimetableMutate(event.detail.data);
         }
@@ -128,7 +127,7 @@ const TimetableContainer = () => {
     mutationFn: (newTimetable: TCreateTimetable) => saveTimetable(newTimetable),
     onSuccess: () => {
       // Invalidate and refetch Timetables
-      queryClient.invalidateQueries({ queryKey: ["timetables"] });
+      void queryClient.invalidateQueries({ queryKey: ["timetables"] });
       showToastWithMessage("Orario inserito", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {
@@ -141,8 +140,8 @@ const TimetableContainer = () => {
       updateTimetable(currentTimetable),
     onSuccess: () => {
       // Invalidate and refetch timetables
-      queryClient.invalidateQueries({ queryKey: ["timetables"] });
-      queryClient.invalidateQueries({ queryKey: ["weekdayTimes"] });
+      void queryClient.invalidateQueries({ queryKey: ["timetables"] });
+      void queryClient.invalidateQueries({ queryKey: ["weekdayTimes"] });
       showToastWithMessage("Orario aggiornato", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {
@@ -155,8 +154,8 @@ const TimetableContainer = () => {
     onSuccess: () => {
       setIsOpen(false);
       // Invalidate and refetch timetables
-      queryClient.invalidateQueries({ queryKey: ["timetables"] });
-      queryClient.invalidateQueries({ queryKey: ["weekdayTimes"] });
+      void queryClient.invalidateQueries({ queryKey: ["timetables"] });
+      void queryClient.invalidateQueries({ queryKey: ["weekdayTimes"] });
       showToastWithMessage("Orario eliminato", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {

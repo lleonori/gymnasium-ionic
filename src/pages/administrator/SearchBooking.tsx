@@ -5,6 +5,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
+
 import SearchBookingContainer from "../../components/containers/SearchBookingContainer/SearchBookingContainer";
 
 const SearchBooking = () => {

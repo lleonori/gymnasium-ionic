@@ -25,7 +25,7 @@ const SelectRoleContainer = () => {
 
   const extendedUser = user as TUser;
 
-  const handleSelectRole = (role: string) => {
+  const handleSelectRole = (role: UserRoles) => {
     if (role === UserRoles.SYSTEM_ADMINISTRATOR) {
       router.push("/systemAdministrator", "root");
     } else if (role === UserRoles.ADMINISTRATOR) {
@@ -47,7 +47,7 @@ const SelectRoleContainer = () => {
         router.push("/user", "root");
       }
     }
-  }, []);
+  }, [extendedUser.app_metadata.roles, router]);
 
   return (
     <>

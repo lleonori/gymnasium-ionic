@@ -5,6 +5,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
+
 import TimetableContainer from "../../components/containers/TimetableContainer/TimetableContainer";
 
 const Timetable = () => {

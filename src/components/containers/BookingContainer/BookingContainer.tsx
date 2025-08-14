@@ -30,6 +30,7 @@ import {
 } from "ionicons/icons";
 import { useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+
 import {
   deleteBooking,
   getBookings,
@@ -107,7 +108,7 @@ const BookingContainer = () => {
   } = useQuery({
     queryFn: () =>
       getBookings({
-        mail: extendedUser!.email,
+        mail: extendedUser.email,
         dateFrom: calendar!.today,
         dateTo: calendar!.tomorrow,
       }),
@@ -148,8 +149,8 @@ const BookingContainer = () => {
     mutationFn: (newBooking: TCreateBooking) => saveBooking(newBooking),
     onSuccess: () => {
       // Invalidate and refetch bookings
-      queryClient.invalidateQueries({ queryKey: ["bookings"] });
-      queryClient.invalidateQueries({ queryKey: ["calendar"] });
+      void queryClient.invalidateQueries({ queryKey: ["bookings"] });
+      void queryClient.invalidateQueries({ queryKey: ["calendar"] });
       showToastWithMessage("Lezione prenotata", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {
@@ -166,8 +167,8 @@ const BookingContainer = () => {
     onSuccess: () => {
       setIsOpen(false);
       // Invalidate and refetch bookings
-      queryClient.invalidateQueries({ queryKey: ["bookings"] });
-      queryClient.invalidateQueries({ queryKey: ["calendar"] });
+      void queryClient.invalidateQueries({ queryKey: ["bookings"] });
+      void queryClient.invalidateQueries({ queryKey: ["calendar"] });
       showToastWithMessage("Lezione eliminata", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {
@@ -246,7 +247,7 @@ const BookingContainer = () => {
           <IonCardTitle>Scegli data e orario</IonCardTitle>
         </IonCardHeader>
         <IonCardContent>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={void handleSubmit(onSubmit)}>
             {/* Day Field */}
             <IonSelect
               cancelText="Annulla"
@@ -255,7 +256,7 @@ const BookingContainer = () => {
                 required: true,
               })}
               onIonChange={(e) => {
-                const selectedDay = e.target.value;
+                const selectedDay = e.target.value as string;
                 setValue("day", selectedDay);
                 clearErrors("day");
                 setFilterTimetable({

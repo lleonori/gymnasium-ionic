@@ -15,9 +15,10 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
+import { logInOutline } from "ionicons/icons";
+
 import { Colors } from "../../utils/enums";
 import "./Login.css";
-import { logIn, logInOutline } from "ionicons/icons";
 
 const Login = () => {
   const { loginWithRedirect } = useAuth0();
@@ -95,7 +96,7 @@ const Login = () => {
                 <IonButton
                   color={Colors.PRIMARY}
                   shape="round"
-                  onClick={login}
+                  onClick={void login}
                   data-testid="login-button"
                 >
                   <IonIcon slot="start" icon={logInOutline}></IonIcon>

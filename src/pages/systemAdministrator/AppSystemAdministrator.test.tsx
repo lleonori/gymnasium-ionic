@@ -1,4 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router";
 
 // Mock standard (non loading)
 vi.mock("@auth0/auth0-react", () => ({
@@ -7,10 +10,7 @@ vi.mock("@auth0/auth0-react", () => ({
   }),
 }));
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen } from "@testing-library/react";
 import AppSystemAdministrator from "./AppSystemAdministrator";
-import { MemoryRouter } from "react-router";
 
 function renderWithQueryClient(ui: React.ReactElement) {
   const queryClient = new QueryClient({

@@ -1,16 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-
 // Primo mock standard (non loading)
 vi.mock("@auth0/auth0-react", () => ({
   useAuth0: () => ({
     isLoading: false,
   }),
 }));
-
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
-import AppUsers from "./AppUsers";
 import { MemoryRouter } from "react-router";
+
+import AppUsers from "./AppUsers";
 
 function renderWithQueryClient(ui: React.ReactElement) {
   const queryClient = new QueryClient({

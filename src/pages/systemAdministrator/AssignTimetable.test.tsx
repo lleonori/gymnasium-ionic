@@ -1,4 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
+import { render, screen } from "@testing-library/react";
+
+import AssignTimetable from "./AssignTimetable";
 
 vi.mock(
   "../../components/containers/AssignTimetableContainer/AssignTimetableContainer",
@@ -10,9 +13,6 @@ vi.mock(
     ),
   })
 );
-
-import { render, screen } from "@testing-library/react";
-import AssignTimetable from "./AssignTimetable";
 
 describe("Home Page", () => {
   it("renders the page title", () => {

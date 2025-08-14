@@ -21,6 +21,7 @@ import {
   timeOutline,
 } from "ionicons/icons";
 import { useState } from "react";
+
 import { TModalRole } from "../../../../models/modal/modalModel";
 import { TTimetable } from "../../../../models/timetable/timetableModel";
 import {
@@ -87,7 +88,7 @@ const HandlerAssignTimetable = ({
           <IonTitle>Modifica Assegnazione</IonTitle>
           <IonButtons slot="end">
             <IonButton
-              data-testid={`update-weekday-times`}
+              data-testid="update-weekday-times"
               type="button"
               strong={true}
               onClick={onSubmit}

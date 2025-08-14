@@ -19,12 +19,13 @@ import {
   trashBinOutline,
 } from "ionicons/icons";
 import { useState } from "react";
+import { useHistory } from "react-router";
+
 import { deleteProfile } from "../../../api/profile/profileApi";
 import { callbackUri } from "../../../Auth.config";
 import { TUser } from "../../../models/user/userModel";
 import { Colors } from "../../../utils/enums";
 import "./ProfileContainer.css";
-import { useHistory } from "react-router";
 
 const ProfileContainer = () => {
   const history = useHistory();
@@ -63,7 +64,7 @@ const ProfileContainer = () => {
     onSuccess: () => {
       setIsOpen(false);
       showToastWithMessage("Profilo eliminato", Colors.SUCCESS);
-      handleLogout();
+      void handleLogout();
     },
     onError: (error) => {
       setIsOpen(false);
@@ -109,7 +110,7 @@ const ProfileContainer = () => {
             shape="round"
             size="small"
             data-testid="logout-button"
-            onClick={handleLogout}
+            onClick={void handleLogout}
           >
             <IonIcon slot="start" icon={logOutOutline}></IonIcon>
             Logout

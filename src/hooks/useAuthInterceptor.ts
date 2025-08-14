@@ -1,8 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import axios from "axios";
-import { callbackUri } from "../Auth.config";
 import { Browser } from "@capacitor/browser";
+
+import { callbackUri } from "../Auth.config";
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -33,17 +34,21 @@ export const useAuthInterceptor = function () {
               returnTo: callbackUri,
             },
           });
-          return Promise.reject(error);
+          return Promise.reject(
+            error instanceof Error ? error : new Error(String(error))
+          );
         }
       },
       (error) => {
-        return Promise.reject(error);
-      },
+        return Promise.reject(
+          error instanceof Error ? error : new Error(String(error))
+        );
+      }
     );
 
     // clean up function
     return () => {
       axiosInstance.interceptors.request.eject(authInterceptor);
     };
-  }, [getAccessTokenSilently]);
+  }, [getAccessTokenSilently, logout]);
 };

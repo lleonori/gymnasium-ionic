@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import { axiosInstance } from "../../hooks/useAuthInterceptor";
 import { TBooking } from "../../models/booking/bookingModel";
 import { TResponse } from "../../models/commos/responseModel";
@@ -16,7 +17,8 @@ export const deleteProfile = async (
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      throw error.response.data as TResponseError;
+      const axiosError = error.response.data as TResponseError;
+      throw new Error(axiosError.message);
     }
     throw error;
   }

@@ -12,12 +12,13 @@ import {
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
 import { barbellOutline, rocketOutline } from "ionicons/icons";
+import { useMemo } from "react";
+
 import { getCoaches } from "../../../api/coach/coachApi";
 import { TCoach } from "../../../models/coach/coachModel";
 import { TResponseError } from "../../../models/problems/responseErrorModel";
 import FallbackError from "../..//common/FallbackError/FallbackError";
 import Spinner from "../../common/Spinner/Spinner";
-import { useMemo } from "react";
 import { generateImages } from "../../../utils/functions";
 
 const CoachDetailsContainer = () => {

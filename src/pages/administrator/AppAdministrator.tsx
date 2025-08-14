@@ -5,7 +5,6 @@ import { Redirect, Route } from 'react-router';
 
 import Spinner from '../../components/common/Spinner/Spinner';
 import Profile from '../common/Profile';
-
 import SearchBooking from './SearchBooking';
 
 const AppAdministrator = () => {

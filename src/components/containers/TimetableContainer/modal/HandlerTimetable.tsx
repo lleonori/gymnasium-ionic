@@ -13,6 +13,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { SubmitHandler, useForm } from "react-hook-form";
+
 import { TModalRole } from "../../../../models/modal/modalModel";
 import {
   TCreateTimetable,
@@ -79,7 +80,7 @@ const HandlerTimetable = (props: HandlerTimetableProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={void handleSubmit(onSubmit)}>
       <IonPage>
         <IonHeader>
           <IonToolbar>

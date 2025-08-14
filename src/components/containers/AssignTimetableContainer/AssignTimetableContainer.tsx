@@ -21,6 +21,7 @@ import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-com
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { briefcaseOutline, createOutline, timeOutline } from "ionicons/icons";
 import { useState } from "react";
+
 import { getTimetables } from "../../../api/timetable/timetableApi";
 import {
   getWeekdayTimes,
@@ -54,7 +55,7 @@ const AssignTimetableContainer = () => {
     orderBy: "asc",
   });
   // timetable filter
-  const [filterTimetable, _] = useState<TFilterTimetable>({});
+  const [filterTimetable] = useState<TFilterTimetable>({});
   // state for Toast
   const [showToast, setShowToast] = useState<boolean>(false);
   // state for Toast message
@@ -95,7 +96,6 @@ const AssignTimetableContainer = () => {
       onWillDismiss: (
         event: CustomEvent<OverlayEventDetail<TCreateWeekdayTimes>>
       ) => {
-        console.log("event.detail.data", event.detail.data);
         if ((event.detail.role as TModalRole) === "confirm") {
           if (event.detail.data) saveWeekdayTimeMutate(event.detail.data);
         }
@@ -108,7 +108,7 @@ const AssignTimetableContainer = () => {
       saveWeekdayTime(currentWeekdayTime),
     onSuccess: () => {
       // Invalidate and refetch Timetables
-      queryClient.invalidateQueries({ queryKey: ["weekdayTimes"] });
+      void queryClient.invalidateQueries({ queryKey: ["weekdayTimes"] });
       showToastWithMessage("Assegnazione aggiornata", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {

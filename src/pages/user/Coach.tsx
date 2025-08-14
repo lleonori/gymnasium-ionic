@@ -5,6 +5,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
+
 import CoachDetailsContainer from "../../components/containers/CoachContainer/CoachDetailsContainer";
 
 const Coach = () => {

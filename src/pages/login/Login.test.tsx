@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import Login from "./Login";
 import { describe, it, expect, vi } from "vitest";
+
+import Login from "./Login";
 
 const loginWithRedirectMock = vi.fn();
 

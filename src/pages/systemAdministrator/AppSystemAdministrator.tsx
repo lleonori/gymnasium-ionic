@@ -5,7 +5,6 @@ import { Redirect, Route, useLocation } from 'react-router';
 
 import Spinner from '../../components/common/Spinner/Spinner';
 import Profile from '../common/Profile';
-
 import AssignTimetable from './AssignTimetable';
 import Coach from './Coach';
 import Timetable from './Timetable';

@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import { axiosInstance } from "../../hooks/useAuthInterceptor";
 import { TCoach, TCreateCoach } from "../../models/coach/coachModel";
 import { TResponse } from "../../models/commos/responseModel";
@@ -12,57 +13,61 @@ export const getCoaches = async (): Promise<TResponse<TCoach>> => {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      throw error.response.data as TResponseError;
+      const axiosError = error.response.data as TResponseError;
+      throw new Error(axiosError.message);
     }
     throw error;
   }
 };
 
 export const saveCoach = async (
-  coach: TCreateCoach,
+  coach: TCreateCoach
 ): Promise<TResponse<TCoach>> => {
   try {
     const response = await axiosInstance.post<TResponse<TCoach>>(
       API_BASE_URL,
-      coach,
+      coach
     );
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      throw error.response.data as TResponseError;
+      const axiosError = error.response.data as TResponseError;
+      throw new Error(axiosError.message);
     }
     throw error;
   }
 };
 
 export const updateCoach = async (
-  currentCoach: TCoach,
+  currentCoach: TCoach
 ): Promise<TResponse<TCoach>> => {
   try {
     const response = await axiosInstance.patch<TResponse<TCoach>>(
       `${API_BASE_URL}/${currentCoach.id}`,
-      currentCoach,
+      currentCoach
     );
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      throw error.response.data as TResponseError;
+      const axiosError = error.response.data as TResponseError;
+      throw new Error(axiosError.message);
     }
     throw error;
   }
 };
 
 export const deleteCoach = async (
-  currentCoachId: number,
+  currentCoachId: number
 ): Promise<TResponse<TCoach>> => {
   try {
     const response = await axiosInstance.delete<TResponse<TCoach>>(
-      `${API_BASE_URL}/${currentCoachId}`,
+      `${API_BASE_URL}/${currentCoachId}`
     );
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      throw error.response.data as TResponseError;
+      const axiosError = error.response.data as TResponseError;
+      throw new Error(axiosError.message);
     }
     throw error;
   }

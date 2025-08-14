@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+import { render, screen } from "@testing-library/react";
 
 vi.mock(
   "../../components/containers/SearchBookingContainer/SearchBookingContainer",
@@ -7,7 +8,6 @@ vi.mock(
   })
 );
 
-import { render, screen } from "@testing-library/react";
 import SearchBooking from "./SearchBooking";
 
 describe("Home Page", () => {

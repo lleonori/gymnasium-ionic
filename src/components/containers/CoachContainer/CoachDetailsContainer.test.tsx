@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import { getCoaches } from "../../../api/coach/coachApi";
 import CoachDetailsContainer from "./CoachDetailsContainer";
 

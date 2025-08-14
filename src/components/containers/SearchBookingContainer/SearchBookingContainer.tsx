@@ -23,6 +23,7 @@ import {
   timeOutline,
 } from "ionicons/icons";
 import { useState } from "react";
+
 import { getBookings } from "../../../api/booking/bookingApi";
 import { getCalendar } from "../../../api/calendar/calendarApi";
 import { getTimetables } from "../../../api/timetable/timetableApi";
@@ -100,20 +101,23 @@ const SearchBookingContainer = () => {
     event: CustomEvent<SelectChangeEventDetail>,
     field: keyof TFilterBooking
   ) => {
-    const value = event.detail.value;
+    const value = event.detail.value as TFilterBooking[keyof TFilterBooking];
 
     setFilterBooking((prev) => ({
       ...prev,
       [field]: value,
     }));
 
-    const weekdayId = new Date(value).getDay();
-    setFilterTimetable({ weekdayId });
+    // Only try to get weekdayId if the field is "day" and value is a string (date)
+    if (field === "day" && typeof value === "string") {
+      const weekdayId = new Date(value).getDay();
+      setFilterTimetable({ weekdayId });
+    }
   };
 
   const handleFetchBookings = () => {
     if (filterBooking?.day && filterBooking?.timetableId) {
-      refetchBookings();
+      void refetchBookings();
     } else {
       showToastWithMessage(
         "Seleziona sia il giorno che l'orario prima di cercare.",

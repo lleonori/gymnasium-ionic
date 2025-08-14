@@ -1,4 +1,5 @@
 import { IonText } from "@ionic/react";
+
 import { Colors } from "../../../utils/enums";
 import "./FallbackError.css";
 

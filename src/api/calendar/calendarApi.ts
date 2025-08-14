@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import { TCalendar } from "../../models/calendar/calendarModel";
 import { TResponseError } from "../../models/problems/responseErrorModel";
 import { axiosInstance } from "../../hooks/useAuthInterceptor";
@@ -11,7 +12,8 @@ export const getCalendar = async (): Promise<TCalendar> => {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      throw error.response.data as TResponseError;
+      const axiosError = error.response.data as TResponseError;
+      throw new Error(axiosError.message);
     }
     throw error;
   }

@@ -5,7 +5,6 @@ import { Redirect, Route, useLocation } from 'react-router';
 
 import Spinner from '../../components/common/Spinner/Spinner';
 import Profile from '../common/Profile';
-
 import Booking from './Booking';
 import Coach from './Coach';
 

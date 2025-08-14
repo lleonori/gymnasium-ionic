@@ -29,6 +29,7 @@ import {
   trashBinOutline,
 } from "ionicons/icons";
 import { useMemo, useState } from "react";
+
 import {
   deleteCoach,
   getCoaches,
@@ -80,7 +81,6 @@ const CoachContainer = () => {
   const openModalCreateCoach = () => {
     presentCreateCoach({
       onWillDismiss: (event: CustomEvent<OverlayEventDetail<TCreateCoach>>) => {
-        console.log("event.detail.data", event.detail.data);
         if ((event.detail.role as TModalRole) === "confirm") {
           if (event.detail.data) saveCoachMutate(event.detail.data);
         }
@@ -101,7 +101,6 @@ const CoachContainer = () => {
   const openModalUpdateCoach = () => {
     presentUpdateCoach({
       onWillDismiss: (event: CustomEvent<OverlayEventDetail<TCoach>>) => {
-        console.log("event.detail.data", event.detail.data);
         if ((event.detail.role as TModalRole) === "confirm") {
           if (event.detail.data) updateCoachMutate(event.detail.data);
         }
@@ -113,7 +112,7 @@ const CoachContainer = () => {
     mutationFn: (newCoach: TCreateCoach) => saveCoach(newCoach),
     onSuccess: () => {
       // Invalidate and refetch coaches
-      queryClient.invalidateQueries({ queryKey: ["coaches"] });
+      void queryClient.invalidateQueries({ queryKey: ["coaches"] });
       showToastWithMessage("Coach inserito", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {
@@ -125,7 +124,7 @@ const CoachContainer = () => {
     mutationFn: (currentCoach: TCoach) => updateCoach(currentCoach),
     onSuccess: () => {
       // Invalidate and refetch coaches
-      queryClient.invalidateQueries({ queryKey: ["coaches"] });
+      void queryClient.invalidateQueries({ queryKey: ["coaches"] });
       showToastWithMessage("Coach aggiornato", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {
@@ -138,7 +137,7 @@ const CoachContainer = () => {
     onSuccess: () => {
       setIsOpen(false);
       // Invalidate and refetch coaches
-      queryClient.invalidateQueries({ queryKey: ["coaches"] });
+      void queryClient.invalidateQueries({ queryKey: ["coaches"] });
       showToastWithMessage("Coach eliminato", Colors.SUCCESS);
     },
     onError: (error: TResponseError) => {
