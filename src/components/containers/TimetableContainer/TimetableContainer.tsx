@@ -233,7 +233,7 @@ const TimetableContainer = () => {
                   <IonIcon slot="icon-only" icon={createOutline}></IonIcon>
                 </IonItemOption>
               </IonItemOptions>
-              <IonItem button={true}>
+              <IonItem>
                 <IonAvatar aria-hidden="true" slot="start">
                   <img
                     alt="Timetable's avatar"
@@ -241,7 +241,7 @@ const TimetableContainer = () => {
                   />
                 </IonAvatar>
                 <IonLabel>
-                  <h1>Fascia oraria</h1>
+                  <h1>Orario</h1>
                   <IonChip>
                     <IonLabel>
                       {formatTime(timetable.startHour)}-

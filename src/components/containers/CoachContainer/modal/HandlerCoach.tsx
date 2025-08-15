@@ -65,7 +65,7 @@ const HandlerCoach = (props: HandlerCoachProps) => {
   };
 
   return (
-    <form onSubmit={void handleSubmit(onSubmit)}>
+    <form onSubmit={(e) => void handleSubmit(onSubmit)(e)}>
       <IonPage>
         <IonHeader>
           <IonToolbar>

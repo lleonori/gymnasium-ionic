@@ -9,7 +9,9 @@ import {
   IonCardTitle,
   IonChip,
   IonIcon,
+  IonItem,
   IonLabel,
+  IonList,
   IonText,
   useIonRouter,
 } from "@ionic/react";
@@ -22,21 +24,17 @@ import { UserRoles } from "../../utils/enums";
 const ROLE_CONFIG = {
   [UserRoles.SYSTEM_ADMINISTRATOR]: {
     label: "Amministratore di sistema",
-    chips: [
-      "Può gestire i coaches",
-      "Può gestire gli orari",
-      "Può gestire l'assegnazione di giorni e orari",
-    ],
+    chips: ["Gestisce coaches", "Gestisce orari", "Gestisce assegnazioni"],
     route: "/systemAdministrator",
   },
   [UserRoles.ADMINISTRATOR]: {
     label: "Amministratore",
-    chips: ["Può verificare le prenotazioni"],
+    chips: ["Verifica prenotazioni"],
     route: "/administrator",
   },
   [UserRoles.USER]: {
     label: "Utente",
-    chips: ["Può prenotare una lezione"],
+    chips: ["Prenota lezioni"],
     route: "/user",
   },
 };
@@ -76,41 +74,40 @@ const SelectRoleContainer = () => {
           </IonText>
         </IonCardContent>
       </IonCard>
-      {roles.map((role, index) => {
-        const { label, chips } =
-          ROLE_CONFIG[role] || ROLE_CONFIG[UserRoles.USER];
-        return (
-          <IonCard key={index}>
-            <IonCardHeader>
-              <IonCardTitle>{label}</IonCardTitle>
-              <IonCardSubtitle>
-                <IonAvatar>
-                  <img alt="Role's avatar" src="/assets/roles/id-card.png" />
+      <IonCard>
+        <IonList inset={true}>
+          {roles?.map((role: UserRoles, index) => {
+            const { label, chips } =
+              ROLE_CONFIG[role] || ROLE_CONFIG[UserRoles.USER];
+
+            return (
+              <IonItem key={index}>
+                <IonAvatar aria-hidden="true" slot="start">
+                  <img alt="Coach's avatar" src="/assets/roles/id-card.png" />
                 </IonAvatar>
-              </IonCardSubtitle>
-            </IonCardHeader>
-            <IonCardContent>
-              {chips.map((chip, i) => (
-                <IonChip key={i}>
-                  <IonLabel>{chip}</IonLabel>
-                  <IonIcon icon={clipboardOutline} />
-                </IonChip>
-              ))}
-              <br />
-              <IonButton
-                className="ion-margin-top"
-                size="small"
-                shape="round"
-                data-testid="select-role"
-                onClick={() => handleSelectRole(role)}
-              >
-                <IonIcon slot="start" icon={arrowForwardCircleOutline} />
-                Continua
-              </IonButton>
-            </IonCardContent>
-          </IonCard>
-        );
-      })}
+                <IonLabel>
+                  <h1>{label}</h1>
+                  {chips.map((chip, i) => (
+                    <IonChip key={i}>
+                      <IonLabel>{chip}</IonLabel>
+                      <IonIcon icon={clipboardOutline} />
+                    </IonChip>
+                  ))}
+                  <IonButton
+                    size="small"
+                    shape="round"
+                    data-testid="select-role"
+                    onClick={() => handleSelectRole(role)}
+                  >
+                    <IonIcon slot="start" icon={arrowForwardCircleOutline} />
+                    Continua
+                  </IonButton>
+                </IonLabel>
+              </IonItem>
+            );
+          })}
+        </IonList>
+      </IonCard>
     </>
   );
 };

@@ -220,7 +220,7 @@ const CoachContainer = () => {
                   <IonIcon slot="icon-only" icon={createOutline}></IonIcon>
                 </IonItemOption>
               </IonItemOptions>
-              <IonItem button={true}>
+              <IonItem>
                 <IonAvatar aria-hidden="true" slot="start">
                   <img alt="Coach's avatar" src={coachImages[coach.id]} />
                 </IonAvatar>

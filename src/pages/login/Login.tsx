@@ -96,7 +96,7 @@ const Login = () => {
                 <IonButton
                   color={Colors.PRIMARY}
                   shape="round"
-                  onClick={void login}
+                  onClick={() => void login()}
                   data-testid="login-button"
                 >
                   <IonIcon slot="start" icon={logInOutline}></IonIcon>

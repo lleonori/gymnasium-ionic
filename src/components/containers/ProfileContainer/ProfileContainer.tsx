@@ -10,6 +10,8 @@ import {
   IonCardSubtitle,
   IonCardTitle,
   IonIcon,
+  IonItem,
+  IonLabel,
   IonToast,
 } from "@ionic/react";
 import { useMutation } from "@tanstack/react-query";
@@ -30,7 +32,7 @@ import "./ProfileContainer.css";
 const ProfileContainer = () => {
   const history = useHistory();
   const { user, logout } = useAuth0();
-  const extendedUser = user as TUser;
+
   // state for ActionSheet
   const [isOpen, setIsOpen] = useState<boolean>(false);
   // state for Toast
@@ -39,6 +41,8 @@ const ProfileContainer = () => {
   const [toastMessage, setToastMessage] = useState<string>("");
   // state for Toast message
   const [toastColor, setToastColor] = useState<string>("");
+
+  const extendedUser = user as TUser;
 
   const handleLogout = async () => {
     await logout({
@@ -82,9 +86,7 @@ const ProfileContainer = () => {
     <>
       <IonCard>
         <IonCardHeader>
-          <IonCardTitle>
-            {extendedUser?.name ? extendedUser?.name : extendedUser?.email}
-          </IonCardTitle>
+          <IonCardTitle>{extendedUser.name}</IonCardTitle>
           <IonCardSubtitle>
             <IonCardSubtitle>
               <IonIcon icon={personCircleOutline} />
@@ -94,55 +96,47 @@ const ProfileContainer = () => {
         <IonCardContent>Ciao, pronto a dare il massimo oggi? </IonCardContent>
       </IonCard>
       <IonCard>
-        <IonCardHeader>
-          <IonCardTitle>Logout</IonCardTitle>
-          <IonCardSubtitle>
-            <IonAvatar>
-              <img alt="Logout's avatar" src="/assets/profile/logout.png" />
-            </IonAvatar>
-          </IonCardSubtitle>
-        </IonCardHeader>
-        <IonCardContent>
-          Pausa meritata! Ma non restare via troppo a lungo. <br />
-          <IonButton
-            className="ion-margin-top"
-            color={Colors.PRIMARY}
-            shape="round"
-            size="small"
-            data-testid="logout-button"
-            onClick={void handleLogout}
-          >
-            <IonIcon slot="start" icon={logOutOutline}></IonIcon>
-            Logout
-          </IonButton>
-        </IonCardContent>
-      </IonCard>
-      <IonCard>
-        <IonCardHeader>
-          <IonCardTitle>Elimina Account</IonCardTitle>
-          <IonCardSubtitle>
-            <IonAvatar>
-              <img
-                alt="Delete Profile's avatar"
-                src="/assets/profile/trash-bin.png"
-              />
-            </IonAvatar>
-          </IonCardSubtitle>
-        </IonCardHeader>
-        <IonCardContent>
-          Addio non è mai facile… ma se sei sicuro, procedi. <br />
-          <IonButton
-            color={Colors.DANGER}
-            className="ion-margin-top"
-            shape="round"
-            size="small"
-            data-testid="delete-profile-button"
-            onClick={handleOpenActionSheet}
-          >
-            <IonIcon slot="start" icon={trashBinOutline}></IonIcon>
-            Elimina Account
-          </IonButton>
-        </IonCardContent>
+        {/* Logout */}
+        <IonItem>
+          <IonAvatar aria-hidden="true" slot="start">
+            <img alt="Logout avatar" src="/assets/profile/logout.png" />
+          </IonAvatar>
+          <IonLabel>
+            <h1>Tempo di pausa!</h1>
+            <IonButton
+              color={Colors.PRIMARY}
+              shape="round"
+              size="small"
+              data-testid="logout-button"
+              onClick={() => void handleLogout()}
+            >
+              <IonIcon slot="start" icon={logOutOutline}></IonIcon>
+              Logout
+            </IonButton>
+          </IonLabel>
+        </IonItem>
+        {/* Elimina account */}
+        <IonItem>
+          <IonAvatar aria-hidden="true" slot="start">
+            <img
+              alt="Delete profile avatar"
+              src="/assets/profile/trash-bin.png"
+            />
+          </IonAvatar>
+          <IonLabel>
+            <h1>Elimina account, sei sicuro?</h1>
+            <IonButton
+              color={Colors.DANGER}
+              shape="round"
+              size="small"
+              data-testid="delete-profile-button"
+              onClick={handleOpenActionSheet}
+            >
+              <IonIcon slot="start" icon={trashBinOutline}></IonIcon>
+              Elimina
+            </IonButton>
+          </IonLabel>
+        </IonItem>
       </IonCard>
       {/* Action Sheet */}
       <IonActionSheet

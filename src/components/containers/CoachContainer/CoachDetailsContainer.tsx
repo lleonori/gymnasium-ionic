@@ -7,7 +7,9 @@ import {
   IonCardTitle,
   IonChip,
   IonIcon,
+  IonItem,
   IonLabel,
+  IonList,
   IonText,
 } from "@ionic/react";
 import { useQuery } from "@tanstack/react-query";
@@ -60,7 +62,29 @@ const CoachDetailsContainer = () => {
           <IonText>Scopri chi ti guiderà nell’allenamento di oggi.</IonText>
         </IonCardContent>
       </IonCard>
-      {coaches?.data.map((coach: TCoach) => (
+      <IonCard>
+        <IonList inset={true}>
+          {coaches?.data.map((coach: TCoach) => (
+            <IonItem key={coach.id}>
+              <IonAvatar aria-hidden="true" slot="start">
+                <img alt="Coach's avatar" src={coachImages[coach.id]} />
+              </IonAvatar>
+              <IonLabel>
+                <h1>
+                  {coach.name} {coach.surname}
+                </h1>
+                {coach?.notes.split(",").map((note: string, index: number) => (
+                  <IonChip key={index}>
+                    <IonLabel>{note}</IonLabel>
+                    <IonIcon icon={rocketOutline}></IonIcon>
+                  </IonChip>
+                ))}
+              </IonLabel>
+            </IonItem>
+          ))}
+        </IonList>
+      </IonCard>
+      {/* {coaches?.data.map((coach: TCoach) => (
         <IonCard key={coach.id}>
           <IonCardHeader>
             <IonCardTitle>
@@ -82,7 +106,7 @@ const CoachDetailsContainer = () => {
             ))}
           </IonCardContent>
         </IonCard>
-      ))}
+      ))} */}
     </>
   );
 };

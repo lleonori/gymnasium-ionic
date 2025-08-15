@@ -80,7 +80,7 @@ const HandlerTimetable = (props: HandlerTimetableProps) => {
   };
 
   return (
-    <form onSubmit={void handleSubmit(onSubmit)}>
+    <form onSubmit={(e) => void handleSubmit(onSubmit)(e)}>
       <IonPage>
         <IonHeader>
           <IonToolbar>

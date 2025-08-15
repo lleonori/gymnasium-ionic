@@ -175,7 +175,7 @@ const AssignTimetableContainer = () => {
                   <IonIcon slot="icon-only" icon={createOutline}></IonIcon>
                 </IonItemOption>
               </IonItemOptions>
-              <IonItem button={true}>
+              <IonItem>
                 <IonAvatar aria-hidden="true" slot="start">
                   <img
                     alt="Timetable's avatar"

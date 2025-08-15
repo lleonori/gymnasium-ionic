@@ -57,8 +57,9 @@ import Spinner from "../../common/Spinner/Spinner";
 
 const BookingContainer = () => {
   const { user } = useAuth0();
-  const extendedUser = user as TUser;
   const queryClient = useQueryClient();
+
+  const extendedUser = user as TUser;
 
   // timetable sorting
   const [timetableSort] = useState<TSortBy<TTimetable>>({
@@ -247,7 +248,7 @@ const BookingContainer = () => {
           <IonCardTitle>Scegli data e orario</IonCardTitle>
         </IonCardHeader>
         <IonCardContent>
-          <form onSubmit={void handleSubmit(onSubmit)}>
+          <form onSubmit={(e) => void handleSubmit(onSubmit)(e)}>
             {/* Day Field */}
             <IonSelect
               cancelText="Annulla"
@@ -315,7 +316,7 @@ const BookingContainer = () => {
           <IonList inset={true}>
             {bookings.data.map((booking: TBooking) => (
               <IonItemSliding key={booking.id}>
-                <IonItem button={true}>
+                <IonItem>
                   <IonAvatar aria-hidden="true" slot="start">
                     <img alt="User's avatar" src={userImages[booking.id]} />
                   </IonAvatar>

@@ -8,6 +8,7 @@ import {
   IonCardTitle,
   IonChip,
   IonIcon,
+  IonItem,
   IonLabel,
   IonSelect,
   IonSelectOption,
@@ -235,32 +236,24 @@ const SearchBookingContainer = () => {
           </IonCardContent>
         </IonCard>
       ) : (
-        bookings?.data.map((booking: TBooking) => (
-          <IonCard key={booking.id}>
-            <IonCardHeader>
-              <IonCardTitle>
-                {booking.fullname ? booking.fullname : booking.mail}
-              </IonCardTitle>
-              <IonCardSubtitle>
-                <IonAvatar>
-                  <img alt="User's avatar" src={getRandomImage()} />
-                </IonAvatar>
-              </IonCardSubtitle>
-            </IonCardHeader>
-            <IonCardContent>
-              <IonChip>
-                <IonLabel>{booking.day.toString()}</IonLabel>
-                <IonIcon icon={calendarNumberOutline}></IonIcon>
-              </IonChip>
-              <IonChip>
-                <IonLabel>
-                  {`${formatTime(booking.startHour)} - ${formatTime(booking.endHour)}`}
-                </IonLabel>
-                <IonIcon icon={timeOutline}></IonIcon>
-              </IonChip>
-            </IonCardContent>
-          </IonCard>
-        ))
+        <IonCard>
+          {bookings?.data.map((booking: TBooking) => (
+            <IonItem key={booking.id}>
+              <IonAvatar aria-hidden="true" slot="start">
+                <img alt="User's avatar" src={getRandomImage()} />
+              </IonAvatar>
+              <IonLabel>
+                <h1>{booking.fullname}</h1>
+                <IonChip>
+                  <IonLabel>
+                    {`${formatTime(booking.startHour)} - ${formatTime(booking.endHour)}`}
+                  </IonLabel>
+                  <IonIcon icon={timeOutline}></IonIcon>
+                </IonChip>
+              </IonLabel>
+            </IonItem>
+          ))}
+        </IonCard>
       )}
       {/* Toasts */}
       <IonToast
