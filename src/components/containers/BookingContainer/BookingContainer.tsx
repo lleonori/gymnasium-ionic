@@ -115,11 +115,11 @@ const BookingContainer = () => {
       }),
     queryKey: [
       "bookings",
-      extendedUser?.email,
+      extendedUser.email,
       calendar?.today,
       calendar?.tomorrow,
     ],
-    enabled: !!extendedUser?.email && !!calendar?.today && !!calendar?.tomorrow,
+    enabled: !!extendedUser.email && !!calendar?.today && !!calendar?.tomorrow,
   });
 
   const {
@@ -134,8 +134,8 @@ const BookingContainer = () => {
   });
 
   const onSubmit: SubmitHandler<TCreateBooking> = (data) => {
-    const mail = extendedUser?.email;
-    const fullname = extendedUser?.name;
+    const mail = extendedUser.email;
+    const fullname = extendedUser.name;
 
     const formatData: TCreateBooking = {
       ...data,

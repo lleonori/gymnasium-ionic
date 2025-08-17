@@ -20,6 +20,7 @@ import { useEffect } from "react";
 
 import type { TUser } from "../../models/user/userModel";
 import { UserRoles } from "../../utils/enums";
+import FallbackError from "./FallbackError/FallbackError";
 
 const ROLE_CONFIG = {
   [UserRoles.SYSTEM_ADMINISTRATOR]: {
@@ -44,7 +45,7 @@ const SelectRoleContainer = () => {
   const router = useIonRouter();
 
   const extendedUser = user as TUser;
-  const roles: UserRoles[] = extendedUser?.app_metadata?.roles || [];
+  const roles: UserRoles[] = extendedUser.app_metadata.roles;
 
   const handleSelectRole = (role: UserRoles) => {
     const config = ROLE_CONFIG[role] || ROLE_CONFIG[UserRoles.USER];
@@ -58,6 +59,9 @@ const SelectRoleContainer = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roles]);
+
+  if (roles.length === 0)
+    return <FallbackError statusCode={403} message="Nessun ruolo associato" />;
 
   return (
     <>

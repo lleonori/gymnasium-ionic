@@ -1,26 +1,45 @@
-import { IonText } from "@ionic/react";
-
-import { Colors } from "../../../utils/enums";
-import "./FallbackError.css";
+import {
+  IonAvatar,
+  IonCard,
+  IonChip,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
+} from "@ionic/react";
+import { bugOutline, sadOutline } from "ionicons/icons";
 
 interface FallbackErrorProps {
   statusCode?: number;
+  message?: string;
 }
 
-const FallbackError = ({ statusCode }: FallbackErrorProps) => {
+const FallbackError = ({ statusCode, message }: FallbackErrorProps) => {
   return (
-    <div className="container">
-      <IonText color={Colors.PRIMARY}>
-        <h1>Ops... si è verificato qualche problema</h1>
-      </IonText>
-      <IonText>
-        <p>Contattare Gymnasium se il problema sussiste.</p>
-      </IonText>
-      <IonText color={Colors.MEDIUM}>
-        <em>Error code: {statusCode ? statusCode : 500}</em>
-      </IonText>
-      <img className="fallback-image" alt="Logo's avatar" />
-    </div>
+    <IonCard>
+      <IonList inset={true}>
+        <IonItem>
+          <IonAvatar aria-hidden="true" slot="start">
+            <img alt="User's avatar" src="/assets/error/cry.png" />
+          </IonAvatar>
+          <IonLabel>
+            <h1>Ops... si è verificato qualche problema</h1>
+            <br />
+            <h2>Contattare Gymnasium se il problema sussiste.</h2>
+            <IonChip>
+              <IonLabel>Errore: {statusCode ? statusCode : 500}</IonLabel>
+              <IonIcon icon={bugOutline}></IonIcon>
+            </IonChip>
+            {message && (
+              <IonChip>
+                <IonLabel>{message}</IonLabel>
+                <IonIcon icon={sadOutline}></IonIcon>
+              </IonChip>
+            )}
+          </IonLabel>
+        </IonItem>
+      </IonList>
+    </IonCard>
   );
 };
 

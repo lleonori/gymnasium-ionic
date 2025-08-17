@@ -13,15 +13,16 @@ import {
   IonItem,
   IonLabel,
   IonToast,
+  useIonRouter,
 } from "@ionic/react";
 import { useMutation } from "@tanstack/react-query";
 import {
   logOutOutline,
   personCircleOutline,
+  settingsOutline,
   trashBinOutline,
 } from "ionicons/icons";
 import { useState } from "react";
-import { useHistory } from "react-router";
 
 import { deleteProfile } from "../../../api/profile/profileApi";
 import { callbackUri } from "../../../Auth.config";
@@ -30,7 +31,7 @@ import { Colors } from "../../../utils/enums";
 import "./ProfileContainer.css";
 
 const ProfileContainer = () => {
-  const history = useHistory();
+  const router = useIonRouter();
   const { user, logout } = useAuth0();
 
   // state for ActionSheet
@@ -44,6 +45,10 @@ const ProfileContainer = () => {
 
   const extendedUser = user as TUser;
 
+  const handleChangeRole = () => {
+    router.push("/", "root");
+  };
+
   const handleLogout = async () => {
     await logout({
       async openUrl(url) {
@@ -56,7 +61,7 @@ const ProfileContainer = () => {
         returnTo: callbackUri,
       },
     });
-    history.replace("/"); // Redirect to home after logout
+    router.push("/", "root");
   };
 
   const handleOpenActionSheet = () => {
@@ -96,6 +101,27 @@ const ProfileContainer = () => {
         <IonCardContent>Ciao, pronto a dare il massimo oggi? </IonCardContent>
       </IonCard>
       <IonCard>
+        {/* Seleziona Ruolo */}
+        {extendedUser.app_metadata.roles.length > 0 && (
+          <IonItem>
+            <IonAvatar aria-hidden="true" slot="start">
+              <img alt="Select role avatar" src="/assets/roles/id-card.png" />
+            </IonAvatar>
+            <IonLabel>
+              <h1>Cambia ruolo</h1>
+              <IonButton
+                color={Colors.PRIMARY}
+                shape="round"
+                size="small"
+                data-testid="select-role-button"
+                onClick={() => void handleChangeRole()}
+              >
+                <IonIcon slot="start" icon={settingsOutline}></IonIcon>
+                Cambia
+              </IonButton>
+            </IonLabel>
+          </IonItem>
+        )}
         {/* Logout */}
         <IonItem>
           <IonAvatar aria-hidden="true" slot="start">
@@ -104,7 +130,7 @@ const ProfileContainer = () => {
           <IonLabel>
             <h1>Tempo di pausa!</h1>
             <IonButton
-              color={Colors.PRIMARY}
+              color={Colors.MEDIUM}
               shape="round"
               size="small"
               data-testid="logout-button"
@@ -124,7 +150,7 @@ const ProfileContainer = () => {
             />
           </IonAvatar>
           <IonLabel>
-            <h1>Elimina account, sei sicuro?</h1>
+            <h1>Vuoi davvero abbandonare la squadra?</h1>
             <IonButton
               color={Colors.DANGER}
               shape="round"
