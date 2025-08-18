@@ -34,7 +34,7 @@ test.describe(() => {
       if (request.method() === "PATCH") {
         const body = await request.postDataJSON();
         coaches = coaches.map((c) =>
-          c.id === body.id ? { ...c, ...body } : c,
+          c.id === body.id ? { ...c, ...body } : c
         );
         await route.fulfill({
           status: 200,
@@ -49,7 +49,7 @@ test.describe(() => {
       }
     });
 
-    await page.goto("/"); // Cambia se la route è diversa
+    await page.goto("/systemAdministrator/coaches"); // Cambia se la route è diversa
   });
 
   test("should shows spinner while loading", async ({ page }) => {

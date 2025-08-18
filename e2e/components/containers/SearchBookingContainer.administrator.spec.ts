@@ -57,7 +57,7 @@ test.describe(() => {
     });
 
     // Vai alla pagina che contiene il componente
-    await page.goto("/"); // Cambia con il path corretto se necessario
+    await page.goto("/administrator/search-bookings"); // Cambia con il path corretto se necessario
   });
 
   test("should display filters and search for bookings", async ({ page }) => {
@@ -122,7 +122,7 @@ test.describe(() => {
     // Verifica che venga mostrato il messaggio di nessuna prenotazione
     await expect(page.getByText("Nessuna prenotazione")).toBeVisible();
     await expect(
-      page.getByText("Al momento non ci sono prenotazioni."),
+      page.getByText("Al momento non ci sono prenotazioni.")
     ).toBeVisible();
   });
 
@@ -133,7 +133,7 @@ test.describe(() => {
     // Verifica che il toast di errore sia visibile
     await expect(page.locator("ion-toast")).toBeVisible();
     await expect(page.locator("ion-toast")).toHaveText(
-      /seleziona sia il giorno che l'orario/i,
+      /seleziona sia il giorno che l'orario/i
     );
   });
 });

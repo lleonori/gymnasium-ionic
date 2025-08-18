@@ -1,6 +1,12 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
 
-import SelectRoleContainer from '../../components/common/SelectRoleContainer';
+import SelectRoleContainer from "../../components/containers/common/SelectRoleContainer";
 
 const SelectRole = () => {
   return (
@@ -10,10 +16,10 @@ const SelectRole = () => {
           <IonTitle>Ruolo</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className='ion-padding' fullscreen>
-        <IonHeader collapse='condense'>
+      <IonContent className="ion-padding" fullscreen>
+        <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size='large'>Ruolo</IonTitle>
+            <IonTitle size="large">Ruolo</IonTitle>
           </IonToolbar>
         </IonHeader>
         <SelectRoleContainer />

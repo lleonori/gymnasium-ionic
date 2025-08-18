@@ -60,6 +60,14 @@ export default defineConfig({
       testMatch: /.*\.user\.spec\.ts/, // filtra i file specifici per user
     },
     {
+      name: "user-multi-roles-chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: ".auth/storageState.user-multi-roles.json",
+      },
+      testMatch: /.*\.user-multi-roles\.spec\.ts/, // filtra i file specifici per user-multi-roles
+    },
+    {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },

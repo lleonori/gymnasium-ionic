@@ -1,7 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   IonAvatar,
-  IonButton,
   IonCard,
   IonCardContent,
   IonCardHeader,
@@ -15,12 +14,12 @@ import {
   IonText,
   useIonRouter,
 } from "@ionic/react";
-import { arrowForwardCircleOutline, clipboardOutline } from "ionicons/icons";
+import { clipboardOutline } from "ionicons/icons";
 import { useEffect } from "react";
 
-import type { TUser } from "../../models/user/userModel";
-import { UserRoles } from "../../utils/enums";
-import FallbackError from "./FallbackError/FallbackError";
+import type { TUser } from "../../../models/user/userModel";
+import { UserRoles } from "../../../utils/enums";
+import FallbackError from "../../common/FallbackError/FallbackError";
 
 const ROLE_CONFIG = {
   [UserRoles.SYSTEM_ADMINISTRATOR]: {
@@ -85,7 +84,11 @@ const SelectRoleContainer = () => {
               ROLE_CONFIG[role] || ROLE_CONFIG[UserRoles.USER];
 
             return (
-              <IonItem key={index}>
+              <IonItem
+                key={index}
+                button={true}
+                onClick={() => handleSelectRole(role)}
+              >
                 <IonAvatar aria-hidden="true" slot="start">
                   <img alt="Coach's avatar" src="/assets/roles/id-card.png" />
                 </IonAvatar>
@@ -97,15 +100,6 @@ const SelectRoleContainer = () => {
                       <IonIcon icon={clipboardOutline} />
                     </IonChip>
                   ))}
-                  <IonButton
-                    size="small"
-                    shape="round"
-                    data-testid="select-role"
-                    onClick={() => handleSelectRole(role)}
-                  >
-                    <IonIcon slot="start" icon={arrowForwardCircleOutline} />
-                    Continua
-                  </IonButton>
                 </IonLabel>
               </IonItem>
             );

@@ -29,7 +29,6 @@ import { deleteProfile } from "../../../api/profile/profileApi";
 import { callbackUri } from "../../../Auth.config";
 import { TUser } from "../../../models/user/userModel";
 import { Colors } from "../../../utils/enums";
-import "./ProfileContainer.css";
 
 const ProfileContainer = () => {
   const router = useIonRouter();

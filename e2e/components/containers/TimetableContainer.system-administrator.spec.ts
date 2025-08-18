@@ -33,7 +33,7 @@ test.describe(() => {
         timetables = timetables.map((t) =>
           t.id === body.id
             ? { id: t.id, startHour: body.startHour, endHour: body.endHour }
-            : t,
+            : t
         );
         await route.fulfill({
           status: 200,
@@ -49,7 +49,7 @@ test.describe(() => {
       }
     });
 
-    await page.goto("/timetables"); // Cambia la route se necessario
+    await page.goto("/systemAdministrator/timetables"); // Cambia la route se necessario
   });
 
   test("should show spinner while loading", async ({ page }) => {
@@ -71,7 +71,7 @@ test.describe(() => {
 
   test("should render timetables with correct info", async ({ page }) => {
     await expect(
-      page.locator("ion-chip:has-text('08:00-12:00')"),
+      page.locator("ion-chip:has-text('08:00-12:00')")
     ).toBeVisible();
 
     await page.waitForTimeout(1000); // attesa extra per debug
@@ -133,7 +133,7 @@ test.describe(() => {
 
     // Verifica che il nuovo orario sia visibile nella lista
     await expect(
-      page.locator('ion-chip:has-text("09:15-13:45")'),
+      page.locator('ion-chip:has-text("09:15-13:45")')
     ).toBeVisible();
   });
 
@@ -197,7 +197,7 @@ test.describe(() => {
 
     // Verifica che il nuovo orario sia visibile nella lista
     await expect(
-      page.locator('ion-chip:has-text("09:15-13:00")'),
+      page.locator('ion-chip:has-text("09:15-13:00")')
     ).toBeVisible();
   });
 
@@ -219,7 +219,7 @@ test.describe(() => {
 
     // Verifica che l'orario sia stato rimosso dalla lista
     await expect(
-      page.locator('ion-chip:has-text("08:00 - 12:00")'),
+      page.locator('ion-chip:has-text("08:00 - 12:00")')
     ).not.toBeVisible();
   });
 });

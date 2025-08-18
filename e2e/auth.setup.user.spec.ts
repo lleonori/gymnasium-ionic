@@ -46,9 +46,9 @@ for (const user of users) {
       await page.getByRole("button", { name: /^Accept$/ }).click();
     }
 
-    await page.waitForURL("**/coaches");
+    await page.waitForURL("**/user/coaches");
     await expect(
-      page.getByText(/Scendi in campo con i coaches!/i),
+      page.getByText(/Scendi in campo con i coaches!/i)
     ).toBeVisible();
 
     await page.context().storageState({ path: user.storagePath });

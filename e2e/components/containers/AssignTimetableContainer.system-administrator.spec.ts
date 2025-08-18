@@ -37,7 +37,7 @@ test.describe(() => {
 
         // Gestione della POST per aggiornare i weekdayTimes mockati
         const updatedWeekday = weekdayTimes.find(
-          (wt) => wt.weekdayId === body.weekdayId,
+          (wt) => wt.weekdayId === body.weekdayId
         );
         if (updatedWeekday) {
           updatedWeekday.hour = body.timetableId.map((id) => {
@@ -76,7 +76,7 @@ test.describe(() => {
       });
     });
 
-    await page.goto("/assign-timetables");
+    await page.goto("/systemAdministrator/assign-timetables");
   });
   test("should show spinner while loading", async ({ page }) => {
     await page.route("**/api/v1/weekday-time", async (route) => {
@@ -116,7 +116,7 @@ test.describe(() => {
 
     // Attendi che la sezione degli orari assegnati sia caricata
     await expect(
-      page.locator("ion-card-title").filter({ hasText: "Orari assegnati" }),
+      page.locator("ion-card-title").filter({ hasText: "Orari assegnati" })
     ).toBeVisible();
 
     // Rimuovi l'orario corrente (09:00) cliccando sulla chip

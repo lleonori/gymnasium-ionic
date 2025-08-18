@@ -248,6 +248,10 @@ const SearchBookingContainer = () => {
                   <IonLabel>
                     <h1>{booking.fullname}</h1>
                     <IonChip>
+                      <IonLabel>{formatDateToDDMMYYYY(booking.day)}</IonLabel>
+                      <IonIcon icon={calendarNumberOutline}></IonIcon>
+                    </IonChip>
+                    <IonChip>
                       <IonLabel>
                         {`${formatTime(booking.startHour)} - ${formatTime(booking.endHour)}`}
                       </IonLabel>

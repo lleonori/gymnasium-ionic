@@ -79,7 +79,7 @@ test.describe("BookingContainer - prenotazione lezione", () => {
       }
     });
 
-    await page.goto("/booking");
+    await page.goto("/user/booking");
   });
 
   test("the user can book a lesson", async ({ page }) => {
