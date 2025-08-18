@@ -12,6 +12,7 @@ import {
   IonIcon,
   IonItem,
   IonLabel,
+  IonList,
   IonToast,
   useIonRouter,
 } from "@ionic/react";
@@ -101,68 +102,70 @@ const ProfileContainer = () => {
         <IonCardContent>Ciao, pronto a dare il massimo oggi? </IonCardContent>
       </IonCard>
       <IonCard>
-        {/* Seleziona Ruolo */}
-        {extendedUser.app_metadata.roles.length > 0 && (
+        <IonList inset={true}>
+          {/* Seleziona Ruolo */}
+          {extendedUser.app_metadata.roles.length > 0 && (
+            <IonItem>
+              <IonAvatar aria-hidden="true" slot="start">
+                <img alt="Select role avatar" src="/assets/roles/id-card.png" />
+              </IonAvatar>
+              <IonLabel>
+                <h1>Cambia ruolo</h1>
+                <IonButton
+                  color={Colors.PRIMARY}
+                  shape="round"
+                  size="small"
+                  data-testid="select-role-button"
+                  onClick={() => void handleChangeRole()}
+                >
+                  <IonIcon slot="start" icon={settingsOutline}></IonIcon>
+                  Cambia
+                </IonButton>
+              </IonLabel>
+            </IonItem>
+          )}
+          {/* Logout */}
           <IonItem>
             <IonAvatar aria-hidden="true" slot="start">
-              <img alt="Select role avatar" src="/assets/roles/id-card.png" />
+              <img alt="Logout avatar" src="/assets/profile/logout.png" />
             </IonAvatar>
             <IonLabel>
-              <h1>Cambia ruolo</h1>
+              <h1>Tempo di pausa!</h1>
               <IonButton
-                color={Colors.PRIMARY}
+                color={Colors.MEDIUM}
                 shape="round"
                 size="small"
-                data-testid="select-role-button"
-                onClick={() => void handleChangeRole()}
+                data-testid="logout-button"
+                onClick={() => void handleLogout()}
               >
-                <IonIcon slot="start" icon={settingsOutline}></IonIcon>
-                Cambia
+                <IonIcon slot="start" icon={logOutOutline}></IonIcon>
+                Logout
               </IonButton>
             </IonLabel>
           </IonItem>
-        )}
-        {/* Logout */}
-        <IonItem>
-          <IonAvatar aria-hidden="true" slot="start">
-            <img alt="Logout avatar" src="/assets/profile/logout.png" />
-          </IonAvatar>
-          <IonLabel>
-            <h1>Tempo di pausa!</h1>
-            <IonButton
-              color={Colors.MEDIUM}
-              shape="round"
-              size="small"
-              data-testid="logout-button"
-              onClick={() => void handleLogout()}
-            >
-              <IonIcon slot="start" icon={logOutOutline}></IonIcon>
-              Logout
-            </IonButton>
-          </IonLabel>
-        </IonItem>
-        {/* Elimina account */}
-        <IonItem>
-          <IonAvatar aria-hidden="true" slot="start">
-            <img
-              alt="Delete profile avatar"
-              src="/assets/profile/trash-bin.png"
-            />
-          </IonAvatar>
-          <IonLabel>
-            <h1>Vuoi davvero abbandonare la squadra?</h1>
-            <IonButton
-              color={Colors.DANGER}
-              shape="round"
-              size="small"
-              data-testid="delete-profile-button"
-              onClick={handleOpenActionSheet}
-            >
-              <IonIcon slot="start" icon={trashBinOutline}></IonIcon>
-              Elimina
-            </IonButton>
-          </IonLabel>
-        </IonItem>
+          {/* Elimina account */}
+          <IonItem>
+            <IonAvatar aria-hidden="true" slot="start">
+              <img
+                alt="Delete profile avatar"
+                src="/assets/profile/trash-bin.png"
+              />
+            </IonAvatar>
+            <IonLabel>
+              <h1>Vuoi davvero abbandonare la squadra?</h1>
+              <IonButton
+                color={Colors.DANGER}
+                shape="round"
+                size="small"
+                data-testid="delete-profile-button"
+                onClick={handleOpenActionSheet}
+              >
+                <IonIcon slot="start" icon={trashBinOutline}></IonIcon>
+                Elimina
+              </IonButton>
+            </IonLabel>
+          </IonItem>
+        </IonList>
       </IonCard>
       {/* Action Sheet */}
       <IonActionSheet

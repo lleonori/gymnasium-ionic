@@ -34,7 +34,7 @@ import AppSystemAdministrator from "./pages/systemAdministrator/AppSystemAdminis
 import AppUser from "./pages/user/AppUser";
 import "./theme/variables.css";
 
-setupIonicReact({ mode: "md" });
+setupIonicReact();
 
 const App = () => {
   useAuthInterceptor();

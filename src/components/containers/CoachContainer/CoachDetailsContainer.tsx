@@ -84,29 +84,6 @@ const CoachDetailsContainer = () => {
           ))}
         </IonList>
       </IonCard>
-      {/* {coaches?.data.map((coach: TCoach) => (
-        <IonCard key={coach.id}>
-          <IonCardHeader>
-            <IonCardTitle>
-              Coach <br />
-              {coach.name} {coach.surname}
-            </IonCardTitle>
-            <IonCardSubtitle>
-              <IonAvatar>
-                <img alt="Coach's avatar" src={coachImages[coach.id]} />
-              </IonAvatar>
-            </IonCardSubtitle>
-          </IonCardHeader>
-          <IonCardContent>
-            {coach?.notes.split(",").map((note: string, index: number) => (
-              <IonChip key={index}>
-                <IonLabel>{note}</IonLabel>
-                <IonIcon icon={rocketOutline}></IonIcon>
-              </IonChip>
-            ))}
-          </IonCardContent>
-        </IonCard>
-      ))} */}
     </>
   );
 };

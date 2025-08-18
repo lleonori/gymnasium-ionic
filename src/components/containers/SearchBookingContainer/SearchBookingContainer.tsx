@@ -10,6 +10,7 @@ import {
   IonIcon,
   IonItem,
   IonLabel,
+  IonList,
   IonSelect,
   IonSelectOption,
   IonText,
@@ -226,35 +227,38 @@ const SearchBookingContainer = () => {
         </IonCardContent>
       </IonCard>
       {/* Booking Card */}
-      {bookings?.data.length === 0 ? (
-        <IonCard>
-          <IonCardHeader>
-            <IonCardTitle>Nessuna prenotazione</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <p>Al momento non ci sono prenotazioni.</p>
-          </IonCardContent>
-        </IonCard>
-      ) : (
-        <IonCard>
-          {bookings?.data.map((booking: TBooking) => (
-            <IonItem key={booking.id}>
-              <IonAvatar aria-hidden="true" slot="start">
-                <img alt="User's avatar" src={getRandomImage()} />
-              </IonAvatar>
-              <IonLabel>
-                <h1>{booking.fullname}</h1>
-                <IonChip>
+      {bookings &&
+        (bookings.data.length === 0 ? (
+          <IonCard>
+            <IonCardHeader>
+              <IonCardTitle>Nessuna prenotazione</IonCardTitle>
+            </IonCardHeader>
+            <IonCardContent>
+              <p>Al momento non ci sono prenotazioni.</p>
+            </IonCardContent>
+          </IonCard>
+        ) : (
+          <IonCard>
+            <IonList inset={true}>
+              {bookings?.data.map((booking: TBooking) => (
+                <IonItem key={booking.id}>
+                  <IonAvatar aria-hidden="true" slot="start">
+                    <img alt="User's avatar" src={getRandomImage()} />
+                  </IonAvatar>
                   <IonLabel>
-                    {`${formatTime(booking.startHour)} - ${formatTime(booking.endHour)}`}
+                    <h1>{booking.fullname}</h1>
+                    <IonChip>
+                      <IonLabel>
+                        {`${formatTime(booking.startHour)} - ${formatTime(booking.endHour)}`}
+                      </IonLabel>
+                      <IonIcon icon={timeOutline}></IonIcon>
+                    </IonChip>
                   </IonLabel>
-                  <IonIcon icon={timeOutline}></IonIcon>
-                </IonChip>
-              </IonLabel>
-            </IonItem>
-          ))}
-        </IonCard>
-      )}
+                </IonItem>
+              ))}
+            </IonList>
+          </IonCard>
+        ))}
       {/* Toasts */}
       <IonToast
         isOpen={showToast}
