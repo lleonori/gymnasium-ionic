@@ -7,7 +7,7 @@ android {
         applicationId "com.gymnasium"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 180100
+        versionCode 180101
         versionName "18.1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {

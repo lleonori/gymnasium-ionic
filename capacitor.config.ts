@@ -14,6 +14,9 @@ const config: CapacitorConfig = {
     url: process.env.VITE_API_URL,
     cleartext: !isProduction,
   },
+  android: {
+    adjustMarginsForEdgeToEdge: "force",
+  },
 };
 
 export default config;
