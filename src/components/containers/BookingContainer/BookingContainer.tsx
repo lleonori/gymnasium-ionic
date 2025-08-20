@@ -299,6 +299,7 @@ const BookingContainer = () => {
             </IonSelect>
             {/* Submit */}
             <IonButton
+              className="ion-margin-top"
               type="submit"
               size="small"
               shape="round"

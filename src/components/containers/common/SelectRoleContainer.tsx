@@ -6,7 +6,6 @@ import {
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
-  IonChip,
   IonIcon,
   IonItem,
   IonLabel,
@@ -72,16 +71,25 @@ const SelectRoleContainer = () => {
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
-          <IonText>
-            Seleziona il ruolo con cui vuoi continuare e… pronti a partire!
-          </IonText>
+          <ul>
+            <li>
+              <IonText>
+                Amministratore di sistema gestisce coaches, orari e assegnazioni
+              </IonText>
+            </li>
+            <li>
+              <IonText>Amministratore verifica prenotazioni</IonText>
+            </li>
+            <li>
+              <IonText>Utente prenota lezioni</IonText>
+            </li>
+          </ul>
         </IonCardContent>
       </IonCard>
       <IonCard>
         <IonList inset={true}>
           {roles?.map((role: UserRoles, index) => {
-            const { label, chips } =
-              ROLE_CONFIG[role] || ROLE_CONFIG[UserRoles.USER];
+            const { label } = ROLE_CONFIG[role];
 
             return (
               <IonItem
@@ -94,12 +102,6 @@ const SelectRoleContainer = () => {
                 </IonAvatar>
                 <IonLabel>
                   <h1>{label}</h1>
-                  {chips.map((chip, i) => (
-                    <IonChip key={i}>
-                      <IonLabel>{chip}</IonLabel>
-                      <IonIcon icon={clipboardOutline} />
-                    </IonChip>
-                  ))}
                 </IonLabel>
               </IonItem>
             );

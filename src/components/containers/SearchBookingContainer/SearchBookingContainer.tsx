@@ -216,6 +216,7 @@ const SearchBookingContainer = () => {
             ))}
           </IonSelect>
           <IonButton
+            className="ion-margin-top"
             size="small"
             shape="round"
             data-testid="search-bookings"

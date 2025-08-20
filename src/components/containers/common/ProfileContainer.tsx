@@ -3,7 +3,6 @@ import { Browser } from "@capacitor/browser";
 import {
   IonActionSheet,
   IonAvatar,
-  IonButton,
   IonCard,
   IonCardContent,
   IonCardHeader,
@@ -13,16 +12,12 @@ import {
   IonItem,
   IonLabel,
   IonList,
+  IonText,
   IonToast,
   useIonRouter,
 } from "@ionic/react";
 import { useMutation } from "@tanstack/react-query";
-import {
-  logOutOutline,
-  personCircleOutline,
-  settingsOutline,
-  trashBinOutline,
-} from "ionicons/icons";
+import { personCircleOutline } from "ionicons/icons";
 import { useState } from "react";
 
 import { deleteProfile } from "../../../api/profile/profileApi";
@@ -98,52 +93,51 @@ const ProfileContainer = () => {
             </IonCardSubtitle>
           </IonCardSubtitle>
         </IonCardHeader>
-        <IonCardContent>Ciao, pronto a dare il massimo oggi? </IonCardContent>
+        <IonCardContent>
+          <IonText>Gestisci il tuo profilo:</IonText>
+          <ul>
+            {extendedUser.app_metadata.roles.length > 1 && (
+              <li>
+                <IonText>Puoi cambiare ruolo in qualsiasi momento</IonText>
+              </li>
+            )}
+            <li>
+              <IonText>
+                Hai finito per oggi? Fai logout e ci vediamo presto!
+              </IonText>
+            </li>
+            <li>
+              <IonText>
+                Se vuoi davvero lasciarci… puoi eliminare il tuo account
+              </IonText>
+            </li>
+          </ul>
+        </IonCardContent>
       </IonCard>
       <IonCard>
         <IonList inset={true}>
           {/* Seleziona Ruolo */}
-          {extendedUser.app_metadata.roles.length > 0 && (
-            <IonItem>
+          {extendedUser.app_metadata.roles.length > 1 && (
+            <IonItem button={true} onClick={() => void handleChangeRole()}>
               <IonAvatar aria-hidden="true" slot="start">
                 <img alt="Select role avatar" src="/assets/roles/id-card.png" />
               </IonAvatar>
               <IonLabel>
                 <h1>Cambia ruolo</h1>
-                <IonButton
-                  color={Colors.PRIMARY}
-                  shape="round"
-                  size="small"
-                  data-testid="select-role-button"
-                  onClick={() => void handleChangeRole()}
-                >
-                  <IonIcon slot="start" icon={settingsOutline}></IonIcon>
-                  Cambia
-                </IonButton>
               </IonLabel>
             </IonItem>
           )}
           {/* Logout */}
-          <IonItem>
+          <IonItem button={true} onClick={() => void handleLogout()}>
             <IonAvatar aria-hidden="true" slot="start">
               <img alt="Logout avatar" src="/assets/profile/logout.png" />
             </IonAvatar>
             <IonLabel>
-              <h1>Tempo di pausa!</h1>
-              <IonButton
-                color={Colors.MEDIUM}
-                shape="round"
-                size="small"
-                data-testid="logout-button"
-                onClick={() => void handleLogout()}
-              >
-                <IonIcon slot="start" icon={logOutOutline}></IonIcon>
-                Logout
-              </IonButton>
+              <h1>Logout</h1>
             </IonLabel>
           </IonItem>
           {/* Elimina account */}
-          <IonItem>
+          <IonItem button={true} onClick={handleOpenActionSheet}>
             <IonAvatar aria-hidden="true" slot="start">
               <img
                 alt="Delete profile avatar"
@@ -151,17 +145,7 @@ const ProfileContainer = () => {
               />
             </IonAvatar>
             <IonLabel>
-              <h1>Vuoi davvero abbandonare la squadra?</h1>
-              <IonButton
-                color={Colors.DANGER}
-                shape="round"
-                size="small"
-                data-testid="delete-profile-button"
-                onClick={handleOpenActionSheet}
-              >
-                <IonIcon slot="start" icon={trashBinOutline}></IonIcon>
-                Elimina
-              </IonButton>
+              <h1>Elimina account</h1>
             </IonLabel>
           </IonItem>
         </IonList>
