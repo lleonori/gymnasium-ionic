@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "2.4.0",
-    "@capacitor/android": "7.4.2",
+    "@capacitor/android": "7.4.3",
     "@capacitor/app": "7.0.2",
     "@capacitor/browser": "7.0.2",
     "@capacitor/core": "7.4.2",
